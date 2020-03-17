@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FlowerShopBusinessLogic\FlowerShopBusinessLogic.csproj" />
-    <ProjectReference Include="..\FlowerShopListImplement\FlowerShopListImplement.csproj" />
   </ItemGroup>
 
 </Project>

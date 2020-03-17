@@ -1,7 +1,7 @@
 ﻿using FlowerShopBusinessLogic.BindingModels;
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
-using FlowerShopListImplement.Models;
+using FlowerShopFileImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +33,8 @@ namespace FlowerShopFileImplement.Implements
             }
             else
             {
-                int maxId = source.Bouquets.Count > 0 ? source.Flowers.Max(rec => rec.Id) : 0;
+                int maxId = source.Bouquets.Count > 0 ? source.Flowers.Max(rec =>
+               rec.Id) : 0;
                 element = new Bouquet { Id = maxId + 1 };
                 source.Bouquets.Add(element);
             }
@@ -43,10 +44,12 @@ namespace FlowerShopFileImplement.Implements
             var updateFlowers = source.BouquetFlowers.Where(rec => rec.BouquetId == model.Id && model.BouquetFlowers.ContainsKey(rec.FlowerId));
             foreach (var updateFlower in updateFlowers)
             {
-                updateFlower.Count = model.BouquetFlowers[updateFlower.FlowerId].Item2;
+                updateFlower.Count =
+               model.BouquetFlowers[updateFlower.FlowerId].Item2;
                 model.BouquetFlowers.Remove(updateFlower.FlowerId);
             }
-            int maxPCId = source.BouquetFlowers.Count > 0 ? source.BouquetFlowers.Max(rec => rec.Id) : 0;
+            int maxPCId = source.BouquetFlowers.Count > 0 ?
+           source.BouquetFlowers.Max(rec => rec.Id) : 0;
             foreach (var pc in model.BouquetFlowers)
             {
                 source.BouquetFlowers.Add(new BouquetFlower
