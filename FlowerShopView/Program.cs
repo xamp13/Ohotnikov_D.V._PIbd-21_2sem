@@ -2,9 +2,6 @@
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopDatabaseImplement.Implements;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 using Unity.Lifetime;
@@ -29,6 +26,7 @@ namespace FlowerShopView
             currentContainer.RegisterType<IOrderLogic, OrderLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<IBouquetLogic, BouquetLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<MainLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<ReportLogic>(new HierarchicalLifetimeManager());
             return currentContainer;
         }
     }
