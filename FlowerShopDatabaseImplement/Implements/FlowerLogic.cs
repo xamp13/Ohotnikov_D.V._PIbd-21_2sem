@@ -39,7 +39,6 @@ namespace FlowerShopDatabaseImplement.Implements
                 context.SaveChanges();
             }
         }
-
         public void Delete(FlowerBindingModel model)
         {
             using (var context = new FlowerShopDatabase())
