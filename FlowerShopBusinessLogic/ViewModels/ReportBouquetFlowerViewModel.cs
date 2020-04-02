@@ -6,10 +6,10 @@ namespace FlowerShopBusinessLogic.ViewModels
 {
     public class ReportBouquetFlowerViewModel
     {
+        public string BouquetName { get; set; }
+
         public string FlowerName { get; set; }
 
-        public int TotalCount { get; set; }
-
-        public List<Tuple<string, int>> Bouquets { get; set; }
+        public int Count { get; set; }
     }
 }

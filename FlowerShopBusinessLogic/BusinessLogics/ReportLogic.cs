@@ -11,44 +11,43 @@ namespace FlowerShopBusinessLogic.BusinessLogics
 {
     public class ReportLogic
     {
-        private readonly IFlowerLogic flowerLogic;
-        private readonly IBouquetLogic bouquetLogic;
+        private readonly IFlowerLogic FlowerLogic;
+        private readonly IBouquetLogic BouquetLogic;
         private readonly IOrderLogic orderLogic;
-        public ReportLogic(IBouquetLogic productLogic, IFlowerLogic componentLogic, IOrderLogic orderLLogic)
+        public ReportLogic(IBouquetLogic BouquetLogic, IFlowerLogic FlowerLogic,
+       IOrderLogic orderLogic)
         {
-            this.bouquetLogic = productLogic;
-            this.flowerLogic = componentLogic;
-            this.orderLogic = orderLLogic;
+            this.BouquetLogic = BouquetLogic;
+            this.FlowerLogic = FlowerLogic;
+            this.orderLogic = orderLogic;
         }
-
-        // Получение списка компонент с указанием, в каких изделиях используются
-        public List<ReportBouquetFlowerViewModel> GetProductComponent()
+        /// <summary>
+        /// Получение списка компонент с указанием, в каких изделиях используются
+        /// </summary>
+        /// <returns></returns>
+        public List<ReportBouquetFlowerViewModel> GetSnackFood()
         {
-            var components = flowerLogic.Read(null);
-            var products = bouquetLogic.Read(null);
+            var Flowers = FlowerLogic.Read(null);
+            var Bouquets = BouquetLogic.Read(null);
             var list = new List<ReportBouquetFlowerViewModel>();
-            foreach (var component in components)
+            foreach (var flower in Flowers)
             {
-                var record = new ReportBouquetFlowerViewModel
+                foreach (var bouquet in Bouquets)
                 {
-                    FlowerName = component.FlowerName,
-                    Bouquets = new List<Tuple<string, int>>(),
-                    TotalCount = 0
-                };
-                foreach (var product in products)
-                {
-                    if (product.BouquetFlowers.ContainsKey(component.Id))
+                    if (bouquet.BouquetFlowers.ContainsKey(flower.Id))
                     {
-                        record.Bouquets.Add(new Tuple<string, int>(product.BouquetName, product.BouquetFlowers[component.Id].Item2));
-                        record.TotalCount += product.BouquetFlowers[component.Id].Item2;
+                        var record = new ReportBouquetFlowerViewModel
+                        {
+                            BouquetName = bouquet.BouquetName,
+                            FlowerName = flower.FlowerName,
+                            Count = bouquet.BouquetFlowers[bouquet.Id].Item2
+                        };
+                        list.Add(record);
                     }
                 }
-                list.Add(record);
             }
             return list;
         }
-
-        // Получение списка заказов за определенный период
         public List<ReportOrdersViewModel> GetOrders(ReportBindingModel model)
         {
             return orderLogic.Read(new OrderBindingModel
@@ -64,41 +63,47 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 Sum = x.Sum,
                 Status = x.Status
             })
-           .ToList();
+            .ToList();
         }
-
-        // Сохранение компонент в файл-Word
-        public void SaveComponentsToWordFile(ReportBindingModel model)
+        /// <summary>
+        /// Сохранение компонент в файл-Word
+        /// </summary>
+        /// <param name="model"></param>
+        public void SaveBouquetsToWordFile(ReportBindingModel model)
         {
             SaveToWord.CreateDoc(new WordInfo
             {
                 FileName = model.FileName,
-                Title = "Список компонент",
-                Flowers = flowerLogic.Read(null)
+                Title = "Список закусок",
+                Bouquets = BouquetLogic.Read(null)
             });
         }
-
-        // Сохранение компонент с указаеним продуктов в файл-Excel
-        public void SaveProductComponentToExcelFile(ReportBindingModel model)
+        /// <summary>
+        /// Сохранение закусок с указаеним продуктов в файл-Excel
+        /// </summary>
+        /// <param name="model"></param>
+        public void SaveOrdersToExcelFile(ReportBindingModel model)
         {
             SaveToExcel.CreateDoc(new ExcelInfo
             {
+                DateFrom = model.DateFrom.Value,
+                DateTo = model.DateTo.Value,
                 FileName = model.FileName,
-                Title = "Список компонент",
-                BouquetFlowers = GetProductComponent()
+                Title = "Список заказов",
+                Orders = GetOrders(model)
             });
         }
-
-        // Сохранение заказов в файл-Pdf
-        public void SaveOrdersToPdfFile(ReportBindingModel model)
+        /// <summary>
+        /// Сохранение закусок с продуктами в файл-Pdf
+        /// </summary>
+        /// <param name="model"></param>
+        public void SaveBouquetsToPdfFile(ReportBindingModel model)
         {
             SaveToPdf.CreateDoc(new PdfInfo
             {
                 FileName = model.FileName,
-                Title = "Список заказов",
-                DateFrom = model.DateFrom.Value,
-                DateTo = model.DateTo.Value,
-                Orders = GetOrders(model)
+                Title = "Список закусок по продуктам",
+                BouquetFlowers = GetSnackFood(),
             });
         }
     }

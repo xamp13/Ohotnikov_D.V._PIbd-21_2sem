@@ -1,6 +1,6 @@
 ﻿namespace FlowerShopView
 {
-    partial class FormReportFlowerBouquets
+    partial class FormReportBouquetFlowers
     {
         /// <summary>
         /// Required designer variable.
@@ -29,38 +29,66 @@
         private void InitializeComponent()
         {
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.Flower = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Bouquet = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonSaveToExcel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView
             // 
+            this.dataGridView.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Location = new System.Drawing.Point(12, 41);
+            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Flower,
+            this.Bouquet,
+            this.Count});
+            this.dataGridView.GridColor = System.Drawing.SystemColors.ButtonShadow;
+            this.dataGridView.Location = new System.Drawing.Point(8, 53);
+            this.dataGridView.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(504, 408);
+            this.dataGridView.RowTemplate.Height = 28;
+            this.dataGridView.Size = new System.Drawing.Size(529, 406);
             this.dataGridView.TabIndex = 0;
+            // 
+            // Flower
+            // 
+            this.Flower.HeaderText = "Цветок";
+            this.Flower.Name = "Flower";
+            // 
+            // Bouquet
+            // 
+            this.Bouquet.HeaderText = "Букет";
+            this.Bouquet.Name = "Bouquet";
+            // 
+            // Count
+            // 
+            this.Count.HeaderText = "Количество";
+            this.Count.Name = "Count";
             // 
             // buttonSaveToExcel
             // 
-            this.buttonSaveToExcel.Location = new System.Drawing.Point(12, 12);
+            this.buttonSaveToExcel.Location = new System.Drawing.Point(8, 14);
+            this.buttonSaveToExcel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonSaveToExcel.Name = "buttonSaveToExcel";
-            this.buttonSaveToExcel.Size = new System.Drawing.Size(128, 23);
+            this.buttonSaveToExcel.Size = new System.Drawing.Size(123, 27);
             this.buttonSaveToExcel.TabIndex = 1;
             this.buttonSaveToExcel.Text = "Сохранить в Excel";
             this.buttonSaveToExcel.UseVisualStyleBackColor = true;
-            this.buttonSaveToExcel.Click += new System.EventHandler(this.ButtonSaveToExcel_Click);
+            this.buttonSaveToExcel.Click += new System.EventHandler(this.buttonSaveToExcel_Click);
             // 
-            // FormReportFlowerBouquets
+            // FormReportBouquetFlowers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(528, 452);
+            this.ClientSize = new System.Drawing.Size(533, 461);
             this.Controls.Add(this.buttonSaveToExcel);
             this.Controls.Add(this.dataGridView);
-            this.Name = "FormReportFlowerBouquets";
-            this.Text = "FormReportProductBillets";
-            this.Load += new System.EventHandler(this.FormReportProductBillets_Load);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Name = "FormReportBouquetFlowers";
+            this.Text = "Цветы по букетам";
+            this.Load += new System.EventHandler(this.FormReportBouquetFlowers_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.ResumeLayout(false);
 
@@ -69,6 +97,9 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Flower;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Bouquet;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Count;
         private System.Windows.Forms.Button buttonSaveToExcel;
     }
 }

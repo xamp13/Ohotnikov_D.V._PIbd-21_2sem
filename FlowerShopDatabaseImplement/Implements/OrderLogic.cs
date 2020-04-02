@@ -2,6 +2,7 @@
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
 using FlowerShopDatabaseImplement.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,43 +16,27 @@ namespace FlowerShopDatabaseImplement.Implements
         {
             using (var context = new FlowerShopDatabase())
             {
-                using (var transaction = context.Database.BeginTransaction())
+                Order order;
+                if (model.Id.HasValue)
                 {
-                    try
+                    order = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+                    if (order == null)
                     {
-                        Order order;
-                        if (model.Id.HasValue)
-                        {
-                            order = context.Orders.ToList().FirstOrDefault(rec => rec.Id == model.Id);
-                            if (order == null)
-                                throw new Exception("Элемент не найден");
-                            order.BouquetId = model.BouquetId;
-                            order.Count = model.Count;
-                            order.DateCreate = model.DateCreate;
-                            order.DateImplement = model.DateImplement;
-                            order.Status = model.Status;
-                            order.Sum = model.Sum;
-                        }
-                        else
-                        {
-                            order = new Order();
-                            order.BouquetId = model.BouquetId;
-                            order.Count = model.Count;
-                            order.DateCreate = model.DateCreate;
-                            order.DateImplement = model.DateImplement;
-                            order.Status = model.Status;
-                            order.Sum = model.Sum;
-                            context.Orders.Add(order);
-                        }
-                        context.SaveChanges();
-                        transaction.Commit();
-                    }
-                    catch (Exception)
-                    {
-                        transaction.Rollback();
-                        throw;
+                        throw new Exception("Элемент не найден");
                     }
                 }
+                else
+                {
+                    order = new Order();
+                    context.Orders.Add(order);
+                }
+                order.BouquetId = model.BouquetId == 0 ? order.BouquetId : model.BouquetId;
+                order.Count = model.Count;
+                order.Sum = model.Sum;
+                order.Status = model.Status;
+                order.DateCreate = model.DateCreate;
+                order.DateImplement = model.DateImplement;
+                context.SaveChanges();
             }
         }
 
@@ -59,27 +44,15 @@ namespace FlowerShopDatabaseImplement.Implements
         {
             using (var context = new FlowerShopDatabase())
             {
-                using (var transaction = context.Database.BeginTransaction())
+                Order order = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+                if (order != null)
                 {
-                    try
-                    {
-                        Order order = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
-                        if (order != null)
-                        {
-                            context.Orders.Remove(order);
-                        }
-                        else
-                        {
-                            throw new Exception("Элемент не найден");
-                        }
-                        context.SaveChanges();
-                        transaction.Commit();
-                    }
-                    catch (Exception)
-                    {
-                        transaction.Rollback();
-                        throw;
-                    }
+                    context.Orders.Remove(order);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("Элемент не найден");
                 }
             }
         }
@@ -88,19 +61,20 @@ namespace FlowerShopDatabaseImplement.Implements
         {
             using (var context = new FlowerShopDatabase())
             {
-                return context.Orders.Where(rec => model == null || rec.Id == model.Id)
-                .ToList()
-                .Select(rec => new OrderViewModel()
-                {
-                    Id = rec.Id,
-                    BouquetId = rec.BouquetId,
-                    BouquetName = context.Bouquets.FirstOrDefault((r) => r.Id == rec.BouquetId).BouquetName,
-                    Count = rec.Count,
-                    DateCreate = rec.DateCreate,
-                    DateImplement = rec.DateImplement,
-                    Status = rec.Status,
-                    Sum = rec.Sum
-                }).ToList();
+                return context.Orders
+            .Include(rec => rec.Bouquet)
+            .Where(rec => model == null || rec.Id == model.Id)
+            .Select(rec => new OrderViewModel
+            {
+                Id = rec.Id,
+                BouquetName = rec.Bouquet.BouquetName,
+                Count = rec.Count,
+                Sum = rec.Sum,
+                Status = rec.Status,
+                DateCreate = rec.DateCreate,
+                DateImplement = rec.DateImplement
+            })
+            .ToList();
             }
         }
     }

@@ -32,16 +32,16 @@
             this.Справочники = new System.Windows.Forms.ToolStripMenuItem();
             this.цветыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.композицииToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.отчетыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.списокЦветовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.цветыПоБукетамToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.списокЗаказовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.buttonCreateOrder = new System.Windows.Forms.Button();
             this.buttonTakeOrderInWork = new System.Windows.Forms.Button();
             this.buttonOrderReady = new System.Windows.Forms.Button();
             this.buttonPayOrder = new System.Windows.Forms.Button();
             this.buttonRef = new System.Windows.Forms.Button();
-            this.отчетыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.списокКомпонентовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.цветыПоБукетамToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.списокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -71,7 +71,7 @@
             // цветыToolStripMenuItem
             // 
             this.цветыToolStripMenuItem.Name = "цветыToolStripMenuItem";
-            this.цветыToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.цветыToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.цветыToolStripMenuItem.Text = "Цветы";
             this.цветыToolStripMenuItem.Click += new System.EventHandler(this.цветыToolStripMenuItem_Click);
             this.цветыToolStripMenuItem.DisplayStyleChanged += new System.EventHandler(this.цветыToolStripMenuItem_Click);
@@ -79,9 +79,40 @@
             // композицииToolStripMenuItem
             // 
             this.композицииToolStripMenuItem.Name = "композицииToolStripMenuItem";
-            this.композицииToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.композицииToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.композицииToolStripMenuItem.Text = "Композиции";
             this.композицииToolStripMenuItem.Click += new System.EventHandler(this.композицииToolStripMenuItem_Click);
+            // 
+            // отчетыToolStripMenuItem
+            // 
+            this.отчетыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.списокЦветовToolStripMenuItem,
+            this.цветыПоБукетамToolStripMenuItem,
+            this.списокЗаказовToolStripMenuItem});
+            this.отчетыToolStripMenuItem.Name = "отчетыToolStripMenuItem";
+            this.отчетыToolStripMenuItem.Size = new System.Drawing.Size(60, 22);
+            this.отчетыToolStripMenuItem.Text = "Отчеты";
+            // 
+            // списокЦветовToolStripMenuItem
+            // 
+            this.списокЦветовToolStripMenuItem.Name = "списокЦветовToolStripMenuItem";
+            this.списокЦветовToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.списокЦветовToolStripMenuItem.Text = "Список цветов";
+            this.списокЦветовToolStripMenuItem.Click += new System.EventHandler(this.списокЦветовToolStripMenuItem_Click);
+            // 
+            // цветыПоБукетамToolStripMenuItem
+            // 
+            this.цветыПоБукетамToolStripMenuItem.Name = "цветыПоБукетамToolStripMenuItem";
+            this.цветыПоБукетамToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.цветыПоБукетамToolStripMenuItem.Text = "Цветы по букетам";
+            this.цветыПоБукетамToolStripMenuItem.Click += new System.EventHandler(this.цветыПоБукетамToolStripMenuItem_Click);
+            // 
+            // списокЗаказовToolStripMenuItem
+            // 
+            this.списокЗаказовToolStripMenuItem.Name = "списокЗаказовToolStripMenuItem";
+            this.списокЗаказовToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.списокЗаказовToolStripMenuItem.Text = "Список заказов";
+            this.списокЗаказовToolStripMenuItem.Click += new System.EventHandler(this.списокЗаказовToolStripMenuItem_Click);
             // 
             // dataGridView
             // 
@@ -151,34 +182,6 @@
             this.buttonRef.UseVisualStyleBackColor = true;
             this.buttonRef.Click += new System.EventHandler(this.buttonRef_Click);
             // 
-            // отчетыToolStripMenuItem
-            // 
-            this.отчетыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.списокКомпонентовToolStripMenuItem,
-            this.цветыПоБукетамToolStripMenuItem,
-            this.списокToolStripMenuItem});
-            this.отчетыToolStripMenuItem.Name = "отчетыToolStripMenuItem";
-            this.отчетыToolStripMenuItem.Size = new System.Drawing.Size(60, 22);
-            this.отчетыToolStripMenuItem.Text = "Отчеты";
-            // 
-            // списокКомпонентовToolStripMenuItem
-            // 
-            this.списокКомпонентовToolStripMenuItem.Name = "списокКомпонентовToolStripMenuItem";
-            this.списокКомпонентовToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.списокКомпонентовToolStripMenuItem.Text = "Список цветов";
-            // 
-            // цветыПоБукетамToolStripMenuItem
-            // 
-            this.цветыПоБукетамToolStripMenuItem.Name = "цветыПоБукетамToolStripMenuItem";
-            this.цветыПоБукетамToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.цветыПоБукетамToolStripMenuItem.Text = "Цветы по букетам";
-            // 
-            // списокToolStripMenuItem
-            // 
-            this.списокToolStripMenuItem.Name = "списокToolStripMenuItem";
-            this.списокToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.списокToolStripMenuItem.Text = "Список заказов";
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -217,8 +220,8 @@
         private System.Windows.Forms.Button buttonPayOrder;
         private System.Windows.Forms.Button buttonRef;
         private System.Windows.Forms.ToolStripMenuItem отчетыToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem списокКомпонентовToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem списокЦветовToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem цветыПоБукетамToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem списокToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem списокЗаказовToolStripMenuItem;
     }
 }

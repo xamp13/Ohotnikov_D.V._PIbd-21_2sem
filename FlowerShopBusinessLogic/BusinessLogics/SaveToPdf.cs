@@ -19,12 +19,10 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             paragraph.Format.SpaceAfter = "1cm";
             paragraph.Format.Alignment = ParagraphAlignment.Center;
             paragraph.Style = "NormalTitle";
-            paragraph = section.AddParagraph($"с {info.DateFrom.ToShortDateString()} по {info.DateTo.ToShortDateString()}");
-            paragraph.Format.SpaceAfter = "1cm";
-            paragraph.Format.Alignment = ParagraphAlignment.Center;
             paragraph.Style = "Normal";
             var table = document.LastSection.AddTable();
-            List<string> columns = new List<string> { "3cm", "6cm", "3cm", "2cm", "3cm" };
+            List<string> columns = new List<string> { "6cm", "6cm", "6cm" };
+
             foreach (var elem in columns)
             {
                 table.AddColumn(elem);
@@ -32,17 +30,21 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             CreateRow(new PdfRowParameters
             {
                 Table = table,
-                Texts = new List<string> { "Дата заказа", "Изделие", "Количество", "Сумма", "Статус" },
+                Texts = new List<string> { "Закуска", "Продукт", "Количество" },
                 Style = "NormalTitle",
                 ParagraphAlignment = ParagraphAlignment.Center
             });
-            foreach (var order in info.Orders)
+            foreach (var sf in info.BouquetFlowers)
             {
                 CreateRow(new PdfRowParameters
                 {
                     Table = table,
-                    Texts = new List<string> { order.DateCreate.ToShortDateString(), order.BouquetName,
-                        order.Count.ToString(), order.Sum.ToString(), order.Status.ToString()},
+                    Texts = new List<string>
+                    {
+                        sf.BouquetName,
+                        sf.FlowerName,
+                        sf.Count.ToString()
+                    },
                     Style = "Normal",
                     ParagraphAlignment = ParagraphAlignment.Left
                 });
@@ -54,8 +56,6 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             renderer.RenderDocument();
             renderer.PdfDocument.Save(info.FileName);
         }
-
-        // Создание стилей для документа
         private static void DefineStyles(Document document)
         {
             Style style = document.Styles["Normal"];
@@ -64,8 +64,6 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             style = document.Styles.AddStyle("NormalTitle", "Normal");
             style.Font.Bold = true;
         }
-
-        // Создание и заполнение строки
         private static void CreateRow(PdfRowParameters rowParameters)
         {
             Row row = rowParameters.Table.AddRow();
@@ -81,8 +79,6 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 });
             }
         }
-
-        // Заполнение ячейки
         private static void FillCell(PdfCellParameters cellParameters)
         {
             cellParameters.Cell.AddParagraph(cellParameters.Text);
