@@ -243,6 +243,12 @@
     <Compile Include="FormReportBouquetFlowers.Designer.cs">
       <DependentUpon>FormReportBouquetFlowers.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormReportOrders.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReportOrders.Designer.cs">
+      <DependentUpon>FormReportOrders.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
@@ -267,6 +273,9 @@
     <EmbeddedResource Include="FormReportBouquetFlowers.resx">
       <DependentUpon>FormReportBouquetFlowers.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormReportOrders.resx">
+      <DependentUpon>FormReportOrders.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -278,6 +287,20 @@
     </Compile>
     <EmbeddedResource Include="Report.rdlc" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\FlowerShopBusinessLogic.BindingModels.BouquetBindingModel.datasource" />
+    <None Include="Properties\DataSources\FlowerShopBusinessLogic.BindingModels.ChangeStatusBindingModel.datasource" />
+    <None Include="Properties\DataSources\FlowerShopBusinessLogic.BindingModels.CreateOrderBindingModel.datasource" />
+    <None Include="Properties\DataSources\FlowerShopBusinessLogic.BindingModels.FlowerBindingModel.datasource" />
+    <None Include="Properties\DataSources\FlowerShopBusinessLogic.BindingModels.OrderBindingModel.datasource" />
+    <None Include="Properties\DataSources\FlowerShopBusinessLogic.BusinessLogics.MainLogic.datasource" />
+    <None Include="Properties\DataSources\FlowerShopBusinessLogic.Interfaces.IBouquetLogic.datasource" />
+    <None Include="Properties\DataSources\FlowerShopBusinessLogic.Interfaces.IFlowerLogic.datasource" />
+    <None Include="Properties\DataSources\FlowerShopBusinessLogic.Interfaces.IOrderLogic.datasource" />
+    <None Include="Properties\DataSources\FlowerShopBusinessLogic.ViewModels.BouquetViewModel.datasource" />
+    <None Include="Properties\DataSources\FlowerShopBusinessLogic.ViewModels.FlowerViewModel.datasource" />
+    <None Include="Properties\DataSources\FlowerShopBusinessLogic.ViewModels.OrderViewModel.datasource" />
+    <None Include="Properties\DataSources\FlowerShopBusinessLogic.ViewModels.ReportBouquetFlowerViewModel.datasource" />
+    <None Include="Properties\DataSources\FlowerShopBusinessLogic.ViewModels.ReportOrdersViewModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -290,6 +313,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlowerShopBusinessLogic\FlowerShopBusinessLogic.csproj">
@@ -308,21 +346,6 @@
       <Project>{04c440ff-e11c-4a9d-a414-87b4a93d51d6}</Project>
       <Name>FlowerShopListImplement</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="SqlServerTypes\readme.htm" />
-    <Content Include="SqlServerTypes\x64\msvcr120.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x86\msvcr120.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

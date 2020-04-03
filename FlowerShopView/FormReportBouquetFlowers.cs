@@ -10,54 +10,59 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 using FlowerShopBusinessLogic.BindingModels;
+using Microsoft.Reporting.WinForms;
 
 namespace FlowerShopView
 {
     public partial class FormReportBouquetFlowers : Form
     {
-            [Dependency]
-            public new IUnityContainer Container { get; set; }
-            private readonly ReportLogic logic;
-            public FormReportBouquetFlowers(ReportLogic logic)
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+
+        private readonly ReportLogic logic;
+
+        public FormReportBouquetFlowers(ReportLogic logic)
+        {
+            InitializeComponent();
+            this.logic = logic;
+        }
+
+        private void ButtonToPdf_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog { Filter = "pdf|*.pdf" })
             {
-                InitializeComponent();
-                this.logic = logic;
-            }
-            private void ButtonMake_Click(object sender, EventArgs e)
-            {
-                try
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    var dataSource = logic.GetSnackFood();
-                    ReportDataSource source = new ReportDataSource("DataSetSnackFood", dataSource);
-                    reportViewer.LocalReport.DataSources.Add(source);
-                    reportViewer.RefreshReport();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                   MessageBoxIcon.Error);
-                }
-            }
-            private void ButtonToPdf_Click(object sender, EventArgs e)
-            {
-                using (var dialog = new SaveFileDialog { Filter = "pdf|*.pdf" })
-                {
-                    if (dialog.ShowDialog() == DialogResult.OK)
+                    try
                     {
-                        try
+                        logic.SaveBouquetFlowersToPdfFile(new ReportBindingModel
                         {
-                            logic.SaveSnacksToPdfFile(new ReportBindingModel
-                            {
-                                FileName = dialog.FileName,
-                            });
-                            MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                            FileName = dialog.FileName,
+                        });
+
+                        MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
         }
+
+        private void reportViewer_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                var dataSource = logic.GetBouquetFlower();
+                ReportDataSource source = new ReportDataSource("DataSetBouquetFlower", dataSource);
+                reportViewer.LocalReport.DataSources.Add(source);
+                reportViewer.RefreshReport();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
+}

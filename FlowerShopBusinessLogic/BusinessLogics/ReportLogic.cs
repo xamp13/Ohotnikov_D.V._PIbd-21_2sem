@@ -11,24 +11,21 @@ namespace FlowerShopBusinessLogic.BusinessLogics
 {
     public class ReportLogic
     {
-        private readonly IFlowerLogic FlowerLogic;
-        private readonly IBouquetLogic BouquetLogic;
+        private readonly IFlowerLogic flowerLogic;
+        private readonly IBouquetLogic bouquetLogic;
         private readonly IOrderLogic orderLogic;
-        public ReportLogic(IBouquetLogic BouquetLogic, IFlowerLogic FlowerLogic,
-       IOrderLogic orderLogic)
+
+        public ReportLogic(IBouquetLogic bouquetLogic, IFlowerLogic flowerLogic, IOrderLogic orderLogic)
         {
-            this.BouquetLogic = BouquetLogic;
-            this.FlowerLogic = FlowerLogic;
+            this.bouquetLogic = bouquetLogic;
+            this.flowerLogic = flowerLogic;
             this.orderLogic = orderLogic;
         }
-        /// <summary>
-        /// Получение списка компонент с указанием, в каких изделиях используются
-        /// </summary>
-        /// <returns></returns>
-        public List<ReportBouquetFlowerViewModel> GetSnackFood()
+
+        public List<ReportBouquetFlowerViewModel> GetBouquetFlower()
         {
-            var Flowers = FlowerLogic.Read(null);
-            var Bouquets = BouquetLogic.Read(null);
+            var Flowers = flowerLogic.Read(null);
+            var Bouquets = bouquetLogic.Read(null);
             var list = new List<ReportBouquetFlowerViewModel>();
             foreach (var flower in Flowers)
             {
@@ -40,7 +37,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                         {
                             BouquetName = bouquet.BouquetName,
                             FlowerName = flower.FlowerName,
-                            Count = bouquet.BouquetFlowers[bouquet.Id].Item2
+                            Count = bouquet.BouquetFlowers[flower.Id].Item2
                         };
                         list.Add(record);
                     }
@@ -48,13 +45,10 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             }
             return list;
         }
-        public List<ReportOrdersViewModel> GetOrders(ReportBindingModel model)
+
+        public List<ReportOrdersViewModel> GetOrders()
         {
-            return orderLogic.Read(new OrderBindingModel
-            {
-                DateFrom = model.DateFrom,
-                DateTo = model.DateTo
-            })
+            return orderLogic.Read(null)
             .Select(x => new ReportOrdersViewModel
             {
                 DateCreate = x.DateCreate,
@@ -63,8 +57,9 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 Sum = x.Sum,
                 Status = x.Status
             })
-            .ToList();
+           .ToList();
         }
+
         /// <summary>
         /// Сохранение компонент в файл-Word
         /// </summary>
@@ -74,8 +69,8 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             SaveToWord.CreateDoc(new WordInfo
             {
                 FileName = model.FileName,
-                Title = "Список закусок",
-                Bouquets = BouquetLogic.Read(null)
+                Title = "Список букетов",
+                Bouquets = bouquetLogic.Read(null)
             });
         }
         /// <summary>
@@ -86,24 +81,23 @@ namespace FlowerShopBusinessLogic.BusinessLogics
         {
             SaveToExcel.CreateDoc(new ExcelInfo
             {
-                DateFrom = model.DateFrom.Value,
-                DateTo = model.DateTo.Value,
                 FileName = model.FileName,
-                Title = "Список заказов",
-                Orders = GetOrders(model)
+                Title = "Заказы",
+                Orders = GetOrders()
             });
         }
+
         /// <summary>
         /// Сохранение закусок с продуктами в файл-Pdf
         /// </summary>
         /// <param name="model"></param>
-        public void SaveBouquetsToPdfFile(ReportBindingModel model)
+        public void SaveBouquetFlowersToPdfFile(ReportBindingModel model)
         {
             SaveToPdf.CreateDoc(new PdfInfo
             {
                 FileName = model.FileName,
-                Title = "Список закусок по продуктам",
-                BouquetFlowers = GetSnackFood(),
+                Title = "Список букетов по цветам",
+                BouquetFlowers = GetBouquetFlower(),
             });
         }
     }

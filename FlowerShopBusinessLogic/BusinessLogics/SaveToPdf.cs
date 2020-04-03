@@ -14,48 +14,50 @@ namespace FlowerShopBusinessLogic.BusinessLogics
         {
             Document document = new Document();
             DefineStyles(document);
+
             Section section = document.AddSection();
             Paragraph paragraph = section.AddParagraph(info.Title);
             paragraph.Format.SpaceAfter = "1cm";
             paragraph.Format.Alignment = ParagraphAlignment.Center;
             paragraph.Style = "NormalTitle";
-            paragraph.Style = "Normal";
+
             var table = document.LastSection.AddTable();
-            List<string> columns = new List<string> { "6cm", "6cm", "6cm" };
+            List<string> columns = new List<string> { "8cm", "6cm", "3cm" };
 
             foreach (var elem in columns)
             {
                 table.AddColumn(elem);
             }
+
             CreateRow(new PdfRowParameters
             {
                 Table = table,
-                Texts = new List<string> { "Закуска", "Продукт", "Количество" },
+                Texts = new List<string> { "Букет", "Цветок", "Количество" },
                 Style = "NormalTitle",
                 ParagraphAlignment = ParagraphAlignment.Center
             });
-            foreach (var sf in info.BouquetFlowers)
+
+            foreach (var bf in info.BouquetFlowers)
             {
                 CreateRow(new PdfRowParameters
                 {
                     Table = table,
                     Texts = new List<string>
                     {
-                        sf.BouquetName,
-                        sf.FlowerName,
-                        sf.Count.ToString()
+                        bf.BouquetName,
+                        bf.FlowerName,
+                        bf.Count.ToString()
                     },
                     Style = "Normal",
                     ParagraphAlignment = ParagraphAlignment.Left
                 });
             }
-            PdfDocumentRenderer renderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always)
-            {
-                Document = document
-            };
+
+            PdfDocumentRenderer renderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always) { Document = document };
             renderer.RenderDocument();
             renderer.PdfDocument.Save(info.FileName);
         }
+
         private static void DefineStyles(Document document)
         {
             Style style = document.Styles["Normal"];
@@ -64,9 +66,11 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             style = document.Styles.AddStyle("NormalTitle", "Normal");
             style.Font.Bold = true;
         }
+
         private static void CreateRow(PdfRowParameters rowParameters)
         {
             Row row = rowParameters.Table.AddRow();
+
             for (int i = 0; i < rowParameters.Texts.Count; ++i)
             {
                 FillCell(new PdfCellParameters
@@ -79,13 +83,16 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 });
             }
         }
+
         private static void FillCell(PdfCellParameters cellParameters)
         {
             cellParameters.Cell.AddParagraph(cellParameters.Text);
+
             if (!string.IsNullOrEmpty(cellParameters.Style))
             {
                 cellParameters.Cell.Style = cellParameters.Style;
             }
+
             cellParameters.Cell.Borders.Left.Width = cellParameters.BorderWidth;
             cellParameters.Cell.Borders.Right.Width = cellParameters.BorderWidth;
             cellParameters.Cell.Borders.Top.Width = cellParameters.BorderWidth;
