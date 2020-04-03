@@ -52,10 +52,10 @@ namespace FlowerShopView
                     {
                         dataGridView.Rows.Add(order.Key, "", "");
                         decimal totalPrice = 0;
-                        foreach (var dress in order.Value)
+                        foreach (var bouquet in order.Value)
                         {
-                            dataGridView.Rows.Add("", dress.BouquetName, dress.Sum);
-                            totalPrice += dress.Sum;
+                            dataGridView.Rows.Add("", bouquet.BouquetName, bouquet.Sum);
+                            totalPrice += bouquet.Sum;
                         }
                         dataGridView.Rows.Add("Итого", "", totalPrice);
                     }
