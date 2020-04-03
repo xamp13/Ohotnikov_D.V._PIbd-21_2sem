@@ -89,14 +89,13 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 Dictionary<string, List<ReportOrdersViewModel>> dictOrders = new Dictionary<string, List<ReportOrdersViewModel>>();
                 foreach (var elem in info.Orders)
                 {
-                    if (elem.Status == Enums.OrderStatus.Оплачен)
-                    {
-                        if (!dictOrders.ContainsKey(elem.DateCreate.ToShortDateString()))
-                            dictOrders.Add(elem.DateCreate.ToShortDateString(), new List<ReportOrdersViewModel>() { elem });
-                        else
-                            dictOrders[elem.DateCreate.ToShortDateString()].Add(elem);
-                    }
+
+                    if (!dictOrders.ContainsKey(elem.DateCreate.ToShortDateString()))
+                        dictOrders.Add(elem.DateCreate.ToShortDateString(), new List<ReportOrdersViewModel>() { elem });
+                    else
+                        dictOrders[elem.DateCreate.ToShortDateString()].Add(elem);
                 }
+
                 foreach (var order in dictOrders)
                 {
                     InsertCellInWorksheet(new ExcelCellParameters

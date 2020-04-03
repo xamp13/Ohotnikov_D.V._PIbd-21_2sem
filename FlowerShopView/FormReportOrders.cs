@@ -40,13 +40,11 @@ namespace FlowerShopView
                     dataGridView.Rows.Clear();
                     foreach (var elem in dict)
                     {
-                        if (elem.Status == FlowerShopBusinessLogic.Enums.OrderStatus.Оплачен)
-                        {
-                            if (!dictOrders.ContainsKey(elem.DateCreate.ToShortDateString()))
-                                dictOrders.Add(elem.DateCreate.ToShortDateString(), new List<ReportOrdersViewModel>() { elem });
-                            else
-                                dictOrders[elem.DateCreate.ToShortDateString()].Add(elem);
-                        }
+
+                        if (!dictOrders.ContainsKey(elem.DateCreate.ToShortDateString()))
+                            dictOrders.Add(elem.DateCreate.ToShortDateString(), new List<ReportOrdersViewModel>() { elem });
+                        else
+                            dictOrders[elem.DateCreate.ToShortDateString()].Add(elem);
                     }
                     foreach (var order in dictOrders)
                     {
