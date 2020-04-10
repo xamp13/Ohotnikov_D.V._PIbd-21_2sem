@@ -20,5 +20,6 @@ namespace FlowerShopDatabaseImplement
         public virtual DbSet<Bouquet> Bouquets { set; get; }
         public virtual DbSet<BouquetFlower> BouquetFlowers { set; get; }
         public virtual DbSet<Order> Orders { set; get; }
+        public virtual DbSet<Client> Clients { set; get; }
     }
 }

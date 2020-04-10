@@ -1,11 +1,11 @@
 ﻿using FlowerShopBusinessLogic.Enums;
-using FlowerShopFileImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using FlowerShopListImplement.Models;
 
 namespace FlowerShopFileImplement
 {
@@ -21,14 +21,17 @@ namespace FlowerShopFileImplement
 
         private readonly string BouquetFlowerFileName = "BouquetFlower.xml";
 
+        private readonly string ClientFileName = "Client.xml";
+
         public List<Flower> Flowers { get; set; }
 
         public List<Order> Orders { get; set; }
 
-
         public List<Bouquet> Bouquets { get; set; }
 
         public List<BouquetFlower> BouquetFlowers { get; set; }
+
+        public List<Client> Clients { set; get; }
 
         private FileDataListSingleton()
         {
@@ -36,6 +39,7 @@ namespace FlowerShopFileImplement
             Orders = LoadOrders();
             Bouquets = LoadBouquets();
             BouquetFlowers = LoadBouquetFlowers();
+            Clients = LoadClients();
         }
 
         public static FileDataListSingleton GetInstance()
@@ -53,6 +57,28 @@ namespace FlowerShopFileImplement
             SaveOrders();
             SaveBouquets();
             SaveBouquetFlowers();
+            SaveClients();
+        }
+
+        private List<Client> LoadClients()
+        {
+            var list = new List<Client>();
+            if (File.Exists(ClientFileName))
+            {
+                XDocument xDocument = XDocument.Load(ClientFileName);
+                var xElements = xDocument.Root.Elements("Client").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Client
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ClientFIO = elem.Element("ClientFIO").Value,
+                        Login = elem.Element("Login").Value,
+                        Password = elem.Element("Password").Value
+                    });
+                }
+            }
+            return list;
         }
 
         private List<Flower> LoadFlowers()
@@ -156,6 +182,25 @@ namespace FlowerShopFileImplement
                 }
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(FlowerFileName);
+            }
+        }
+
+        private void SaveClients()
+        {
+            if (Clients != null)
+            {
+                var xElement = new XElement("Clients");
+                foreach (var client in Clients)
+                {
+                    xElement.Add(new XElement("Client",
+                    new XAttribute("Id", client.Id),
+                    new XElement("ClientFIO", client.ClientFIO),
+                    new XElement("Login", client.Login),
+                    new XElement("Password", client.Password)
+                    ));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(ClientFileName);
             }
         }
 

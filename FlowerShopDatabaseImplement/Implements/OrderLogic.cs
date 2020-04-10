@@ -33,6 +33,8 @@ namespace FlowerShopDatabaseImplement.Implements
                 order.BouquetId = model.BouquetId == 0 ? order.BouquetId : model.BouquetId;
                 order.Count = model.Count;
                 order.Sum = model.Sum;
+                order.ClientFIO = model.ClientFIO;
+                order.ClientId = model.ClientId;
                 order.Status = model.Status;
                 order.DateCreate = model.DateCreate;
                 order.DateImplement = model.DateImplement;
@@ -61,15 +63,17 @@ namespace FlowerShopDatabaseImplement.Implements
         {
             using (var context = new FlowerShopDatabase())
             {
-                return context.Orders
+                return context.Orders.Where(rec => model == null || rec.Id == model.Id || (rec.DateCreate >= model.DateFrom)
+                && (rec.DateCreate <= model.DateTo) || model.ClientId == rec.ClientId)
             .Include(rec => rec.Bouquet)
-            .Where(rec => model == null || rec.Id == model.Id)
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
                 BouquetName = rec.Bouquet.BouquetName,
                 Count = rec.Count,
                 Sum = rec.Sum,
+                ClientFIO = rec.ClientFIO,
+                ClientId = rec.ClientId,
                 Status = rec.Status,
                 DateCreate = rec.DateCreate,
                 DateImplement = rec.DateImplement

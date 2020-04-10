@@ -1,7 +1,7 @@
 ﻿using FlowerShopBusinessLogic.BindingModels;
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
-using FlowerShopFileImplement.Models;
+using FlowerShopListImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +35,8 @@ namespace FlowerShopFileImplement.Implements
             }
             element.BouquetId = model.BouquetId == 0 ? element.BouquetId : model.BouquetId;
             element.Count = model.Count;
+            element.ClientFIO = model.ClientFIO;
+            element.ClientId = model.ClientId;
             element.Sum = model.Sum;
             element.Status = model.Status;
             element.DateCreate = model.DateCreate;
@@ -63,6 +65,8 @@ namespace FlowerShopFileImplement.Implements
                 BouquetName = source.Bouquets.FirstOrDefault(x => x.Id == rec.BouquetId)?.BouquetName,
                 Count = rec.Count,
                 Sum = rec.Sum,
+                ClientFIO = rec.ClientFIO,
+                ClientId = rec.ClientId,
                 Status = rec.Status,
                 DateCreate = rec.DateCreate,
                 DateImplement = rec.DateImplement
