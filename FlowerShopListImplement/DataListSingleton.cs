@@ -17,12 +17,18 @@ namespace FlowerShopListImplement
 
         public List<BouquetFlower> BouquetFlowers { get; set; }
 
+        public List<Storage> Storages { get; set; }
+
+        public List<StorageFlower> StorageFlowers { get; set; }
+
         private DataListSingleton()
         {
             Flowers = new List<Flower>();
             Orders = new List<Order>();
             Bouquets = new List<Bouquet>();
             BouquetFlowers = new List<BouquetFlower>();
+            Storages = new List<Storage>();
+            StorageFlowers = new List<StorageFlower>();
         }
 
         public static DataListSingleton GetInstance()
