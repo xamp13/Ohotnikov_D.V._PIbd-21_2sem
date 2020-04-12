@@ -8,7 +8,7 @@ using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.BindingModels;
 using FlowerShopBusinessLogic.ViewModels;
 
-namespace DressesShopRestApi.Controllers
+namespace FlowerShopRestApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
