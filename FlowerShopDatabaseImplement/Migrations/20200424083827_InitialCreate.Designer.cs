@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlowerShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(FlowerShopDatabase))]
-    [Migration("20200319122531_InitialCreate")]
+    [Migration("20200424083827_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,7 +131,7 @@ namespace FlowerShopDatabaseImplement.Migrations
             modelBuilder.Entity("FlowerShopDatabaseImplement.Models.Order", b =>
                 {
                     b.HasOne("FlowerShopDatabaseImplement.Models.Bouquet", "Bouquet")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("BouquetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
