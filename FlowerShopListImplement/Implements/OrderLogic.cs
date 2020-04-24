@@ -1,7 +1,6 @@
 ﻿using FlowerShopBusinessLogic.BindingModels;
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
-using FlowerShopListImplement;
 using FlowerShopListImplement.Models;
 using System;
 using System.Collections.Generic;
