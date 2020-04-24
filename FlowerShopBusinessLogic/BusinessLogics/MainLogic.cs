@@ -11,9 +11,12 @@ namespace FlowerShopBusinessLogic.BusinessLogics
     {
         private readonly IOrderLogic orderLogic;
 
-        public MainLogic(IOrderLogic orderLogic)
+        private readonly IStorageLogic storageLogic;
+
+        public MainLogic(IOrderLogic orderLogic, IStorageLogic storageLogic)
         {
             this.orderLogic = orderLogic;
+            this.storageLogic = storageLogic;
         }
 
         public void CreateOrder(CreateOrderBindingModel model)
@@ -104,6 +107,11 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен
             });
+        }
+
+        public void FillStorage(StorageFlowerBindingModel model)
+        {
+            storageLogic.FillStorage(model);
         }
     }
 }
