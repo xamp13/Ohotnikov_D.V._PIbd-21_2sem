@@ -18,7 +18,8 @@ namespace FlowerShopFileImplement.Implements
         }
         public void CreateOrUpdate(FlowerBindingModel model)
         {
-            Flower element = source.Flowers.FirstOrDefault(rec => rec.FlowerName == model.FlowerName && rec.Id != model.Id);
+            Flower element = source.Flowers.FirstOrDefault(rec => rec.FlowerName
+           == model.FlowerName && rec.Id != model.Id);
             if (element != null)
             {
                 throw new Exception("Уже есть цветок с таким названием");
@@ -33,7 +34,8 @@ namespace FlowerShopFileImplement.Implements
             }
             else
             {
-                int maxId = source.Flowers.Count > 0 ? source.Flowers.Max(rec => rec.Id) : 0;
+                int maxId = source.Flowers.Count > 0 ? source.Flowers.Max(rec =>
+               rec.Id) : 0;
                 element = new Flower { Id = maxId + 1 };
                 source.Flowers.Add(element);
             }
@@ -41,7 +43,8 @@ namespace FlowerShopFileImplement.Implements
         }
         public void Delete(FlowerBindingModel model)
         {
-            Flower element = source.Flowers.FirstOrDefault(rec => rec.Id == model.Id);
+            Flower element = source.Flowers.FirstOrDefault(rec => rec.Id ==
+           model.Id);
             if (element != null)
             {
                 source.Flowers.Remove(element);

@@ -193,5 +193,15 @@ namespace FlowerShopListImplement.Implements
                 });
             }
         }
+
+        public bool CheckFlowersAvailability(int bouquetId, int bouquetsCount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveFromStorage(int bouquetId, int bouquetsCount)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

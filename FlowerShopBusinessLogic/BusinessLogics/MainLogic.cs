@@ -45,6 +45,10 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
+            if (!storageLogic.CheckFlowersAvailability(order.BouquetId, order.Count))
+            {
+                throw new Exception("На складах не хватает цветов");
+            }
             orderLogic.CreateOrUpdate(new OrderBindingModel
             {
                 Id = order.Id,
@@ -55,6 +59,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 DateImplement = DateTime.Now,
                 Status = OrderStatus.Выполняется
             });
+            storageLogic.RemoveFromStorage(order.BouquetId, order.Count);
         }
 
         public void FinishOrder(ChangeStatusBindingModel model)

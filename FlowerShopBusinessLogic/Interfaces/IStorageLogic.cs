@@ -19,5 +19,9 @@ namespace FlowerShopBusinessLogic.Interfaces
         void DelElement(int id);
 
         void FillStorage(StorageFlowerBindingModel model);
+
+        bool CheckFlowersAvailability(int bouquetId, int bouquetsCount);
+
+        void RemoveFromStorage(int bouquetId, int bouquetsCount);
     }
 }

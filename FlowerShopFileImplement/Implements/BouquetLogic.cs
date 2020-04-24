@@ -18,7 +18,8 @@ namespace FlowerShopFileImplement.Implements
         }
         public void CreateOrUpdate(BouquetBindingModel model)
         {
-            Bouquet element = source.Bouquets.FirstOrDefault(rec => rec.BouquetName == model.BouquetName && rec.Id != model.Id);
+            Bouquet element = source.Bouquets.FirstOrDefault(rec => rec.BouquetName ==
+           model.BouquetName && rec.Id != model.Id);
             if (element != null)
             {
                 throw new Exception("Уже есть букет с таким названием");
@@ -40,8 +41,10 @@ namespace FlowerShopFileImplement.Implements
             }
             element.BouquetName = model.BouquetName;
             element.Price = model.Price;
-            source.BouquetFlowers.RemoveAll(rec => rec.BouquetId == model.Id && !model.BouquetFlowers.ContainsKey(rec.FlowerId));
-            var updateFlowers = source.BouquetFlowers.Where(rec => rec.BouquetId == model.Id && model.BouquetFlowers.ContainsKey(rec.FlowerId));
+            source.BouquetFlowers.RemoveAll(rec => rec.BouquetId == model.Id &&
+           !model.BouquetFlowers.ContainsKey(rec.FlowerId));
+            var updateFlowers = source.BouquetFlowers.Where(rec => rec.BouquetId ==
+           model.Id && model.BouquetFlowers.ContainsKey(rec.FlowerId));
             foreach (var updateFlower in updateFlowers)
             {
                 updateFlower.Count =
@@ -86,7 +89,8 @@ namespace FlowerShopFileImplement.Implements
                 BouquetFlowers = source.BouquetFlowers
             .Where(recPC => recPC.BouquetId == rec.Id)
            .ToDictionary(recPC => recPC.FlowerId, recPC =>
-            (source.Flowers.FirstOrDefault(recC => recC.Id == recPC.FlowerId)?.FlowerName, recPC.Count))
+            (source.Flowers.FirstOrDefault(recC => recC.Id ==
+           recPC.FlowerId)?.FlowerName, recPC.Count))
             })
             .ToList();
         }
