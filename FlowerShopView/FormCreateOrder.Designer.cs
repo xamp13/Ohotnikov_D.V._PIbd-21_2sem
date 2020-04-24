@@ -36,13 +36,15 @@
             this.textBoxCount = new System.Windows.Forms.TextBox();
             this.textBoxSum = new System.Windows.Forms.TextBox();
             this.labelCount = new System.Windows.Forms.Label();
+            this.comboBoxClients = new System.Windows.Forms.ComboBox();
+            this.labelClient = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // comboBoxBouquet
             // 
             this.comboBoxBouquet.FormattingEnabled = true;
             this.comboBoxBouquet.Location = new System.Drawing.Point(91, 6);
-            this.comboBoxBouquet.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBoxBouquet.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxBouquet.Name = "comboBoxBouquet";
             this.comboBoxBouquet.Size = new System.Drawing.Size(240, 21);
             this.comboBoxBouquet.TabIndex = 14;
@@ -50,8 +52,8 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(258, 79);
-            this.buttonCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonCancel.Location = new System.Drawing.Point(258, 107);
+            this.buttonCancel.Margin = new System.Windows.Forms.Padding(2);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(74, 24);
             this.buttonCancel.TabIndex = 13;
@@ -61,8 +63,8 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(168, 79);
-            this.buttonSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonSave.Location = new System.Drawing.Point(172, 107);
+            this.buttonSave.Margin = new System.Windows.Forms.Padding(2);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(73, 24);
             this.buttonSave.TabIndex = 12;
@@ -83,7 +85,7 @@
             // labelSum
             // 
             this.labelSum.AutoSize = true;
-            this.labelSum.Location = new System.Drawing.Point(11, 58);
+            this.labelSum.Location = new System.Drawing.Point(38, 83);
             this.labelSum.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelSum.Name = "labelSum";
             this.labelSum.Size = new System.Drawing.Size(44, 13);
@@ -92,37 +94,56 @@
             // 
             // textBoxCount
             // 
-            this.textBoxCount.Location = new System.Drawing.Point(91, 31);
-            this.textBoxCount.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxCount.Location = new System.Drawing.Point(91, 59);
+            this.textBoxCount.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxCount.Name = "textBoxCount";
-            this.textBoxCount.Size = new System.Drawing.Size(241, 20);
+            this.textBoxCount.Size = new System.Drawing.Size(240, 20);
             this.textBoxCount.TabIndex = 9;
             this.textBoxCount.TextChanged += new System.EventHandler(this.textBoxCount_TextChanged);
             // 
             // textBoxSum
             // 
-            this.textBoxSum.Location = new System.Drawing.Point(91, 55);
-            this.textBoxSum.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxSum.Location = new System.Drawing.Point(91, 83);
+            this.textBoxSum.Margin = new System.Windows.Forms.Padding(2);
             this.textBoxSum.Name = "textBoxSum";
             this.textBoxSum.ReadOnly = true;
-            this.textBoxSum.Size = new System.Drawing.Size(241, 20);
+            this.textBoxSum.Size = new System.Drawing.Size(240, 20);
             this.textBoxSum.TabIndex = 9;
             // 
             // labelCount
             // 
             this.labelCount.AutoSize = true;
-            this.labelCount.Location = new System.Drawing.Point(11, 34);
+            this.labelCount.Location = new System.Drawing.Point(15, 59);
             this.labelCount.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelCount.Name = "labelCount";
             this.labelCount.Size = new System.Drawing.Size(69, 13);
             this.labelCount.TabIndex = 10;
             this.labelCount.Text = "Количество:";
             // 
+            // comboBoxClients
+            // 
+            this.comboBoxClients.FormattingEnabled = true;
+            this.comboBoxClients.Location = new System.Drawing.Point(91, 33);
+            this.comboBoxClients.Name = "comboBoxClients";
+            this.comboBoxClients.Size = new System.Drawing.Size(240, 21);
+            this.comboBoxClients.TabIndex = 9;
+            // 
+            // labelClient
+            // 
+            this.labelClient.AutoSize = true;
+            this.labelClient.Location = new System.Drawing.Point(38, 33);
+            this.labelClient.Name = "labelClient";
+            this.labelClient.Size = new System.Drawing.Size(46, 13);
+            this.labelClient.TabIndex = 8;
+            this.labelClient.Text = "Клиент:";
+            // 
             // FormCreateOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(353, 115);
+            this.ClientSize = new System.Drawing.Size(342, 142);
+            this.Controls.Add(this.comboBoxClients);
+            this.Controls.Add(this.labelClient);
             this.Controls.Add(this.comboBoxBouquet);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonSave);
@@ -131,7 +152,7 @@
             this.Controls.Add(this.labelSum);
             this.Controls.Add(this.textBoxSum);
             this.Controls.Add(this.textBoxCount);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "FormCreateOrder";
             this.Text = "Заказ";
             this.Load += new System.EventHandler(this.FormCreateOrder_Load);
@@ -150,5 +171,7 @@
         private System.Windows.Forms.TextBox textBoxCount;
         private System.Windows.Forms.TextBox textBoxSum;
         private System.Windows.Forms.Label labelCount;
+        private System.Windows.Forms.ComboBox comboBoxClients;
+        private System.Windows.Forms.Label labelClient;
     }
 }
