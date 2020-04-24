@@ -30,7 +30,7 @@ namespace FlowerShopDatabaseImplement.Implements
                     order = new Order();
                     context.Orders.Add(order);
                 }
-                order.BouquetId = model.BouquetId == 0 ? order.BouquetId : model.BouquetId;
+                order.BouquetId = model.BouquetId;
                 order.Count = model.Count;
                 order.Sum = model.Sum;
                 order.ClientFIO = model.ClientFIO;
@@ -69,6 +69,7 @@ namespace FlowerShopDatabaseImplement.Implements
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
+                BouquetId = rec.BouquetId,
                 BouquetName = rec.Bouquet.BouquetName,
                 Count = rec.Count,
                 Sum = rec.Sum,

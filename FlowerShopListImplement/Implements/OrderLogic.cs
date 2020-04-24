@@ -83,7 +83,7 @@ namespace FlowerShopListImplement.Implements
 
         private Order CreateModel(OrderBindingModel model, Order Order)
         {
-            Order.BouquetId = model.BouquetId == 0 ? Order.BouquetId : model.BouquetId;
+            Order.BouquetId = model.BouquetId;
             Order.Count = model.Count;
             Order.Sum = model.Sum;
             Order.ClientId = model.ClientId;
@@ -111,6 +111,7 @@ namespace FlowerShopListImplement.Implements
                 BouquetName = BouquetName,
                 Count = Order.Count,
                 Sum = Order.Sum,
+                BouquetId = Order.BouquetId,
                 ClientId = Order.ClientId,
                 ClientFIO = Order.ClientFIO,
                 Status = Order.Status,

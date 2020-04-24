@@ -46,6 +46,24 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             return list;
         }
 
+        public List<ReportOrdersViewModel> GetOrders(ReportBindingModel model)
+        {
+            return orderLogic.Read(new OrderBindingModel
+            {
+                DateFrom = model.DateFrom,
+                DateTo = model.DateTo
+            })
+            .Select(x => new ReportOrdersViewModel
+            {
+                DateCreate = x.DateCreate,
+                BouquetName = x.BouquetName,
+                Count = x.Count,
+                Sum = x.Sum,
+                Status = x.Status
+            })
+           .ToList();
+        }
+
         public List<ReportOrdersViewModel> GetOrders()
         {
             return orderLogic.Read(null)

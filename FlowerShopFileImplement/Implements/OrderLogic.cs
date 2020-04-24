@@ -33,7 +33,7 @@ namespace FlowerShopFileImplement.Implements
                 element = new Order { Id = maxId + 1 };
                 source.Orders.Add(element);
             }
-            element.BouquetId = model.BouquetId == 0 ? element.BouquetId : model.BouquetId;
+            element.BouquetId = model.BouquetId;
             element.Count = model.Count;
             element.ClientFIO = model.ClientFIO;
             element.ClientId = model.ClientId;
@@ -65,6 +65,7 @@ namespace FlowerShopFileImplement.Implements
                 BouquetName = source.Bouquets.FirstOrDefault(x => x.Id == rec.BouquetId)?.BouquetName,
                 Count = rec.Count,
                 Sum = rec.Sum,
+                BouquetId = rec.BouquetId,
                 ClientFIO = rec.ClientFIO,
                 ClientId = rec.ClientId,
                 Status = rec.Status,

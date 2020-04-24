@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FlowerShopDatabaseImplement.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initialcreatelab5 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,6 +19,21 @@ namespace FlowerShopDatabaseImplement.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bouquets", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Clients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ClientFIO = table.Column<string>(nullable: false),
+                    Login = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clients", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -40,6 +55,8 @@ namespace FlowerShopDatabaseImplement.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ClientId = table.Column<int>(nullable: false),
+                    ClientFIO = table.Column<string>(nullable: false),
                     BouquetId = table.Column<int>(nullable: false),
                     Count = table.Column<int>(nullable: false),
                     Sum = table.Column<decimal>(nullable: false),
@@ -54,6 +71,12 @@ namespace FlowerShopDatabaseImplement.Migrations
                         name: "FK_Orders_Bouquets_BouquetId",
                         column: x => x.BouquetId,
                         principalTable: "Bouquets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -99,6 +122,11 @@ namespace FlowerShopDatabaseImplement.Migrations
                 name: "IX_Orders_BouquetId",
                 table: "Orders",
                 column: "BouquetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_ClientId",
+                table: "Orders",
+                column: "ClientId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -114,6 +142,9 @@ namespace FlowerShopDatabaseImplement.Migrations
 
             migrationBuilder.DropTable(
                 name: "Bouquets");
+
+            migrationBuilder.DropTable(
+                name: "Clients");
         }
     }
 }

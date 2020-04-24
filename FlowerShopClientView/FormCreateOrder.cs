@@ -22,7 +22,7 @@ namespace FlowerShopClientView
             {
                 comboBoxProduct.DisplayMember = "BouquetName";
                 comboBoxProduct.ValueMember = "Id";
-                comboBoxProduct.DataSource = ApiClient.GetRequest<List<BouquetViewModel>>("api/main/getdresslist");
+                comboBoxProduct.DataSource = ApiClient.GetRequest<List<BouquetViewModel>>("api/main/getbouquetlist");
                 comboBoxProduct.SelectedItem = null;
             }
             catch (Exception ex)
@@ -39,7 +39,7 @@ namespace FlowerShopClientView
                 {
                     int id = Convert.ToInt32(comboBoxProduct.SelectedValue);
                     BouquetViewModel bouquet
-                        = ApiClient.GetRequest<BouquetViewModel>($"api/main/getdress?dressId={id}");
+                        = ApiClient.GetRequest<BouquetViewModel>($"api/main/getbouquet?bouquetId={id}");
                     int count = Convert.ToInt32(textBoxCount.Text);
                     textBoxSum.Text = (count * bouquet.Price).ToString();
                 }
