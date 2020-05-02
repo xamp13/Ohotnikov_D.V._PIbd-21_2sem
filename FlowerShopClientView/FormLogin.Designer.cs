@@ -50,7 +50,7 @@
             this.textBoxPassword.Size = new System.Drawing.Size(209, 20);
             this.textBoxPassword.TabIndex = 1;
             // 
-            // label1
+            // labelSum
             // 
             this.labelLogin.AutoSize = true;
             this.labelLogin.Location = new System.Drawing.Point(17, 15);

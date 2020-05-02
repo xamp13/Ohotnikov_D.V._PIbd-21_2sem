@@ -30,7 +30,7 @@
         {
             this.labelProduct = new System.Windows.Forms.Label();
             this.labelCount = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelSum = new System.Windows.Forms.Label();
             this.comboBoxProduct = new System.Windows.Forms.ComboBox();
             this.textBoxCount = new System.Windows.Forms.TextBox();
             this.textBoxSum = new System.Windows.Forms.TextBox();
@@ -56,14 +56,14 @@
             this.labelCount.TabIndex = 1;
             this.labelCount.Text = "Количество:";
             // 
-            // label1
+            // labelSum
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(46, 71);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Сумма:";
+            this.labelSum.AutoSize = true;
+            this.labelSum.Location = new System.Drawing.Point(46, 71);
+            this.labelSum.Name = "labelSum";
+            this.labelSum.Size = new System.Drawing.Size(44, 13);
+            this.labelSum.TabIndex = 2;
+            this.labelSum.Text = "Сумма:";
             // 
             // comboBoxProduct
             // 
@@ -120,7 +120,7 @@
             this.Controls.Add(this.textBoxSum);
             this.Controls.Add(this.textBoxCount);
             this.Controls.Add(this.comboBoxProduct);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelSum);
             this.Controls.Add(this.labelCount);
             this.Controls.Add(this.labelProduct);
             this.Name = "FormCreateOrder";
@@ -135,7 +135,7 @@
 
         private System.Windows.Forms.Label labelProduct;
         private System.Windows.Forms.Label labelCount;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelSum;
         private System.Windows.Forms.ComboBox comboBoxProduct;
         private System.Windows.Forms.TextBox textBoxCount;
         private System.Windows.Forms.TextBox textBoxSum;
