@@ -100,7 +100,7 @@
             this.Controls.Add(this.textBoxPassword);
             this.Controls.Add(this.textBoxLogin);
             this.Name = "FormLogin";
-            this.Text = "FormLogin";
+            this.Text = "Вход";
             this.ResumeLayout(false);
             this.PerformLayout();
 

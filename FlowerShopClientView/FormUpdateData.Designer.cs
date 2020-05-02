@@ -120,7 +120,7 @@
             this.Controls.Add(this.textBoxLogin);
             this.Controls.Add(this.textBoxFIO);
             this.Name = "FormUpdateClientData";
-            this.Text = "FormUpdateClientData";
+            this.Text = "Редактирование данных пользователя";
             this.ResumeLayout(false);
             this.PerformLayout();
 
