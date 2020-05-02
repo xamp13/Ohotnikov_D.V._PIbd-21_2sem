@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using FlowerShopBusinessLogic.ViewModels;
 
@@ -11,6 +12,6 @@ namespace FlowerShopBusinessLogic.HelperModels
 
         public string Title { get; set; }
 
-        public List<ReportOrdersViewModel> Orders { get; set; }
+        public List<IGrouping<DateTime, ReportOrdersViewModel>> Orders { get; set; }
     }
 }

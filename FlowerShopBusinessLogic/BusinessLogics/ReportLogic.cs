@@ -24,31 +24,31 @@ namespace FlowerShopBusinessLogic.BusinessLogics
 
         public List<ReportBouquetFlowerViewModel> GetBouquetFlower()
         {
-            var Flowers = flowerLogic.Read(null);
             var Bouquets = bouquetLogic.Read(null);
             var list = new List<ReportBouquetFlowerViewModel>();
-            foreach (var flower in Flowers)
+            foreach (var bouquet in Bouquets)
             {
-                foreach (var bouquet in Bouquets)
+                foreach (var bf in bouquet.BouquetFlowers)
                 {
-                    if (bouquet.BouquetFlowers.ContainsKey(flower.Id))
+                    var record = new ReportBouquetFlowerViewModel
                     {
-                        var record = new ReportBouquetFlowerViewModel
-                        {
-                            BouquetName = bouquet.BouquetName,
-                            FlowerName = flower.FlowerName,
-                            Count = bouquet.BouquetFlowers[flower.Id].Item2
-                        };
-                        list.Add(record);
-                    }
+                        BouquetName = bouquet.BouquetName,
+                        FlowerName = bf.Value.Item1,
+                        Count = bf.Value.Item2
+                    };
+                    list.Add(record);
                 }
             }
             return list;
         }
 
-        public List<ReportOrdersViewModel> GetOrders()
+        public List<IGrouping<DateTime, ReportOrdersViewModel>> GetOrders(ReportBindingModel model)
         {
-            return orderLogic.Read(null)
+            return orderLogic.Read(new OrderBindingModel
+            {
+                DateFrom = model.DateFrom,
+                DateTo = model.DateTo
+            })
             .Select(x => new ReportOrdersViewModel
             {
                 DateCreate = x.DateCreate,
@@ -57,6 +57,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 Sum = x.Sum,
                 Status = x.Status
             })
+            .GroupBy(x => x.DateCreate.Date)
            .ToList();
         }
 
@@ -82,8 +83,8 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             SaveToExcel.CreateDoc(new ExcelInfo
             {
                 FileName = model.FileName,
-                Title = "Заказы",
-                Orders = GetOrders()
+                Title = "Список заказов",
+                Orders = GetOrders(model)
             });
         }
 
