@@ -2,6 +2,7 @@
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
 using FlowerShopDatabaseImplement.Models;
+using FlowerShopBusinessLogic.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,9 @@ namespace FlowerShopDatabaseImplement.Implements
                 order.Count = model.Count;
                 order.Sum = model.Sum;
                 order.ClientFIO = model.ClientFIO;
-                order.ClientId = model.ClientId;
+                order.ClientId = model.ClientId.Value;
+                order.ImplementerFIO = model.ImplementerFIO;
+                order.ImplementerId = model.ImplementerId;
                 order.Status = model.Status;
                 order.DateCreate = model.DateCreate;
                 order.DateImplement = model.DateImplement;
@@ -69,6 +72,8 @@ namespace FlowerShopDatabaseImplement.Implements
                    || (rec.Id == model.Id && model.Id.HasValue)
                    || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
                    || model.ClientId == rec.ClientId
+                   || model.FreeOrder.HasValue && model.FreeOrder.Value && !rec.ImplementerId.HasValue
+                   || model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется
             )
             .Include(rec => rec.Bouquet)
             .Select(rec => new OrderViewModel
@@ -80,6 +85,8 @@ namespace FlowerShopDatabaseImplement.Implements
                 Sum = rec.Sum,
                 ClientFIO = rec.ClientFIO,
                 ClientId = rec.ClientId,
+                ImplementorId = rec.ImplementerId,
+                ImplementerFIO = !string.IsNullOrEmpty(rec.ImplementerFIO) ? rec.ImplementerFIO : string.Empty,
                 Status = rec.Status,
                 DateCreate = rec.DateCreate,
                 DateImplement = rec.DateImplement

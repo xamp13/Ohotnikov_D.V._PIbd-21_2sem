@@ -26,6 +26,10 @@ namespace FlowerShopDatabaseImplement.Models
 
         public OrderStatus Status { get; set; }
 
+        public int? ImplementerId { set; get; }
+
+        public string ImplementerFIO { set; get; }
+
         [Required]
         public DateTime DateCreate { get; set; }
 
@@ -34,5 +38,7 @@ namespace FlowerShopDatabaseImplement.Models
         public virtual Client Client { set; get; }
 
         public virtual Bouquet Bouquet { get; set; }
+
+        public virtual Implementer Implementer { set; get; }
     }
 }

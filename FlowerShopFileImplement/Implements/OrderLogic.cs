@@ -2,6 +2,7 @@
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
 using FlowerShopListImplement.Models;
+using FlowerShopBusinessLogic.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace FlowerShopFileImplement.Implements
             element.BouquetId = model.BouquetId;
             element.Count = model.Count;
             element.ClientFIO = model.ClientFIO;
-            element.ClientId = model.ClientId;
+            element.ClientId = model.ClientId.Value;
             element.Sum = model.Sum;
             element.Status = model.Status;
             element.DateCreate = model.DateCreate;
@@ -58,7 +59,14 @@ namespace FlowerShopFileImplement.Implements
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             return source.Orders
-            .Where(rec => model == null || rec.Id == model.Id)
+            .Where(
+                    rec => model == null
+                    || rec.Id == model.Id && model.Id.HasValue
+                    || model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo
+                    || model.ClientId.HasValue && rec.ClientId == model.ClientId
+                    || model.FreeOrder.HasValue && model.FreeOrder.Value && !rec.ImplementerId.HasValue
+                    || model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется
+                )
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
@@ -68,6 +76,8 @@ namespace FlowerShopFileImplement.Implements
                 BouquetId = rec.BouquetId,
                 ClientFIO = rec.ClientFIO,
                 ClientId = rec.ClientId,
+                ImplementorId = rec.ImplementerId,
+                ImplementerFIO = !string.IsNullOrEmpty(rec.ImplementerFIO) ? rec.ImplementerFIO : string.Empty,
                 Status = rec.Status,
                 DateCreate = rec.DateCreate,
                 DateImplement = rec.DateImplement

@@ -11,13 +11,19 @@ namespace FlowerShopBusinessLogic.BindingModels
 
         public int BouquetId { get; set; }
 
-        public int ClientId { set; get; }
+        public int? ClientId { set; get; }
 
         public string ClientFIO { set; get; }
 
         public int Count { get; set; }
 
         public decimal Sum { get; set; }
+
+        public string ImplementerFIO { set; get; }
+
+        public int? ImplementerId { set; get; }
+
+        public bool? FreeOrder { set; get; }
 
         public OrderStatus Status { get; set; }
 

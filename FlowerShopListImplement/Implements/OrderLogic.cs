@@ -1,6 +1,7 @@
 ﻿using FlowerShopBusinessLogic.BindingModels;
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
+using FlowerShopBusinessLogic.Enums;
 using FlowerShopListImplement.Models;
 using System;
 using System.Collections.Generic;
@@ -67,16 +68,15 @@ namespace FlowerShopListImplement.Implements
             List<OrderViewModel> result = new List<OrderViewModel>();
             foreach (var Order in source.Orders)
             {
-                if (model != null)
-                {
-                    if (Order.Id == model.Id && Order.ClientId == model.ClientId)
-                    {
-                        result.Add(CreateViewModel(Order));
-                        break;
-                    }
-                    continue;
-                }
-                result.Add(CreateViewModel(Order));
+                if (
+                   model != null && Order.Id == model.Id
+                   || model.DateFrom.HasValue && model.DateTo.HasValue && Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo
+                   || model.ClientId.HasValue && Order.ClientId == model.ClientId
+                   || model.FreeOrder.HasValue && model.FreeOrder.Value
+                   || model.ImplementerId.HasValue && Order.ImplementerId == model.ImplementerId && Order.Status == OrderStatus.Выполняется
+               )
+
+                    result.Add(CreateViewModel(Order));
             }
             return result;
         }
@@ -86,8 +86,10 @@ namespace FlowerShopListImplement.Implements
             Order.BouquetId = model.BouquetId;
             Order.Count = model.Count;
             Order.Sum = model.Sum;
-            Order.ClientId = model.ClientId;
+            Order.ClientId = model.ClientId.Value;
             Order.ClientFIO = model.ClientFIO;
+            Order.ImplementerId = model.ImplementerId;
+            Order.ImplementerFIO = model.ImplementerFIO;
             Order.Status = model.Status;
             Order.DateCreate = model.DateCreate;
             Order.DateImplement = model.DateImplement;
@@ -114,6 +116,8 @@ namespace FlowerShopListImplement.Implements
                 BouquetId = Order.BouquetId,
                 ClientId = Order.ClientId,
                 ClientFIO = Order.ClientFIO,
+                ImplementorId = Order.ImplementerId,
+                ImplementerFIO = Order.ImplementerFIO,
                 Status = Order.Status,
                 DateCreate = Order.DateCreate,
                 DateImplement = Order.DateImplement

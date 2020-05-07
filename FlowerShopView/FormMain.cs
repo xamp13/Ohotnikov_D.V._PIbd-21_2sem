@@ -21,12 +21,14 @@ namespace FlowerShopView
         private readonly MainLogic logic;
         private readonly IOrderLogic orderLogic;
         private readonly ReportLogic reportLogic;
-        public FormMain(MainLogic logic, IOrderLogic orderLogic, ReportLogic reportLogic)
+        private readonly WorkModeling modeling;
+        public FormMain(MainLogic logic, IOrderLogic orderLogic, ReportLogic reportLogic, WorkModeling modeling)
         {
             InitializeComponent();
             this.logic = logic;
             this.orderLogic = orderLogic;
             this.reportLogic = reportLogic;
+            this.modeling = modeling;
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -44,6 +46,8 @@ namespace FlowerShopView
                     dataGridView.Columns[1].Visible = false;
                     dataGridView.Columns[3].Visible = false;
                     dataGridView.Columns[7].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                    dataGridView.Columns[11].Visible = false;
+
                 }
             }
             catch (Exception ex)
@@ -51,6 +55,7 @@ namespace FlowerShopView
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void цветыToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormFlowers>();
@@ -80,7 +85,7 @@ namespace FlowerShopView
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                   MessageBoxIcon.Error);
+                    MessageBoxIcon.Error);
                 }
             }
         }
@@ -152,6 +157,17 @@ namespace FlowerShopView
         {
             var form = Container.Resolve<FormClients>();
             form.ShowDialog();
+        }
+
+        private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormImplementers>();
+            form.ShowDialog();
+        }
+
+        private void запускРаботToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            modeling.DoWork();
         }
     }
 }
