@@ -86,7 +86,7 @@ namespace FlowerShopListImplement.Implements
             Order.BouquetId = model.BouquetId;
             Order.Count = model.Count;
             Order.Sum = model.Sum;
-            Order.ClientId = model.ClientId.Value;
+            Order.ClientId = (int)model.ClientId;
             Order.ClientFIO = model.ClientFIO;
             Order.ImplementerId = model.ImplementerId;
             Order.ImplementerFIO = model.ImplementerFIO;

@@ -34,10 +34,10 @@ namespace FlowerShopFileImplement.Implements
                 element = new Order { Id = maxId + 1 };
                 source.Orders.Add(element);
             }
-            element.BouquetId = model.BouquetId;
+            element.BouquetId = model.BouquetId == 0 ? element.BouquetId : model.BouquetId;
             element.Count = model.Count;
             element.ClientFIO = model.ClientFIO;
-            element.ClientId = model.ClientId.Value;
+            element.ClientId = model.ClientId == null ? element.ClientId : (int)model.ClientId; ;
             element.Sum = model.Sum;
             element.Status = model.Status;
             element.DateCreate = model.DateCreate;
@@ -45,8 +45,7 @@ namespace FlowerShopFileImplement.Implements
         }
         public void Delete(OrderBindingModel model)
         {
-            Order element = source.Orders.FirstOrDefault(rec => rec.Id ==
-           model.Id);
+            Order element = source.Orders.FirstOrDefault(rec => rec.Id == model.Id);
             if (element != null)
             {
                 source.Orders.Remove(element);
@@ -74,7 +73,7 @@ namespace FlowerShopFileImplement.Implements
                 Count = rec.Count,
                 Sum = rec.Sum,
                 BouquetId = rec.BouquetId,
-                ClientFIO = rec.ClientFIO,
+                ClientFIO = source.Clients.FirstOrDefault(recC => recC.Id == rec.ClientId)?.ClientFIO,
                 ClientId = rec.ClientId,
                 ImplementorId = rec.ImplementerId,
                 ImplementerFIO = !string.IsNullOrEmpty(rec.ImplementerFIO) ? rec.ImplementerFIO : string.Empty,
