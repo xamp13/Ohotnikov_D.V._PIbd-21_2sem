@@ -69,7 +69,8 @@ namespace FlowerShopListImplement.Implements
             {
                 if (model != null)
                 {
-                    if (Order.Id == model.Id && Order.ClientId == model.ClientId)
+                    if (Order.Id == model.Id || (model.DateFrom.HasValue && model.DateTo.HasValue && Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo)
+                        || model.ClientId.HasValue && Order.ClientId == model.ClientId)
                     {
                         result.Add(CreateViewModel(Order));
                         break;
@@ -86,7 +87,7 @@ namespace FlowerShopListImplement.Implements
             Order.BouquetId = model.BouquetId;
             Order.Count = model.Count;
             Order.Sum = model.Sum;
-            Order.ClientId = model.ClientId;
+            Order.ClientId = (int)model.ClientId;
             Order.ClientFIO = model.ClientFIO;
             Order.Status = model.Status;
             Order.DateCreate = model.DateCreate;

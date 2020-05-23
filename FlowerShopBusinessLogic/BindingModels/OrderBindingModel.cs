@@ -11,7 +11,7 @@ namespace FlowerShopBusinessLogic.BindingModels
 
         public int BouquetId { get; set; }
 
-        public int ClientId { set; get; }
+        public int? ClientId { set; get; }
 
         public string ClientFIO { set; get; }
 

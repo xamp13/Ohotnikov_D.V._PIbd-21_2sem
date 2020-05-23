@@ -30,11 +30,11 @@ namespace FlowerShopDatabaseImplement.Implements
                     order = new Order();
                     context.Orders.Add(order);
                 }
-                order.BouquetId = model.BouquetId;
+                order.BouquetId = model.BouquetId == 0 ? order.BouquetId : model.BouquetId;
                 order.Count = model.Count;
                 order.Sum = model.Sum;
                 order.ClientFIO = model.ClientFIO;
-                order.ClientId = model.ClientId;
+                order.ClientId = model.ClientId == null ? order.ClientId : (int)model.ClientId; ;
                 order.Status = model.Status;
                 order.DateCreate = model.DateCreate;
                 order.DateImplement = model.DateImplement;
@@ -66,11 +66,12 @@ namespace FlowerShopDatabaseImplement.Implements
                 return context.Orders
                 .Where(
                     rec => model == null
-                   || (rec.Id == model.Id && model.Id.HasValue)
-                   || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
-                   || model.ClientId == rec.ClientId
+                   || rec.Id == model.Id && model.Id.HasValue
+                   || model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo
+                   || model.ClientId.HasValue && model.ClientId == rec.ClientId
             )
             .Include(rec => rec.Bouquet)
+            .Include(rec => rec.Client)
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
@@ -78,7 +79,7 @@ namespace FlowerShopDatabaseImplement.Implements
                 BouquetName = rec.Bouquet.BouquetName,
                 Count = rec.Count,
                 Sum = rec.Sum,
-                ClientFIO = rec.ClientFIO,
+                ClientFIO = rec.Client.ClientFIO,
                 ClientId = rec.ClientId,
                 Status = rec.Status,
                 DateCreate = rec.DateCreate,
