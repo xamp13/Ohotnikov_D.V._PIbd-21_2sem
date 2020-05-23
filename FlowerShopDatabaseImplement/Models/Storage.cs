@@ -6,16 +6,12 @@ using System.Text;
 
 namespace FlowerShopDatabaseImplement.Models
 {
-    public class Flower
+    public class Storage
     {
         public int Id { get; set; }
-
         [Required]
-        public string FlowerName { get; set; }
-
-        [ForeignKey("FlowerId")]
-        public virtual List<BouquetFlower> BouquetFlowers { get; set; }
-        [ForeignKey("FlowerId")]
+        public string StorageName { get; set; }
+        [ForeignKey("StorageId")]
         public virtual List<StorageFlower> StorageFlowers { get; set; }
     }
 }

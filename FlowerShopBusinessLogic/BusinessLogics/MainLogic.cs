@@ -45,24 +45,27 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
-            if (!storageLogic.CheckFlowersAvailability(order.BouquetId, order.Count))
+            try
             {
-                throw new Exception("На складах не хватает цветов");
+                storageLogic.RemoveFromStorage(order.BouquetId, order.Count);
+                orderLogic.CreateOrUpdate(new OrderBindingModel
+                {
+                    Id = order.Id,
+                    BouquetId = order.BouquetId,
+                    Count = order.Count,
+                    Sum = order.Sum,
+                    DateCreate = order.DateCreate,
+                    DateImplement = DateTime.Now,
+                    Status = OrderStatus.Выполняется
+                });
             }
-            orderLogic.CreateOrUpdate(new OrderBindingModel
+            catch (Exception ex)
             {
-                Id = order.Id,
-                BouquetId = order.BouquetId,
-                Count = order.Count,
-                Sum = order.Sum,
-                DateCreate = order.DateCreate,
-                DateImplement = DateTime.Now,
-                Status = OrderStatus.Выполняется
-            });
-            storageLogic.RemoveFromStorage(order.BouquetId, order.Count);
+                throw;
+            }
         }
 
-        public void FinishOrder(ChangeStatusBindingModel model)
+            public void FinishOrder(ChangeStatusBindingModel model)
         {
             var order = orderLogic.Read(new OrderBindingModel
             {
