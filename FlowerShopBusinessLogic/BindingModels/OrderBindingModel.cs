@@ -19,6 +19,12 @@ namespace FlowerShopBusinessLogic.BindingModels
 
         public decimal Sum { get; set; }
 
+        public string ImplementerFIO { set; get; }
+
+        public int? ImplementerId { set; get; }
+
+        public bool? FreeOrder { set; get; }
+
         public OrderStatus Status { get; set; }
 
         public DateTime DateCreate { get; set; }
