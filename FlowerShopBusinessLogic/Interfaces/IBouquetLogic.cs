@@ -9,7 +9,9 @@ namespace FlowerShopBusinessLogic.Interfaces
     public interface IBouquetLogic
     {
         List<BouquetViewModel> Read(BouquetBindingModel model);
+
         void CreateOrUpdate(BouquetBindingModel model);
+
         void Delete(BouquetBindingModel model);
     }
 }

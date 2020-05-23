@@ -1,6 +1,7 @@
 ﻿using FlowerShopBusinessLogic.BindingModels;
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
+using FlowerShopFileImplement;
 using FlowerShopFileImplement.Models;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,8 @@ namespace FlowerShopFileImplement.Implements
             }
             else
             {
-                int maxId = source.Orders.Count > 0 ? source.Orders.Max(rec => rec.Id) : 0;
+                int maxId = source.Orders.Count > 0 ? source.Orders.Max(rec =>
+               rec.Id) : 0;
                 element = new Order { Id = maxId + 1 };
                 source.Orders.Add(element);
             }
@@ -60,6 +62,7 @@ namespace FlowerShopFileImplement.Implements
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
+                BouquetId = rec.BouquetId,
                 BouquetName = source.Bouquets.FirstOrDefault(x => x.Id == rec.BouquetId)?.BouquetName,
                 Count = rec.Count,
                 Sum = rec.Sum,
