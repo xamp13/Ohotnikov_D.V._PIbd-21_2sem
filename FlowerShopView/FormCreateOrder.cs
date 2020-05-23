@@ -21,11 +21,13 @@ namespace FlowerShopView
         public new IUnityContainer Container { get; set; }
         private readonly IBouquetLogic logicB;
         private readonly MainLogic logicM;
-        public FormCreateOrder(IBouquetLogic logicB, MainLogic logicM)
+        private readonly IClientLogic logicC;
+        public FormCreateOrder(IBouquetLogic logicB, MainLogic logicM, IClientLogic logicC)
         {
             InitializeComponent();
             this.logicB = logicB;
             this.logicM = logicM;
+            this.logicC = logicC;
         }
         private void FormCreateOrder_Load(object sender, EventArgs e)
         {
@@ -35,7 +37,16 @@ namespace FlowerShopView
                 comboBoxBouquet.DataSource = list;
                 comboBoxBouquet.DisplayMember = "BouquetName";
                 comboBoxBouquet.ValueMember = "Id";
+
+                var listClients = logicC.Read(null);
+                if (listClients != null)
+                {
+                    comboBoxClients.DisplayMember = "ClientFIO";
+                    comboBoxClients.DataSource = listClients;
+                    comboBoxClients.SelectedItem = null;
+                }
             }
+
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -75,6 +86,11 @@ namespace FlowerShopView
                 MessageBox.Show("Заполните поле Количество", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (comboBoxClients.SelectedValue == null)
+            {
+                MessageBox.Show("Выберите клиента", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             if (comboBoxBouquet.SelectedValue == null)
             {
                 MessageBox.Show("Выберите композицию", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -86,7 +102,9 @@ namespace FlowerShopView
                 {
                     BouquetId = Convert.ToInt32(comboBoxBouquet.SelectedValue),
                     Count = Convert.ToInt32(textBoxCount.Text),
-                    Sum = Convert.ToDecimal(textBoxSum.Text)
+                    Sum = Convert.ToDecimal(textBoxSum.Text),
+                    ClientId = (comboBoxClients.SelectedItem as ClientViewModel).Id,
+                    ClientFIO = (comboBoxClients.SelectedItem as ClientViewModel).ClientFIO
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;

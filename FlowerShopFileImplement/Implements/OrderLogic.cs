@@ -1,7 +1,7 @@
 ﻿using FlowerShopBusinessLogic.BindingModels;
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
-using FlowerShopFileImplement.Models;
+using FlowerShopListImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +35,8 @@ namespace FlowerShopFileImplement.Implements
             }
             element.BouquetId = model.BouquetId == 0 ? element.BouquetId : model.BouquetId;
             element.Count = model.Count;
+            element.ClientFIO = model.ClientFIO;
+            element.ClientId = model.ClientId == null ? element.ClientId : (int)model.ClientId; ;
             element.Sum = model.Sum;
             element.Status = model.Status;
             element.DateCreate = model.DateCreate;
@@ -42,8 +44,7 @@ namespace FlowerShopFileImplement.Implements
         }
         public void Delete(OrderBindingModel model)
         {
-            Order element = source.Orders.FirstOrDefault(rec => rec.Id ==
-           model.Id);
+            Order element = source.Orders.FirstOrDefault(rec => rec.Id == model.Id);
             if (element != null)
             {
                 source.Orders.Remove(element);
@@ -56,13 +57,17 @@ namespace FlowerShopFileImplement.Implements
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             return source.Orders
-            .Where(rec => model == null || rec.Id == model.Id)
+            .Where(rec => model == null || rec.Id == model.Id || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+            || model.ClientId.HasValue && rec.ClientId == model.ClientId)
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
                 BouquetName = source.Bouquets.FirstOrDefault(x => x.Id == rec.BouquetId)?.BouquetName,
                 Count = rec.Count,
                 Sum = rec.Sum,
+                BouquetId = rec.BouquetId,
+                ClientFIO = source.Clients.FirstOrDefault(recC => recC.Id == rec.ClientId)?.ClientFIO,
+                ClientId = rec.ClientId,
                 Status = rec.Status,
                 DateCreate = rec.DateCreate,
                 DateImplement = rec.DateImplement

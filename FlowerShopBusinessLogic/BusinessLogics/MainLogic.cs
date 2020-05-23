@@ -22,6 +22,8 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             {
                 BouquetId = model.BouquetId,
                 Count = model.Count,
+                ClientId = model.ClientId,
+                ClientFIO = model.ClientFIO,
                 Sum = model.Sum,
                 DateCreate = DateTime.Now,
                 Status = OrderStatus.Принят
@@ -48,6 +50,8 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 BouquetId = order.BouquetId,
                 Count = order.Count,
                 Sum = order.Sum,
+                ClientId = order.ClientId,
+                ClientFIO = order.ClientFIO,
                 DateCreate = order.DateCreate,
                 DateImplement = DateTime.Now,
                 Status = OrderStatus.Выполняется
@@ -74,6 +78,8 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 BouquetId = order.BouquetId,
                 Count = order.Count,
                 Sum = order.Sum,
+                ClientId = order.ClientId,
+                ClientFIO = order.ClientFIO,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Готов
@@ -100,6 +106,8 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 BouquetId = order.BouquetId,
                 Count = order.Count,
                 Sum = order.Sum,
+                ClientId = order.ClientId,
+                ClientFIO = order.ClientFIO,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен

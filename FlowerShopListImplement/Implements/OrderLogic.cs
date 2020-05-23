@@ -69,7 +69,8 @@ namespace FlowerShopListImplement.Implements
             {
                 if (model != null)
                 {
-                    if (Order.Id == model.Id)
+                    if (Order.Id == model.Id || (model.DateFrom.HasValue && model.DateTo.HasValue && Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo)
+                        || model.ClientId.HasValue && Order.ClientId == model.ClientId)
                     {
                         result.Add(CreateViewModel(Order));
                         break;
@@ -83,9 +84,11 @@ namespace FlowerShopListImplement.Implements
 
         private Order CreateModel(OrderBindingModel model, Order Order)
         {
-            Order.BouquetId = model.BouquetId == 0 ? Order.BouquetId : model.BouquetId;
+            Order.BouquetId = model.BouquetId;
             Order.Count = model.Count;
             Order.Sum = model.Sum;
+            Order.ClientId = (int)model.ClientId;
+            Order.ClientFIO = model.ClientFIO;
             Order.Status = model.Status;
             Order.DateCreate = model.DateCreate;
             Order.DateImplement = model.DateImplement;
@@ -109,6 +112,9 @@ namespace FlowerShopListImplement.Implements
                 BouquetName = BouquetName,
                 Count = Order.Count,
                 Sum = Order.Sum,
+                BouquetId = Order.BouquetId,
+                ClientId = Order.ClientId,
+                ClientFIO = Order.ClientFIO,
                 Status = Order.Status,
                 DateCreate = Order.DateCreate,
                 DateImplement = Order.DateImplement

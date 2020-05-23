@@ -33,6 +33,8 @@ namespace FlowerShopDatabaseImplement.Implements
                 order.BouquetId = model.BouquetId == 0 ? order.BouquetId : model.BouquetId;
                 order.Count = model.Count;
                 order.Sum = model.Sum;
+                order.ClientFIO = model.ClientFIO;
+                order.ClientId = model.ClientId == null ? order.ClientId : (int)model.ClientId; ;
                 order.Status = model.Status;
                 order.DateCreate = model.DateCreate;
                 order.DateImplement = model.DateImplement;
@@ -62,22 +64,27 @@ namespace FlowerShopDatabaseImplement.Implements
             using (var context = new FlowerShopDatabase())
             {
                 return context.Orders
-                    .Where(
-                        rec => model == null
-                        || (rec.Id == model.Id && model.Id.HasValue)
-                        || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
-                    )
-                    .Include(rec => rec.Bouquet)
-                    .Select(rec => new OrderViewModel
-                    {
-                        Id = rec.Id,
-                        BouquetName = rec.Bouquet.BouquetName,
-                        Count = rec.Count,
-                        Sum = rec.Sum,
-                        Status = rec.Status,
-                        DateCreate = rec.DateCreate,
-                        DateImplement = rec.DateImplement
-                    })
+                .Where(
+                    rec => model == null
+                   || rec.Id == model.Id && model.Id.HasValue
+                   || model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo
+                   || model.ClientId.HasValue && model.ClientId == rec.ClientId
+            )
+            .Include(rec => rec.Bouquet)
+            .Include(rec => rec.Client)
+            .Select(rec => new OrderViewModel
+            {
+                Id = rec.Id,
+                BouquetId = rec.BouquetId,
+                BouquetName = rec.Bouquet.BouquetName,
+                Count = rec.Count,
+                Sum = rec.Sum,
+                ClientFIO = rec.Client.ClientFIO,
+                ClientId = rec.ClientId,
+                Status = rec.Status,
+                DateCreate = rec.DateCreate,
+                DateImplement = rec.DateImplement
+            })
             .ToList();
             }
         }

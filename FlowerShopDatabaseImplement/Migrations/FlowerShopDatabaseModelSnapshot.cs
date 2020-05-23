@@ -63,6 +63,30 @@ namespace FlowerShopDatabaseImplement.Migrations
                     b.ToTable("BouquetFlowers");
                 });
 
+            modelBuilder.Entity("FlowerShopDatabaseImplement.Models.Client", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClientFIO")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clients");
+                });
+
             modelBuilder.Entity("FlowerShopDatabaseImplement.Models.Flower", b =>
                 {
                     b.Property<int>("Id")
@@ -89,6 +113,13 @@ namespace FlowerShopDatabaseImplement.Migrations
                     b.Property<int>("BouquetId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ClientFIO")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
@@ -107,6 +138,8 @@ namespace FlowerShopDatabaseImplement.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BouquetId");
+
+                    b.HasIndex("ClientId");
 
                     b.ToTable("Orders");
                 });
@@ -131,6 +164,12 @@ namespace FlowerShopDatabaseImplement.Migrations
                     b.HasOne("FlowerShopDatabaseImplement.Models.Bouquet", "Bouquet")
                         .WithMany("Orders")
                         .HasForeignKey("BouquetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FlowerShopDatabaseImplement.Models.Client", "Client")
+                        .WithMany("Orders")
+                        .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
