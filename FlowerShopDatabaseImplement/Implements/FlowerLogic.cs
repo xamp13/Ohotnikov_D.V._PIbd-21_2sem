@@ -19,7 +19,7 @@ namespace FlowerShopDatabaseImplement.Implements
                rec.FlowerName == model.FlowerName && rec.Id != model.Id);
                 if (element != null)
                 {
-                    throw new Exception("Уже есть цветок с таким названием");
+                    throw new Exception("Уже есть компонент с таким названием");
                 }
                 if (model.Id.HasValue)
                 {
@@ -39,7 +39,6 @@ namespace FlowerShopDatabaseImplement.Implements
                 context.SaveChanges();
             }
         }
-
         public void Delete(FlowerBindingModel model)
         {
             using (var context = new FlowerShopDatabase())
@@ -57,7 +56,6 @@ namespace FlowerShopDatabaseImplement.Implements
                 }
             }
         }
-
         public List<FlowerViewModel> Read(FlowerBindingModel model)
         {
             using (var context = new FlowerShopDatabase())

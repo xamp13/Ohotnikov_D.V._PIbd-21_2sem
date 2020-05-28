@@ -10,15 +10,12 @@ namespace FlowerShopBusinessLogic.BusinessLogics
     public class MainLogic
     {
         private readonly IOrderLogic orderLogic;
-
         private readonly IStorageLogic storageLogic;
-
         public MainLogic(IOrderLogic orderLogic, IStorageLogic storageLogic)
         {
             this.orderLogic = orderLogic;
             this.storageLogic = storageLogic;
         }
-
         public void CreateOrder(CreateOrderBindingModel model)
         {
             orderLogic.CreateOrUpdate(new OrderBindingModel
@@ -30,7 +27,6 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 Status = OrderStatus.Принят
             });
         }
-
         public void TakeOrderInWork(ChangeStatusBindingModel model)
         {
             var order = orderLogic.Read(new OrderBindingModel
@@ -45,6 +41,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
+            Console.WriteLine($"Take order with id {order.Id} and bouquet id {order.BouquetId}");
             try
             {
                 storageLogic.RemoveFromStorage(order.BouquetId, order.Count);
@@ -64,8 +61,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 throw;
             }
         }
-
-            public void FinishOrder(ChangeStatusBindingModel model)
+        public void FinishOrder(ChangeStatusBindingModel model)
         {
             var order = orderLogic.Read(new OrderBindingModel
             {
@@ -90,7 +86,6 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 Status = OrderStatus.Готов
             });
         }
-
         public void PayOrder(ChangeStatusBindingModel model)
         {
             var order = orderLogic.Read(new OrderBindingModel

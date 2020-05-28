@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlowerShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(FlowerShopDatabase))]
-    [Migration("20200424083827_InitialCreate")]
+    [Migration("20200528202409_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,6 +113,47 @@ namespace FlowerShopDatabaseImplement.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("FlowerShopDatabaseImplement.Models.Storage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("StorageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Storages");
+                });
+
+            modelBuilder.Entity("FlowerShopDatabaseImplement.Models.StorageFlower", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FlowerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StorageId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FlowerId");
+
+                    b.HasIndex("StorageId");
+
+                    b.ToTable("StorageFlowers");
+                });
+
             modelBuilder.Entity("FlowerShopDatabaseImplement.Models.BouquetFlower", b =>
                 {
                     b.HasOne("FlowerShopDatabaseImplement.Models.Bouquet", "Bouquet")
@@ -133,6 +174,21 @@ namespace FlowerShopDatabaseImplement.Migrations
                     b.HasOne("FlowerShopDatabaseImplement.Models.Bouquet", "Bouquet")
                         .WithMany("Orders")
                         .HasForeignKey("BouquetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("FlowerShopDatabaseImplement.Models.StorageFlower", b =>
+                {
+                    b.HasOne("FlowerShopDatabaseImplement.Models.Flower", "Flower")
+                        .WithMany("StorageFlowers")
+                        .HasForeignKey("FlowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FlowerShopDatabaseImplement.Models.Storage", "Storage")
+                        .WithMany("StorageFlowers")
+                        .HasForeignKey("StorageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
