@@ -116,7 +116,7 @@ namespace FlowerShopListImplement.Implements
                 BouquetId = Order.BouquetId,
                 ClientId = Order.ClientId,
                 ClientFIO = Order.ClientFIO,
-                ImplementorId = Order.ImplementerId,
+                ImplementerId = Order.ImplementerId,
                 ImplementerFIO = Order.ImplementerFIO,
                 Status = Order.Status,
                 DateCreate = Order.DateCreate,

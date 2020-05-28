@@ -59,7 +59,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 {
                     throw new Exception("Заказ не в статусе \"Принят\"");
                 }
-                if (order.ImplementorId.HasValue)
+                if (order.ImplementerId.HasValue)
                 {
                     throw new Exception("У заказа уже есть исполнитель");
                 }
@@ -112,7 +112,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 ClientId = order.ClientId,
                 ClientFIO = order.ClientFIO,
                 ImplementerFIO = order.ImplementerFIO,
-                ImplementerId = order.ImplementorId.Value,
+                ImplementerId = order.ImplementerId.Value,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Готов
@@ -151,7 +151,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 ClientId = order.ClientId,
                 ClientFIO = order.ClientFIO,
                 ImplementerFIO = order.ImplementerFIO,
-                ImplementerId = order.ImplementorId.Value,
+                ImplementerId = order.ImplementerId.Value,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен

@@ -75,7 +75,7 @@ namespace FlowerShopFileImplement.Implements
                 BouquetId = rec.BouquetId,
                 ClientFIO = source.Clients.FirstOrDefault(recC => recC.Id == rec.ClientId)?.ClientFIO,
                 ClientId = rec.ClientId,
-                ImplementorId = rec.ImplementerId,
+                ImplementerId = rec.ImplementerId,
                 ImplementerFIO = !string.IsNullOrEmpty(rec.ImplementerFIO) ? rec.ImplementerFIO : string.Empty,
                 Status = rec.Status,
                 DateCreate = rec.DateCreate,

@@ -3,24 +3,28 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Runtime.Serialization;
+using FlowerShopBusinessLogic.Attributes;
 
 namespace FlowerShopBusinessLogic.ViewModels
 {
     [DataContract]
-    public class BouquetViewModel
+    public class BouquetViewModel : BaseViewModel
     {
         [DataMember]
-        public int Id { get; set; }
-
-        [DataMember]
-        [DisplayName("Название композиции")]
         public string BouquetName { get; set; }
 
+        [Column(title: "Цена", width: 50)]
         [DataMember]
-        [DisplayName("Цена")]
         public decimal Price { get; set; }
 
         [DataMember]
         public Dictionary<int, (string, int)> BouquetFlowers { get; set; }
+
+        public override List<string> Properties() => new List<string>
+        {
+            "Id",
+            "BouquetName",
+            "Price"
+        };
     }
 }
