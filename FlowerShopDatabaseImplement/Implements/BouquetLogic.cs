@@ -24,7 +24,7 @@ namespace FlowerShopDatabaseImplement.Implements
                        rec.BouquetName == model.BouquetName && rec.Id != model.Id);
                         if (element != null)
                         {
-                            throw new Exception("Уже есть букет с таким названием");
+                            throw new Exception("Уже есть изделие с таким названием");
                         }
                         if (model.Id.HasValue)
                         {

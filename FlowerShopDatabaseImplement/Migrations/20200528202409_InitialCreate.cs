@@ -35,6 +35,19 @@ namespace FlowerShopDatabaseImplement.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Storages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StorageName = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Storages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -85,6 +98,33 @@ namespace FlowerShopDatabaseImplement.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "StorageFlowers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StorageId = table.Column<int>(nullable: false),
+                    FlowerId = table.Column<int>(nullable: false),
+                    Count = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StorageFlowers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StorageFlowers_Flowers_FlowerId",
+                        column: x => x.FlowerId,
+                        principalTable: "Flowers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StorageFlowers_Storages_StorageId",
+                        column: x => x.StorageId,
+                        principalTable: "Storages",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_BouquetFlowers_BouquetId",
                 table: "BouquetFlowers",
@@ -99,6 +139,16 @@ namespace FlowerShopDatabaseImplement.Migrations
                 name: "IX_Orders_BouquetId",
                 table: "Orders",
                 column: "BouquetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StorageFlowers_FlowerId",
+                table: "StorageFlowers",
+                column: "FlowerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StorageFlowers_StorageId",
+                table: "StorageFlowers",
+                column: "StorageId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -110,10 +160,16 @@ namespace FlowerShopDatabaseImplement.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Flowers");
+                name: "StorageFlowers");
 
             migrationBuilder.DropTable(
                 name: "Bouquets");
+
+            migrationBuilder.DropTable(
+                name: "Flowers");
+
+            migrationBuilder.DropTable(
+                name: "Storages");
         }
     }
 }
