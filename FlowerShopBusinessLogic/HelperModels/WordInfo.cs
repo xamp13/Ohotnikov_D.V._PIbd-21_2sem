@@ -12,5 +12,8 @@ namespace FlowerShopBusinessLogic.HelperModels
         public string Title { get; set; }
 
         public List<BouquetViewModel> Bouquets { get; set; }
+
+        public List<StorageViewModel> Storages { get; set; }
+
     }
 }

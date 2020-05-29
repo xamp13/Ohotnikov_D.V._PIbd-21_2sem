@@ -62,80 +62,103 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                     CellFromName = "A1",
                     CellToName = "C1"
                 });
-                InsertCellInWorksheet(new ExcelCellParameters
+                uint rowIndex = 2;
+
+                if (info.BouquetFlowers != null)
                 {
-                    Worksheet = worksheetPart.Worksheet,
-                    ShareStringPart = shareStringPart,
-                    ColumnName = "A",
-                    RowIndex = 2,
-                    Text = "Дата",
-                    StyleIndex = 0U
-                });
-                InsertCellInWorksheet(new ExcelCellParameters
-                {
-                    Worksheet = worksheetPart.Worksheet,
-                    ShareStringPart = shareStringPart,
-                    ColumnName = "B",
-                    RowIndex = 2,
-                    Text = "Букет",
-                    StyleIndex = 0U
-                });
-                InsertCellInWorksheet(new ExcelCellParameters
-                {
-                    Worksheet = worksheetPart.Worksheet,
-                    ShareStringPart = shareStringPart,
-                    ColumnName = "C",
-                    RowIndex = 2,
-                    Text = "Сумма заказа",
-                    StyleIndex = 0U
-                });
-                uint rowIndex = 3;
-                foreach (var order in info.Orders)
-                {
-                    InsertCellInWorksheet(new ExcelCellParameters
-                    {
-                        Worksheet = worksheetPart.Worksheet,
-                        ShareStringPart = shareStringPart,
-                        ColumnName = "A",
-                        RowIndex = rowIndex,
-                        Text = order.Key.ToShortDateString(),
-                        StyleIndex = 0U
-                    });
-                    rowIndex++;
-                    decimal total = 0;
-                    foreach (var bouquet in order)
+                    foreach (var pc in info.BouquetFlowers)
                     {
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
                             Worksheet = worksheetPart.Worksheet,
                             ShareStringPart = shareStringPart,
-                            ColumnName = "B",
+                            ColumnName = "A",
                             RowIndex = rowIndex,
-                            Text = bouquet.BouquetName,
+                            Text = pc.BouquetName,
                             StyleIndex = 0U
                         });
+                        rowIndex++;
+                        foreach (var flower in pc.Flowers)
+                        {
+                            InsertCellInWorksheet(new ExcelCellParameters
+                            {
+                                Worksheet = worksheetPart.Worksheet,
+                                ShareStringPart = shareStringPart,
+                                ColumnName = "B",
+                                RowIndex = rowIndex,
+                                Text = flower.Item1,
+                                StyleIndex = 1U
+                            });
+                            InsertCellInWorksheet(new ExcelCellParameters
+                            {
+                                Worksheet = worksheetPart.Worksheet,
+                                ShareStringPart = shareStringPart,
+                                ColumnName = "C",
+                                RowIndex = rowIndex,
+                                Text = flower.Item2.ToString(),
+                                StyleIndex = 1U
+                            });
+                            rowIndex++;
+                        }
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
                             Worksheet = worksheetPart.Worksheet,
                             ShareStringPart = shareStringPart,
                             ColumnName = "C",
                             RowIndex = rowIndex,
-                            Text = bouquet.Sum.ToString(),
+                            Text = pc.TotalCount.ToString(),
                             StyleIndex = 0U
                         });
-                        total += bouquet.Sum;
                         rowIndex++;
                     }
-                    InsertCellInWorksheet(new ExcelCellParameters
+                }
+                else
+                {
+                    foreach (var sf in info.StorageFlowers)
                     {
-                        Worksheet = worksheetPart.Worksheet,
-                        ShareStringPart = shareStringPart,
-                        ColumnName = "C",
-                        RowIndex = rowIndex,
-                        Text = total.ToString(),
-                        StyleIndex = 0U
-                    });
-                    rowIndex++;
+                        InsertCellInWorksheet(new ExcelCellParameters
+                        {
+                            Worksheet = worksheetPart.Worksheet,
+                            ShareStringPart = shareStringPart,
+                            ColumnName = "A",
+                            RowIndex = rowIndex,
+                            Text = sf.StorageName,
+                            StyleIndex = 0U
+                        });
+                        rowIndex++;
+                        foreach (var flower in sf.Flowers)
+                        {
+                            InsertCellInWorksheet(new ExcelCellParameters
+                            {
+                                Worksheet = worksheetPart.Worksheet,
+                                ShareStringPart = shareStringPart,
+                                ColumnName = "B",
+                                RowIndex = rowIndex,
+                                Text = flower.Item1,
+                                StyleIndex = 1U
+                            });
+                            InsertCellInWorksheet(new ExcelCellParameters
+                            {
+                                Worksheet = worksheetPart.Worksheet,
+                                ShareStringPart = shareStringPart,
+                                ColumnName = "C",
+                                RowIndex = rowIndex,
+                                Text = flower.Item2.ToString(),
+                                StyleIndex = 1U
+                            });
+                            rowIndex++;
+                        }
+                        InsertCellInWorksheet(new ExcelCellParameters
+                        {
+                            Worksheet = worksheetPart.Worksheet,
+                            ShareStringPart = shareStringPart,
+                            ColumnName = "C",
+                            RowIndex = rowIndex,
+                            Text = sf.TotalCount.ToString(),
+                            StyleIndex = 0U
+                        });
+                        rowIndex++;
+                    }
                 }
                 workbookpart.Workbook.Save();
             }

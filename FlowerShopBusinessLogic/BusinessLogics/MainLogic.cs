@@ -58,7 +58,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
         public void FinishOrder(ChangeStatusBindingModel model)

@@ -4,9 +4,9 @@ using System.Text;
 
 namespace FlowerShopBusinessLogic.ViewModels
 {
-    public class ReportBouquetFlowerViewModel
+    public class ReportStorageFlowerViewModel
     {
-        public string BouquetName { get; set; }
+        public string StorageName { get; set; }
 
         public int TotalCount { get; set; }
 

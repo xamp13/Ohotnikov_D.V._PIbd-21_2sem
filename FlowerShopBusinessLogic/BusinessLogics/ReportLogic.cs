@@ -5,44 +5,80 @@ using FlowerShopBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Text;
 
 namespace FlowerShopBusinessLogic.BusinessLogics
 {
     public class ReportLogic
     {
-        private readonly IFlowerLogic flowerLogic;
-        private readonly IBouquetLogic bouquetLogic;
+        private readonly IFlowerLogic FlowerLogic;
+        private readonly IBouquetLogic BouquetLogic;
         private readonly IOrderLogic orderLogic;
-
-        public ReportLogic(IBouquetLogic bouquetLogic, IFlowerLogic flowerLogic, IOrderLogic orderLogic)
+        private readonly IStorageLogic StorageLogic;
+        public ReportLogic(IBouquetLogic BouquetLogic, IFlowerLogic FlowerLogic,
+       IOrderLogic orderLLogic, IStorageLogic storageLogic)
         {
-            this.bouquetLogic = bouquetLogic;
-            this.flowerLogic = flowerLogic;
-            this.orderLogic = orderLogic;
+            this.BouquetLogic = BouquetLogic;
+            this.FlowerLogic = FlowerLogic;
+            this.orderLogic = orderLLogic;
+            this.StorageLogic = storageLogic;
         }
 
         public List<ReportBouquetFlowerViewModel> GetBouquetFlower()
         {
-            var Bouquets = bouquetLogic.Read(null);
+            var Flowers = FlowerLogic.Read(null);
+            var Bouquets = BouquetLogic.Read(null);
             var list = new List<ReportBouquetFlowerViewModel>();
             foreach (var bouquet in Bouquets)
             {
-                foreach (var bf in bouquet.BouquetFlowers)
+                var record = new ReportBouquetFlowerViewModel
                 {
-                    var record = new ReportBouquetFlowerViewModel
+                    BouquetName = bouquet.BouquetName,
+                    Flowers = new List<Tuple<string, int>>(),
+                    TotalCount = 0
+                };
+                foreach (var flower in Flowers)
+                {
+                    if (bouquet.BouquetFlowers.ContainsKey(flower.Id))
                     {
-                        BouquetName = bouquet.BouquetName,
-                        FlowerName = bf.Value.Item1,
-                        Count = bf.Value.Item2
-                    };
-                    list.Add(record);
+                        record.Flowers.Add(new Tuple<string, int>(flower.FlowerName,
+                       bouquet.BouquetFlowers[flower.Id].Item2));
+                        record.TotalCount +=
+                       bouquet.BouquetFlowers[flower.Id].Item2;
+                    }
                 }
+                list.Add(record);
             }
             return list;
         }
-
-        public List<IGrouping<DateTime, ReportOrdersViewModel>> GetOrders(ReportBindingModel model)
+        public List<ReportStorageFlowerViewModel> GetStorageFlower()
+        {
+            var flowers = FlowerLogic.Read(null);
+            var storages = StorageLogic.GetList();
+            var list = new List<ReportStorageFlowerViewModel>();
+            foreach (var storage in storages)
+            {
+                var record = new ReportStorageFlowerViewModel
+                {
+                    StorageName = storage.StorageName,
+                    Flowers = new List<Tuple<string, int>>(),
+                    TotalCount = 0
+                };
+                foreach (var flower in flowers)
+                {
+                    var storageFlowers = storage.StorageFlowers.Find(x => x.FlowerId == flower.Id);
+                    if (storageFlowers != null)
+                    {
+                        record.Flowers.Add(new Tuple<string, int>(flower.FlowerName,
+                       storageFlowers.Count));
+                        record.TotalCount += storageFlowers.Count;
+                    }
+                }
+                list.Add(record);
+            }
+            return list;
+        }
+        public List<ReportOrdersViewModel> GetOrders(ReportBindingModel model)
         {
             return orderLogic.Read(new OrderBindingModel
             {
@@ -57,48 +93,85 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 Sum = x.Sum,
                 Status = x.Status
             })
-            .GroupBy(x => x.DateCreate.Date)
            .ToList();
         }
-
-        /// <summary>
-        /// Сохранение компонент в файл-Word
-        /// </summary>
-        /// <param name="model"></param>
-        public void SaveBouquetsToWordFile(ReportBindingModel model)
+        public List<ReportFlowersViewModel> GetFlowers()
+        {
+            List<ReportFlowersViewModel> result = new List<ReportFlowersViewModel>();
+            var storages = StorageLogic.GetList();
+            foreach (var storage in storages)
+            {
+                var storageFlowers = storage.StorageFlowers;
+                foreach (var sf in storageFlowers)
+                {
+                    result.Add(new ReportFlowersViewModel
+                    {
+                        StorageName = storage.StorageName,
+                        FlowerName = FlowerLogic.Read(new FlowerBindingModel
+                        {
+                            Id = sf.FlowerId
+                        })[0].FlowerName,
+                        Count = sf.Count
+                    });
+                }
+            }
+            return result.OrderBy(x => x.FlowerName).ToList();
+        }
+        public void SaveFlowersToWordFile(ReportBindingModel model)
         {
             SaveToWord.CreateDoc(new WordInfo
             {
                 FileName = model.FileName,
                 Title = "Список букетов",
-                Bouquets = bouquetLogic.Read(null)
+                Bouquets = BouquetLogic.Read(null)
+            });
+
+        }
+        public void SaveStoragesToWordFile(ReportBindingModel model)
+        {
+            SaveToWord.CreateDoc(new WordInfo
+            {
+                FileName = model.FileName,
+                Title = "Список складов",
+                Storages = StorageLogic.GetList()
             });
         }
-        /// <summary>
-        /// Сохранение закусок с указаеним продуктов в файл-Excel
-        /// </summary>
-        /// <param name="model"></param>
-        public void SaveOrdersToExcelFile(ReportBindingModel model)
+        public void SaveStorageFlowerToExcelFile(ReportBindingModel model)
         {
             SaveToExcel.CreateDoc(new ExcelInfo
             {
                 FileName = model.FileName,
-                Title = "Список заказов",
-                Orders = GetOrders(model)
+                Title = "Список складов",
+                StorageFlowers = GetStorageFlower()
             });
         }
-
-        /// <summary>
-        /// Сохранение закусок с продуктами в файл-Pdf
-        /// </summary>
-        /// <param name="model"></param>
-        public void SaveBouquetFlowersToPdfFile(ReportBindingModel model)
+        public void SaveBouquetFlowerToExcelFile(ReportBindingModel model)
+        {
+            SaveToExcel.CreateDoc(new ExcelInfo
+            {
+                FileName = model.FileName,
+                Title = "Список букетов",
+                BouquetFlowers = GetBouquetFlower()
+            });
+        }
+        public void SaveOrdersToPdfFile(ReportBindingModel model)
         {
             SaveToPdf.CreateDoc(new PdfInfo
             {
                 FileName = model.FileName,
-                Title = "Список букетов по цветам",
-                BouquetFlowers = GetBouquetFlower(),
+                Title = "Список заказов",
+                DateFrom = model.DateFrom.Value,
+                DateTo = model.DateTo.Value,
+                Orders = GetOrders(model)
+            });
+        }
+        public void SaveFlowersToPdfFile(ReportBindingModel model)
+        {
+            SaveToPdf.CreateDoc(new PdfInfo
+            {
+                FileName = model.FileName,
+                Title = "Список цветов",
+                Flowers = GetFlowers()
             });
         }
     }

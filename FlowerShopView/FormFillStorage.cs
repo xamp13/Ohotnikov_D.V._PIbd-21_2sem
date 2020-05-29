@@ -59,12 +59,14 @@ namespace FlowerShopView
             }
             if (comboBoxStorage.SelectedValue == null)
             {
-                MessageBox.Show("Выберите склад", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Выберите склад", "Ошибка", MessageBoxButtons.OK,
+MessageBoxIcon.Error);
                 return;
             }
             if (comboBoxFlower.SelectedValue == null)
             {
-                MessageBox.Show("Выберите цветок", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Выберите цветок", "Ошибка", MessageBoxButtons.OK,
+MessageBoxIcon.Error);
                 return;
             }
 

@@ -1,4 +1,6 @@
-﻿using FlowerShopBusinessLogic.BusinessLogics;
+﻿using FlowerShopBusinessLogic.BindingModels;
+using FlowerShopBusinessLogic.BusinessLogics;
+using Microsoft.Reporting.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,8 +11,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
-using FlowerShopBusinessLogic.BindingModels;
-using FlowerShopBusinessLogic.ViewModels;
 
 namespace FlowerShopView
 {
@@ -24,7 +24,7 @@ namespace FlowerShopView
             InitializeComponent();
             this.logic = logic;
         }
-        private void buttonSaveToExcel_Click(object sender, EventArgs e)
+        private void ButtonMake_Click(object sender, EventArgs e)
         {
             if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
             {
@@ -32,17 +32,50 @@ namespace FlowerShopView
                "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            using (var dialog = new SaveFileDialog { Filter = "xlsx|*.xlsx" })
+            try
+            {
+                ReportParameter parameter = new ReportParameter("ReportParameterPeriod",
+                "c " +
+               dateTimePickerFrom.Value.ToShortDateString() +
+                " по " +
+               dateTimePickerTo.Value.ToShortDateString());
+                reportViewer.LocalReport.SetParameters(parameter);
+                var dataSource = logic.GetOrders(new ReportBindingModel
+                {
+                    DateFrom = dateTimePickerFrom.Value,
+                    DateTo = dateTimePickerTo.Value
+                });
+                ReportDataSource source = new ReportDataSource("DataSetOrders",
+               dataSource);
+                reportViewer.LocalReport.DataSources.Clear();
+                reportViewer.LocalReport.DataSources.Add(source);
+                reportViewer.RefreshReport();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
+            }
+        }
+        private void ButtonToPdf_Click(object sender, EventArgs e)
+        {
+            if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
+            {
+                MessageBox.Show("Дата начала должна быть меньше даты окончания",
+               "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            using (var dialog = new SaveFileDialog { Filter = "pdf|*.pdf" })
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     try
                     {
-                        logic.SaveOrdersToExcelFile(new ReportBindingModel
+                        logic.SaveOrdersToPdfFile(new ReportBindingModel
                         {
-                            DateFrom = dateTimePickerFrom.Value.Date,
-                            DateTo = dateTimePickerTo.Value.Date,
-                            FileName = dialog.FileName
+                            FileName = dialog.FileName,
+                            DateFrom = dateTimePickerFrom.Value,
+                            DateTo = dateTimePickerTo.Value
                         });
                         MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
@@ -53,44 +86,6 @@ namespace FlowerShopView
                        MessageBoxIcon.Error);
                     }
                 }
-            }
-        }
-
-        private void buttonCreate_Click(object sender, EventArgs e)
-        {
-            if (dateTimePickerFrom.Value.Date >= dateTimePickerTo.Value.Date)
-            {
-                MessageBox.Show("Дата начала должна быть меньше даты окончания",
-               "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            try
-            {
-                dataGridView.Rows.Clear();
-                var query = logic.GetOrders(new ReportBindingModel
-                {
-                    DateFrom = dateTimePickerFrom.Value.Date,
-                    DateTo = dateTimePickerTo.Value.Date
-                });
-                foreach (IGrouping<DateTime, ReportOrdersViewModel> group in query)
-                {
-                    dataGridView.Rows.Add(new object[] { group.Key.ToShortDateString(), "", ""
-});
-                    decimal total = 0;
-                    foreach (var model in group)
-                    {
-                        dataGridView.Rows.Add(new object[] { "", model.BouquetName,
-                            model.Sum });
-                        total += model.Sum;
-                    }
-                    dataGridView.Rows.Add(new object[] { "Итого", "", total });
-                    dataGridView.Rows.Add(new object[] { });
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-               MessageBoxIcon.Error);
             }
         }
     }

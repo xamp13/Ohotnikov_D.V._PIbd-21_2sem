@@ -1,4 +1,6 @@
 ﻿using FlowerShopBusinessLogic.BusinessLogics;
+using FlowerShopBusinessLogic.BindingModels;
+using Microsoft.Reporting.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,58 +11,50 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
-using FlowerShopBusinessLogic.BindingModels;
 
 namespace FlowerShopView
 {
-    public partial class FormReportBouquetFlowers : Form
+    public partial class FormReportFlowers : Form
     {
-        [Dependency]
         public new IUnityContainer Container { get; set; }
         private readonly ReportLogic logic;
-        public FormReportBouquetFlowers(ReportLogic logic)
+        public FormReportFlowers(ReportLogic logic)
         {
             InitializeComponent();
             this.logic = logic;
         }
-        private void FormReportBouquetFlowers_Load(object sender, EventArgs e)
+
+        private void FormReportFlowers_Load(object sender, EventArgs e)
         {
+
+            //this.reportViewer1.RefreshReport();
             try
             {
-                var dict = logic.GetBouquetFlower();
-                if (dict != null)
-                {
-                    dataGridView.Rows.Clear();
-                    foreach (var elem in dict)
-                    {
-                        dataGridView.Rows.Add(new object[] { elem.BouquetName, "", ""
-});
-                        foreach (var listElem in elem.Flowers)
-                        {
-                            dataGridView.Rows.Add(new object[] { "", listElem.Item1,
-listElem.Item2 });
-                        }
-                        dataGridView.Rows.Add(new object[] { "Итого", "", elem.TotalCount
-});
-                        dataGridView.Rows.Add(new object[] { });
-                    }
-                }
+                Console.WriteLine("set flowers");
+                var dataSource = logic.GetFlowers();
+                ReportDataSource source = new ReportDataSource("DataSetFlowers",
+               dataSource);
+                reportViewer.LocalReport.DataSources.Clear();
+                reportViewer.LocalReport.DataSources.Add(source);
+                reportViewer.RefreshReport();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
                MessageBoxIcon.Error);
             }
+            this.reportViewer.RefreshReport();
         }
-        private void buttonSaveToExcel_Click(object sender, EventArgs e)
+
+        private void buttonSaveToPdf_Click(object sender, EventArgs e)
         {
-            using (var dialog = new SaveFileDialog { Filter = "xlsx|*.xlsx" })
+            using (var dialog = new SaveFileDialog { Filter = "pdf|*.pdf" })
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     try
                     {
-                        logic.SaveBouquetFlowerToExcelFile(new ReportBindingModel
+                        logic.SaveFlowersToPdfFile(new ReportBindingModel
                         {
                             FileName = dialog.FileName
                         });
