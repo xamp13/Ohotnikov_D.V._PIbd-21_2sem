@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200523092845_StorageMig.cs" />
+    <Compile Remove="Migrations\20200523092845_StorageMig.Designer.cs" />
+    <Compile Remove="Migrations\20200523093215_StorageMigration.cs" />
+    <Compile Remove="Migrations\20200523093215_StorageMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200523093530_StorageMigration.cs" />
+    <Compile Remove="Migrations\20200523093530_StorageMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200523094203_Storage-Migration.cs" />
+    <Compile Remove="Migrations\20200523094203_Storage-Migration.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FlowerShopBusinessLogic\FlowerShopBusinessLogic.csproj" />
+  </ItemGroup>
+
+</Project>
