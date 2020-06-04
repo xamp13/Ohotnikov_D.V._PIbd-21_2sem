@@ -12,7 +12,7 @@ namespace FlowerShopBusinessLogic.HelperModels
 
         public string Title { get; set; }
 
-        public List<ReportBouquetFlowerViewModel> BouquetFlowers { get; set; }
-        public List<ReportStorageFlowerViewModel> StorageFlowers { get; set; }
+        public List<IGrouping<DateTime, OrderViewModel>> Orders { get; set; }
+        public List<StorageViewModel> Storages { get; set; }
     }
 }

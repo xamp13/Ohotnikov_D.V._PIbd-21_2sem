@@ -28,75 +28,58 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.Flower = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Bouquet = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Count = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.buttonSaveToExcel = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            this.buttonMake = new System.Windows.Forms.Button();
+            this.buttonToPdf = new System.Windows.Forms.Button();
+            this.reportViewer = new Microsoft.Reporting.WinForms.ReportViewer();
             this.SuspendLayout();
             // 
-            // dataGridView
+            // buttonMake
             // 
-            this.dataGridView.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Bouquet,
-            this.Flower,
-            this.Count});
-            this.dataGridView.GridColor = System.Drawing.SystemColors.ButtonShadow;
-            this.dataGridView.Location = new System.Drawing.Point(12, 82);
-            this.dataGridView.Name = "dataGridView";
-            this.dataGridView.RowTemplate.Height = 28;
-            this.dataGridView.Size = new System.Drawing.Size(793, 625);
-            this.dataGridView.TabIndex = 0;
+            this.buttonMake.Location = new System.Drawing.Point(58, 12);
+            this.buttonMake.Name = "buttonMake";
+            this.buttonMake.Size = new System.Drawing.Size(172, 36);
+            this.buttonMake.TabIndex = 0;
+            this.buttonMake.Text = "Сформировать";
+            this.buttonMake.UseVisualStyleBackColor = true;
+            this.buttonMake.Click += new System.EventHandler(this.buttonMake_Click);
             // 
-            // Flower
+            // buttonToPdf
             // 
-            this.Flower.HeaderText = "Цветок";
-            this.Flower.Name = "Flower";
+            this.buttonToPdf.Location = new System.Drawing.Point(514, 10);
+            this.buttonToPdf.Name = "buttonToPdf";
+            this.buttonToPdf.Size = new System.Drawing.Size(182, 38);
+            this.buttonToPdf.TabIndex = 1;
+            this.buttonToPdf.Text = "В Pdf";
+            this.buttonToPdf.UseVisualStyleBackColor = true;
+            this.buttonToPdf.Click += new System.EventHandler(this.buttonToPdf_Click);
             // 
-            // Bouquet
+            // reportViewer
             // 
-            this.Bouquet.HeaderText = "Букет";
-            this.Bouquet.Name = "Bouquet";
+            this.reportViewer.LocalReport.ReportEmbeddedResource = "FlowerShopView.Report.rdlc";
+            this.reportViewer.Location = new System.Drawing.Point(12, 68);
+            this.reportViewer.Name = "reportViewer";
+            this.reportViewer.ServerReport.BearerToken = null;
+            this.reportViewer.Size = new System.Drawing.Size(1059, 428);
+            this.reportViewer.TabIndex = 2;
             // 
-            // Count
+            // FormReportMebelZagotovkas
             // 
-            this.Count.HeaderText = "Количество";
-            this.Count.Name = "Count";
-            // 
-            // buttonSaveToExcel
-            // 
-            this.buttonSaveToExcel.Location = new System.Drawing.Point(12, 22);
-            this.buttonSaveToExcel.Name = "buttonSaveToExcel";
-            this.buttonSaveToExcel.Size = new System.Drawing.Size(184, 41);
-            this.buttonSaveToExcel.TabIndex = 1;
-            this.buttonSaveToExcel.Text = "Сохранить в Excel";
-            this.buttonSaveToExcel.UseVisualStyleBackColor = true;
-            this.buttonSaveToExcel.Click += new System.EventHandler(this.buttonSaveToExcel_Click);
-            // 
-            // FormReportBouquetFlowers
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 710);
-            this.Controls.Add(this.buttonSaveToExcel);
-            this.Controls.Add(this.dataGridView);
+            this.ClientSize = new System.Drawing.Size(1083, 502);
+            this.Controls.Add(this.reportViewer);
+            this.Controls.Add(this.buttonToPdf);
+            this.Controls.Add(this.buttonMake);
             this.Name = "FormReportBouquetFlowers";
-            this.Text = "Цветы по букетам";
-            this.Load += new System.EventHandler(this.FormReportBouquetFlowers_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            this.Text = "Отчет по букетам с цветами";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Flower;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Bouquet;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Count;
-        private System.Windows.Forms.Button buttonSaveToExcel;
+        private System.Windows.Forms.Button buttonMake;
+        private System.Windows.Forms.Button buttonToPdf;
+        private Microsoft.Reporting.WinForms.ReportViewer reportViewer;
     }
 }

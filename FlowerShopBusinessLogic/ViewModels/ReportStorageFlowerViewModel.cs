@@ -8,8 +8,8 @@ namespace FlowerShopBusinessLogic.ViewModels
     {
         public string StorageName { get; set; }
 
-        public int TotalCount { get; set; }
+        public string FlowerName { get; set; }
 
-        public List<Tuple<string, int>> Flowers { get; set; }
+        public int Count { get; set; }
     }
 }

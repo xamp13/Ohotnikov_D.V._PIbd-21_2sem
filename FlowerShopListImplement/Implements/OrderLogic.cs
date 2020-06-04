@@ -10,14 +10,11 @@ namespace FlowerShopListImplement.Implements
 {
     public class OrderLogic : IOrderLogic
     {
-
         private readonly DataListSingleton source;
-
         public OrderLogic()
         {
             source = DataListSingleton.GetInstance();
         }
-
         public void CreateOrUpdate(OrderBindingModel model)
         {
             Order tempOrder = model.Id.HasValue ? null : new Order
@@ -48,7 +45,6 @@ namespace FlowerShopListImplement.Implements
                 source.Orders.Add(CreateModel(model, tempOrder));
             }
         }
-
         public void Delete(OrderBindingModel model)
         {
             for (int i = 0; i < source.Orders.Count; ++i)
@@ -61,7 +57,6 @@ namespace FlowerShopListImplement.Implements
             }
             throw new Exception("Элемент не найден");
         }
-
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             List<OrderViewModel> result = new List<OrderViewModel>();
@@ -69,7 +64,7 @@ namespace FlowerShopListImplement.Implements
             {
                 if (model != null)
                 {
-                    if (Order.Id == model.Id)
+                    if (Order.Id == model.Id || (model.DateFrom.HasValue && model.DateTo.HasValue && Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo))
                     {
                         result.Add(CreateViewModel(Order));
                         break;
@@ -80,7 +75,6 @@ namespace FlowerShopListImplement.Implements
             }
             return result;
         }
-
         private Order CreateModel(OrderBindingModel model, Order Order)
         {
             Order.BouquetId = model.BouquetId == 0 ? Order.BouquetId : model.BouquetId;
@@ -91,7 +85,6 @@ namespace FlowerShopListImplement.Implements
             Order.DateImplement = model.DateImplement;
             return Order;
         }
-
         private OrderViewModel CreateViewModel(Order Order)
         {
             string BouquetName = "";

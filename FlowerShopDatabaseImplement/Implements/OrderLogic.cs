@@ -16,38 +16,38 @@ namespace FlowerShopDatabaseImplement.Implements
         {
             using (var context = new FlowerShopDatabase())
             {
-                Order order;
+                Order element;
                 if (model.Id.HasValue)
                 {
-                    order = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
-                    if (order == null)
+                    element = context.Orders.FirstOrDefault(rec => rec.Id ==
+                   model.Id);
+                    if (element == null)
                     {
                         throw new Exception("Элемент не найден");
                     }
                 }
                 else
                 {
-                    order = new Order();
-                    context.Orders.Add(order);
+                    element = new Order();
+                    context.Orders.Add(element);
                 }
-                order.BouquetId = model.BouquetId == 0 ? order.BouquetId : model.BouquetId;
-                order.Count = model.Count;
-                order.Sum = model.Sum;
-                order.Status = model.Status;
-                order.DateCreate = model.DateCreate;
-                order.DateImplement = model.DateImplement;
+                element.BouquetId = model.BouquetId == 0 ? element.BouquetId : model.BouquetId;
+                element.Count = model.Count;
+                element.Sum = model.Sum;
+                element.Status = model.Status;
+                element.DateCreate = model.DateCreate;
+                element.DateImplement = model.DateImplement;
                 context.SaveChanges();
             }
         }
-
         public void Delete(OrderBindingModel model)
         {
             using (var context = new FlowerShopDatabase())
             {
-                Order order = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
-                if (order != null)
+                Order element = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+                if (element != null)
                 {
-                    context.Orders.Remove(order);
+                    context.Orders.Remove(element);
                     context.SaveChanges();
                 }
                 else
@@ -56,26 +56,24 @@ namespace FlowerShopDatabaseImplement.Implements
                 }
             }
         }
-
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             using (var context = new FlowerShopDatabase())
             {
-                return context.Orders
-                .Include(rec => rec.Bouquet)
-            .Where(rec => model == null || rec.Id == model.Id ||
-            (rec.DateCreate <= model.DateTo && rec.DateCreate >= model.DateFrom))
-            .Select(rec => new OrderViewModel
-            {
-                Id = rec.Id,
-                BouquetName = rec.Bouquet.BouquetName,
-                Count = rec.Count,
-                Sum = rec.Sum,
-                Status = rec.Status,
-                DateCreate = rec.DateCreate,
-                DateImplement = rec.DateImplement
-            })
-            .ToList();
+                return context.Orders.Where(rec => model == null || (rec.Id == model.Id && model.Id.HasValue)
+                || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo))
+                .Select(rec => new OrderViewModel
+                {
+                    Id = rec.Id,
+                    BouquetId = rec.BouquetId,
+                    DateCreate = rec.DateCreate,
+                    DateImplement = rec.DateImplement,
+                    Status = rec.Status,
+                    Count = rec.Count,
+                    Sum = rec.Sum,
+                    BouquetName = rec.Bouquet.BouquetName
+                })
+                .ToList();
             }
         }
     }

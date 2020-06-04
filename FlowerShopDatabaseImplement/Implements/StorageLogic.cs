@@ -176,10 +176,10 @@ namespace FlowerShopDatabaseImplement.Implements
                         transaction.Commit();
                         return;
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         transaction.Rollback();
-                        throw ex;
+                        throw;
                     }
                 }
             }

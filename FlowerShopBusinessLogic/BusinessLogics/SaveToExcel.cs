@@ -54,31 +54,31 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                     ColumnName = "A",
                     RowIndex = 1,
                     Text = info.Title,
-                    StyleIndex = 2U
+                    StyleIndex = 1U
                 });
                 MergeCells(new ExcelMergeParameters
                 {
                     Worksheet = worksheetPart.Worksheet,
                     CellFromName = "A1",
-                    CellToName = "C1"
+                    CellToName = "E1"
                 });
                 uint rowIndex = 2;
-
-                if (info.BouquetFlowers != null)
+                if (info.Orders != null)
                 {
-                    foreach (var pc in info.BouquetFlowers)
+                    foreach (var date in info.Orders)
                     {
+                        decimal dateSum = 0;
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
                             Worksheet = worksheetPart.Worksheet,
                             ShareStringPart = shareStringPart,
                             ColumnName = "A",
                             RowIndex = rowIndex,
-                            Text = pc.BouquetName,
+                            Text = date.Key.ToShortDateString(),
                             StyleIndex = 0U
                         });
                         rowIndex++;
-                        foreach (var flower in pc.Flowers)
+                        foreach (var order in date)
                         {
                             InsertCellInWorksheet(new ExcelCellParameters
                             {
@@ -86,7 +86,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                                 ShareStringPart = shareStringPart,
                                 ColumnName = "B",
                                 RowIndex = rowIndex,
-                                Text = flower.Item1,
+                                Text = order.BouquetName,
                                 StyleIndex = 1U
                             });
                             InsertCellInWorksheet(new ExcelCellParameters
@@ -95,38 +95,52 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                                 ShareStringPart = shareStringPart,
                                 ColumnName = "C",
                                 RowIndex = rowIndex,
-                                Text = flower.Item2.ToString(),
+                                Text = order.Sum.ToString(),
                                 StyleIndex = 1U
                             });
+                            dateSum += order.Sum;
                             rowIndex++;
                         }
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
                             Worksheet = worksheetPart.Worksheet,
                             ShareStringPart = shareStringPart,
+                            ColumnName = "A",
+                            RowIndex = rowIndex,
+                            Text = "Итого",
+                            StyleIndex = 0U
+                        });
+                        InsertCellInWorksheet(new ExcelCellParameters
+                        {
+                            Worksheet = worksheetPart.Worksheet,
+                            ShareStringPart = shareStringPart,
                             ColumnName = "C",
                             RowIndex = rowIndex,
-                            Text = pc.TotalCount.ToString(),
+                            Text = dateSum.ToString(),
                             StyleIndex = 0U
                         });
                         rowIndex++;
                     }
                 }
-                else
+                else if (info.Storages != null)
                 {
-                    foreach (var sf in info.StorageFlowers)
+                    foreach (var storage in info.Storages)
                     {
+                        int flowerSum = 0;
+
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
                             Worksheet = worksheetPart.Worksheet,
                             ShareStringPart = shareStringPart,
                             ColumnName = "A",
                             RowIndex = rowIndex,
-                            Text = sf.StorageName,
+                            Text = storage.StorageName,
                             StyleIndex = 0U
                         });
+
                         rowIndex++;
-                        foreach (var flower in sf.Flowers)
+
+                        foreach (var flower in storage.StorageFlowers)
                         {
                             InsertCellInWorksheet(new ExcelCellParameters
                             {
@@ -134,27 +148,42 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                                 ShareStringPart = shareStringPart,
                                 ColumnName = "B",
                                 RowIndex = rowIndex,
-                                Text = flower.Item1,
+                                Text = flower.FlowerName,
                                 StyleIndex = 1U
                             });
+
                             InsertCellInWorksheet(new ExcelCellParameters
                             {
                                 Worksheet = worksheetPart.Worksheet,
                                 ShareStringPart = shareStringPart,
                                 ColumnName = "C",
                                 RowIndex = rowIndex,
-                                Text = flower.Item2.ToString(),
+                                Text = flower.Count.ToString(),
                                 StyleIndex = 1U
                             });
+
+                            flowerSum += flower.Count;
+
                             rowIndex++;
                         }
+
+                        InsertCellInWorksheet(new ExcelCellParameters
+                        {
+                            Worksheet = worksheetPart.Worksheet,
+                            ShareStringPart = shareStringPart,
+                            ColumnName = "A",
+                            RowIndex = rowIndex,
+                            Text = "Итого",
+                            StyleIndex = 0U
+                        });
+
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
                             Worksheet = worksheetPart.Worksheet,
                             ShareStringPart = shareStringPart,
                             ColumnName = "C",
                             RowIndex = rowIndex,
-                            Text = sf.TotalCount.ToString(),
+                            Text = flowerSum.ToString(),
                             StyleIndex = 0U
                         });
                         rowIndex++;
@@ -163,6 +192,10 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 workbookpart.Workbook.Save();
             }
         }
+        /// <summary>
+        /// Настройка стилей для файла
+        /// </summary>
+        /// <param name="workbookpart"></param>
         private static void CreateStyles(WorkbookPart workbookpart)
         {
             WorkbookStylesPart sp = workbookpart.AddNewPart<WorkbookStylesPart>();
@@ -294,7 +327,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
            VerticalAlignmentValues.Center,
                     WrapText = true,
                     Horizontal =
-           HorizontalAlignmentValues.Center
+    HorizontalAlignmentValues.Center
                 },
                 ApplyFont = true
             };
@@ -359,7 +392,14 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             sp.Stylesheet.Append(tableStyles);
             sp.Stylesheet.Append(stylesheetExtensionList);
         }
-
+        /// <summary>
+        /// Добааляем новую ячейку в лист
+        /// </summary>
+        /// <param name="worksheet"></param>
+        /// <param name="columnName"></param>
+        /// <param name="rowIndex"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         private static void InsertCellInWorksheet(ExcelCellParameters cellParameters)
         {
             SheetData sheetData = cellParameters.Worksheet.GetFirstChild<SheetData>();
@@ -415,7 +455,12 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             cell.DataType = new EnumValue<CellValues>(CellValues.SharedString);
             cell.StyleIndex = cellParameters.StyleIndex;
         }
-
+        /// <summary>
+        /// Объединение ячеек
+        /// </summary>
+        /// <param name="worksheet"></param>
+        /// <param name="cell1Name"></param>
+        /// <param name="cell2Name"></param>
         private static void MergeCells(ExcelMergeParameters mergeParameters)
         {
             MergeCells mergeCells;

@@ -31,7 +31,7 @@ namespace FlowerShopView
             try
             {
                 Console.WriteLine("set flowers");
-                var dataSource = logic.GetFlowers();
+                var dataSource = logic.GetStorageFlowers();
                 ReportDataSource source = new ReportDataSource("DataSetFlowers",
                dataSource);
                 reportViewer.LocalReport.DataSources.Clear();

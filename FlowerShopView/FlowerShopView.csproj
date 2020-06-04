@@ -306,6 +306,9 @@
     <EmbeddedResource Include="FormReportOrders.resx">
       <DependentUpon>FormReportOrders.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormReportStorageFlowers.resx">
+      <DependentUpon>FormReportStorageFlowers.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormStorage.resx">
       <DependentUpon>FormStorage.cs</DependentUpon>
     </EmbeddedResource>

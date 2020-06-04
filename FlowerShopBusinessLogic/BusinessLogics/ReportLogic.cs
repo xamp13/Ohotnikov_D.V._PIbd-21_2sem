@@ -11,121 +11,99 @@ namespace FlowerShopBusinessLogic.BusinessLogics
 {
     public class ReportLogic
     {
-        private readonly IFlowerLogic FlowerLogic;
-        private readonly IBouquetLogic BouquetLogic;
+        private readonly IFlowerLogic flowerLogic;
+        private readonly IBouquetLogic bouquetLogic;
         private readonly IOrderLogic orderLogic;
-        private readonly IStorageLogic StorageLogic;
-        public ReportLogic(IBouquetLogic BouquetLogic, IFlowerLogic FlowerLogic,
+        private readonly IStorageLogic storageLogic;
+        public ReportLogic(IBouquetLogic bouquetLogic, IFlowerLogic flowerLogic,
        IOrderLogic orderLLogic, IStorageLogic storageLogic)
         {
-            this.BouquetLogic = BouquetLogic;
-            this.FlowerLogic = FlowerLogic;
+            this.bouquetLogic = bouquetLogic;
+            this.flowerLogic = flowerLogic;
             this.orderLogic = orderLLogic;
-            this.StorageLogic = storageLogic;
+            this.storageLogic = storageLogic;
         }
 
         public List<ReportBouquetFlowerViewModel> GetBouquetFlower()
         {
-            var Flowers = FlowerLogic.Read(null);
-            var Bouquets = BouquetLogic.Read(null);
+            var Bouquets = bouquetLogic.Read(null);
             var list = new List<ReportBouquetFlowerViewModel>();
             foreach (var bouquet in Bouquets)
             {
-                var record = new ReportBouquetFlowerViewModel
+                foreach (var mb in bouquet.BouquetFlowers)
                 {
-                    BouquetName = bouquet.BouquetName,
-                    Flowers = new List<Tuple<string, int>>(),
-                    TotalCount = 0
-                };
-                foreach (var flower in Flowers)
-                {
-                    if (bouquet.BouquetFlowers.ContainsKey(flower.Id))
+                    var record = new ReportBouquetFlowerViewModel
                     {
-                        record.Flowers.Add(new Tuple<string, int>(flower.FlowerName,
-                       bouquet.BouquetFlowers[flower.Id].Item2));
-                        record.TotalCount +=
-                       bouquet.BouquetFlowers[flower.Id].Item2;
-                    }
+                        BouquetName = bouquet.BouquetName,
+                        FlowerName = mb.Value.Item1,
+                        Count = mb.Value.Item2,
+                    };
+                    list.Add(record);
                 }
-                list.Add(record);
             }
             return list;
         }
-        public List<ReportStorageFlowerViewModel> GetStorageFlower()
+        public List<ReportStorageFlowerViewModel> GetStorageFlowers()
         {
-            var flowers = FlowerLogic.Read(null);
-            var storages = StorageLogic.GetList();
+            var storages = storageLogic.GetList();
             var list = new List<ReportStorageFlowerViewModel>();
+
             foreach (var storage in storages)
             {
-                var record = new ReportStorageFlowerViewModel
+                foreach (var sf in storage.StorageFlowers)
                 {
-                    StorageName = storage.StorageName,
-                    Flowers = new List<Tuple<string, int>>(),
-                    TotalCount = 0
-                };
-                foreach (var flower in flowers)
-                {
-                    var storageFlowers = storage.StorageFlowers.Find(x => x.FlowerId == flower.Id);
-                    if (storageFlowers != null)
+                    var record = new ReportStorageFlowerViewModel
                     {
-                        record.Flowers.Add(new Tuple<string, int>(flower.FlowerName,
-                       storageFlowers.Count));
-                        record.TotalCount += storageFlowers.Count;
-                    }
+                        StorageName = storage.StorageName,
+                        FlowerName = sf.FlowerName,
+                        Count = sf.Count
+                    };
+
+                    list.Add(record);
                 }
-                list.Add(record);
             }
             return list;
         }
-        public List<ReportOrdersViewModel> GetOrders(ReportBindingModel model)
+        public List<IGrouping<DateTime, OrderViewModel>> GetOrders(ReportBindingModel model)
         {
-            return orderLogic.Read(new OrderBindingModel
+            var list = orderLogic
+            .Read(new OrderBindingModel
             {
                 DateFrom = model.DateFrom,
                 DateTo = model.DateTo
             })
-            .Select(x => new ReportOrdersViewModel
-            {
-                DateCreate = x.DateCreate,
-                BouquetName = x.BouquetName,
-                Count = x.Count,
-                Sum = x.Sum,
-                Status = x.Status
-            })
-           .ToList();
+            .GroupBy(rec => rec.DateCreate.Date)
+            .OrderBy(recG => recG.Key)
+            .ToList();
+
+            return list;
         }
-        public List<ReportFlowersViewModel> GetFlowers()
-        {
-            List<ReportFlowersViewModel> result = new List<ReportFlowersViewModel>();
-            var storages = StorageLogic.GetList();
-            foreach (var storage in storages)
-            {
-                var storageFlowers = storage.StorageFlowers;
-                foreach (var sf in storageFlowers)
-                {
-                    result.Add(new ReportFlowersViewModel
-                    {
-                        StorageName = storage.StorageName,
-                        FlowerName = FlowerLogic.Read(new FlowerBindingModel
-                        {
-                            Id = sf.FlowerId
-                        })[0].FlowerName,
-                        Count = sf.Count
-                    });
-                }
-            }
-            return result.OrderBy(x => x.FlowerName).ToList();
-        }
-        public void SaveFlowersToWordFile(ReportBindingModel model)
+        public void SaveBouquetsToWordFile(ReportBindingModel model)
         {
             SaveToWord.CreateDoc(new WordInfo
             {
                 FileName = model.FileName,
                 Title = "Список букетов",
-                Bouquets = BouquetLogic.Read(null)
+                Bouquets = bouquetLogic.Read(null)
             });
-
+        }
+        public void SaveOrdersToExcelFile(ReportBindingModel model)
+        {
+            SaveToExcel.CreateDoc(new ExcelInfo
+            {
+                FileName = model.FileName,
+                Title = "Список заказов",
+                Orders = GetOrders(model)
+            });
+        }
+        public void SaveBouquetsToPdfFile(ReportBindingModel model)
+        {
+            SaveToPdf.CreateDoc(new PdfInfo
+            {
+                FileName = model.FileName,
+                Title = "Список цветов по букетам",
+                BouquetFlowers = GetBouquetFlower(),
+            });
         }
         public void SaveStoragesToWordFile(ReportBindingModel model)
         {
@@ -133,45 +111,30 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             {
                 FileName = model.FileName,
                 Title = "Список складов",
-                Storages = StorageLogic.GetList()
+                Bouquets = null,
+                Storages = storageLogic.GetList()
             });
         }
-        public void SaveStorageFlowerToExcelFile(ReportBindingModel model)
+
+        public void SaveStorageFlowersToExcelFile(ReportBindingModel model)
         {
             SaveToExcel.CreateDoc(new ExcelInfo
             {
                 FileName = model.FileName,
-                Title = "Список складов",
-                StorageFlowers = GetStorageFlower()
+                Title = "Список цветов на складах",
+                Orders = null,
+                Storages = storageLogic.GetList()
             });
         }
-        public void SaveBouquetFlowerToExcelFile(ReportBindingModel model)
-        {
-            SaveToExcel.CreateDoc(new ExcelInfo
-            {
-                FileName = model.FileName,
-                Title = "Список букетов",
-                BouquetFlowers = GetBouquetFlower()
-            });
-        }
-        public void SaveOrdersToPdfFile(ReportBindingModel model)
-        {
-            SaveToPdf.CreateDoc(new PdfInfo
-            {
-                FileName = model.FileName,
-                Title = "Список заказов",
-                DateFrom = model.DateFrom.Value,
-                DateTo = model.DateTo.Value,
-                Orders = GetOrders(model)
-            });
-        }
+
         public void SaveFlowersToPdfFile(ReportBindingModel model)
         {
             SaveToPdf.CreateDoc(new PdfInfo
             {
                 FileName = model.FileName,
                 Title = "Список цветов",
-                Flowers = GetFlowers()
+                BouquetFlowers = null,
+                StorageFlowers = GetStorageFlowers()
             });
         }
     }
