@@ -129,8 +129,7 @@ namespace FlowerShopDatabaseImplement.Implements
         {
             using (var context = new FlowerShopDatabase())
             {
-                var item = context.StorageFlowers.FirstOrDefault(x => x.FlowerId == model.FlowerId
-    && x.StorageId == model.StorageId);
+                var item = context.StorageFlowers.FirstOrDefault(x => x.FlowerId == model.FlowerId && x.StorageId == model.StorageId);
 
                 if (item != null)
                 {
@@ -176,10 +175,10 @@ namespace FlowerShopDatabaseImplement.Implements
                         transaction.Commit();
                         return;
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         transaction.Rollback();
-                        throw ex;
+                        throw;
                     }
                 }
             }
