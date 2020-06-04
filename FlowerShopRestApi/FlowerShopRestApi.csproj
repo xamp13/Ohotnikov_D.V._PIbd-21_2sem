@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\FlowerShopBusinessLogic\FlowerShopBusinessLogic.csproj" />
     <ProjectReference Include="..\FlowerShopDatabaseImplement\FlowerShopDatabaseImplement.csproj" />
