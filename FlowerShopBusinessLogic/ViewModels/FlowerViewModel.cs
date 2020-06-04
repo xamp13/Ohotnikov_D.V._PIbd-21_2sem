@@ -1,16 +1,20 @@
-﻿using System;
+﻿using FlowerShopBusinessLogic.Attributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
 namespace FlowerShopBusinessLogic.ViewModels
 {
-    public class FlowerViewModel
+    public class FlowerViewModel : BaseViewModel
     {
-        public int Id { get; set; }
-
-        [DisplayName("Название цветка")]
-
+        [Column(title: "Цветок", gridViewAutoSize: GridViewAutoSize.Fill)]
         public string FlowerName { get; set; }
+
+        public override List<string> Properties() => new List<string>
+        {
+            "Id",
+            "FlowerName"
+        };
     }
 }

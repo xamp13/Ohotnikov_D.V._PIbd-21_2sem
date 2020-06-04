@@ -31,8 +31,7 @@ namespace FlowerShopView
 
         private void LoadData()
         {
-            dataGridViewImplementers.DataSource = implementerLogic.Read(null);
-            dataGridViewImplementers.Columns[0].Visible = false;
+            Program.ConfigGrid(implementerLogic.Read(null), dataGridViewImplementers);
         }
 
         private void buttonAddImplementer_Click(object sender, EventArgs e)

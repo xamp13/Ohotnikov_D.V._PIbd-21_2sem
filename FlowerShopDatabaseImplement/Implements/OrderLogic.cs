@@ -86,7 +86,7 @@ namespace FlowerShopDatabaseImplement.Implements
                 Sum = rec.Sum,
                 ClientFIO = rec.Client.ClientFIO,
                 ClientId = rec.ClientId,
-                ImplementorId = rec.ImplementerId,
+                ImplementerId = rec.ImplementerId,
                 ImplementerFIO = !string.IsNullOrEmpty(rec.ImplementerFIO) ? rec.ImplementerFIO : string.Empty,
                 Status = rec.Status,
                 DateCreate = rec.DateCreate,
