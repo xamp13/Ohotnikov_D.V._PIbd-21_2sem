@@ -21,5 +21,7 @@ namespace FlowerShopDatabaseImplement.Models
 
         [ForeignKey("ClientId")]
         public virtual List<Order> Orders { set; get; }
+
+        public List<MessageInfo> MessageInfoes { get; set; }
     }
 }

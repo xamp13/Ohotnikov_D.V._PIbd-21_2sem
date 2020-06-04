@@ -21,6 +21,8 @@ namespace FlowerShopListImplement
 
         public List<Implementer> Implementers { set; get; }
 
+        public List<MessageInfo> MessageInfoes { get; set; }
+
         private DataListSingleton()
         {
             Flowers = new List<Flower>();
@@ -29,6 +31,7 @@ namespace FlowerShopListImplement
             BouquetFlowers = new List<BouquetFlower>();
             Clients = new List<Client>();
             Implementers = new List<Implementer>();
+            MessageInfoes = new List<MessageInfo>();
         }
 
         public static DataListSingleton GetInstance()

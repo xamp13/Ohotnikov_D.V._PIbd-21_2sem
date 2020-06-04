@@ -43,6 +43,7 @@
             this.buttonCreateOrder = new System.Windows.Forms.Button();
             this.buttonRef = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.сообщенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -67,7 +68,8 @@
             this.цветыToolStripMenuItem,
             this.композицииToolStripMenuItem,
             this.клиентыToolStripMenuItem,
-            this.исполнителиToolStripMenuItem});
+            this.исполнителиToolStripMenuItem,
+            this.сообщенияToolStripMenuItem});
             this.Справочники.Name = "Справочники";
             this.Справочники.Size = new System.Drawing.Size(94, 22);
             this.Справочники.Text = "Справочники";
@@ -75,7 +77,7 @@
             // цветыToolStripMenuItem
             // 
             this.цветыToolStripMenuItem.Name = "цветыToolStripMenuItem";
-            this.цветыToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.цветыToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.цветыToolStripMenuItem.Text = "Цветы";
             this.цветыToolStripMenuItem.Click += new System.EventHandler(this.цветыToolStripMenuItem_Click);
             this.цветыToolStripMenuItem.DisplayStyleChanged += new System.EventHandler(this.цветыToolStripMenuItem_Click);
@@ -83,21 +85,21 @@
             // композицииToolStripMenuItem
             // 
             this.композицииToolStripMenuItem.Name = "композицииToolStripMenuItem";
-            this.композицииToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.композицииToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.композицииToolStripMenuItem.Text = "Композиции";
             this.композицииToolStripMenuItem.Click += new System.EventHandler(this.композицииToolStripMenuItem_Click);
             // 
             // клиентыToolStripMenuItem
             // 
             this.клиентыToolStripMenuItem.Name = "клиентыToolStripMenuItem";
-            this.клиентыToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.клиентыToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.клиентыToolStripMenuItem.Text = "Клиенты";
             this.клиентыToolStripMenuItem.Click += new System.EventHandler(this.клиентыToolStripMenuItem_Click);
             // 
             // исполнителиToolStripMenuItem
             // 
             this.исполнителиToolStripMenuItem.Name = "исполнителиToolStripMenuItem";
-            this.исполнителиToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.исполнителиToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.исполнителиToolStripMenuItem.Text = "Исполнители";
             this.исполнителиToolStripMenuItem.Click += new System.EventHandler(this.исполнителиToolStripMenuItem_Click);
             // 
@@ -185,6 +187,13 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.buttonPayOrder_Click);
             // 
+            // сообщенияToolStripMenuItem
+            // 
+            this.сообщенияToolStripMenuItem.Name = "сообщенияToolStripMenuItem";
+            this.сообщенияToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.сообщенияToolStripMenuItem.Text = "Сообщения";
+            this.сообщенияToolStripMenuItem.Click += new System.EventHandler(this.сообщенияToolStripMenuItem_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -225,5 +234,6 @@
         private System.Windows.Forms.ToolStripMenuItem исполнителиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem запускРаботToolStripMenuItem;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ToolStripMenuItem сообщенияToolStripMenuItem;
     }
 }
