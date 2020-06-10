@@ -44,8 +44,7 @@ namespace FlowerShopDatabaseImplement.Implements
         {
             using (var context = new FlowerShopDatabase())
             {
-                Order element = context.Orders.FirstOrDefault(rec => rec.Id ==
-               model.Id);
+                Order element = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
                 if (element != null)
                 {
                     context.Orders.Remove(element);
@@ -57,26 +56,24 @@ namespace FlowerShopDatabaseImplement.Implements
                 }
             }
         }
-
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             using (var context = new FlowerShopDatabase())
             {
-                return context.Orders
-                .Include(rec => rec.Bouquet)
-            .Where(rec => model == null || rec.Id == model.Id)
-            .Select(rec => new OrderViewModel
-            {
-                Id = rec.Id,
-                BouquetName = rec.Bouquet.BouquetName,
-                BouquetId = rec.Bouquet.Id,
-                Count = rec.Count,
-                Sum = rec.Sum,
-                Status = rec.Status,
-                DateCreate = rec.DateCreate,
-                DateImplement = rec.DateImplement
-            })
-            .ToList();
+                return context.Orders.Where(rec => model == null || (rec.Id == model.Id && model.Id.HasValue)
+                || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo))
+                .Select(rec => new OrderViewModel
+                {
+                    Id = rec.Id,
+                    BouquetId = rec.BouquetId,
+                    DateCreate = rec.DateCreate,
+                    DateImplement = rec.DateImplement,
+                    Status = rec.Status,
+                    Count = rec.Count,
+                    Sum = rec.Sum,
+                    BouquetName = rec.Bouquet.BouquetName
+                })
+                .ToList();
             }
         }
     }

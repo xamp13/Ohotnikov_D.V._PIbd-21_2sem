@@ -67,22 +67,22 @@ namespace FlowerShopView
             this.dataGridView.Size = new System.Drawing.Size(366, 296);
             this.dataGridView.TabIndex = 2;
             // 
-            // Column1
+            // Storage
             // 
             this.Column1.HeaderText = "Id";
-            this.Column1.Name = "Column1";
+            this.Column1.Name = "Storage";
             this.Column1.Visible = false;
             // 
-            // Column2
+            // Flower
             // 
             this.Column2.HeaderText = "Цветок";
-            this.Column2.Name = "Column2";
+            this.Column2.Name = "Flower";
             // 
-            // Column3
+            // Count
             // 
             this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Column3.HeaderText = "Количество";
-            this.Column3.Name = "Column3";
+            this.Column3.Name = "Count";
             // 
             // buttonAdd
             // 

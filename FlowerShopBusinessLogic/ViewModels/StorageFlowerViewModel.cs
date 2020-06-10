@@ -16,6 +16,9 @@ namespace FlowerShopBusinessLogic.ViewModels
         [DisplayName("Название цветка")]
         public string FlowerName { get; set; }
 
+        [DisplayName("Название склада")]
+        public string StorageName { get; set; }
+
         [DisplayName("Количество")]
         public int Count { get; set; }
     }
