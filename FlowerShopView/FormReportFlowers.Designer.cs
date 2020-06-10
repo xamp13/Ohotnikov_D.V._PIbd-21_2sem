@@ -70,7 +70,7 @@
             this.Controls.Add(this.buttonSaveToPdf);
             this.Controls.Add(this.reportViewer);
             this.Name = "FormReportFlowers";
-            this.Text = "FormReportFlowers";
+            this.Text = "Отчёт по цветам со складами";
             this.Load += new System.EventHandler(this.FormReportFlowers_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ReportFlowersViewModelBindingSource)).EndInit();
             this.ResumeLayout(false);
