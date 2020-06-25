@@ -43,7 +43,7 @@
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.buttonCreateOrder = new System.Windows.Forms.Button();
             this.buttonRef = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonPayOrder = new System.Windows.Forms.Button();
             this.сообщенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
@@ -178,16 +178,16 @@
             this.buttonRef.UseVisualStyleBackColor = true;
             this.buttonRef.Click += new System.EventHandler(this.buttonRef_Click);
             // 
-            // button1
+            // buttonPayOrder
             // 
-            this.button1.Location = new System.Drawing.Point(796, 118);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(195, 35);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Заказ оплачен";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.buttonPayOrder_Click);
+            this.buttonPayOrder.Location = new System.Drawing.Point(796, 118);
+            this.buttonPayOrder.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonPayOrder.Name = "buttonPayOrder";
+            this.buttonPayOrder.Size = new System.Drawing.Size(195, 35);
+            this.buttonPayOrder.TabIndex = 3;
+            this.buttonPayOrder.Text = "Заказ оплачен";
+            this.buttonPayOrder.UseVisualStyleBackColor = true;
+            this.buttonPayOrder.Click += new System.EventHandler(this.buttonPayOrder_Click);
             // 
             // сообщенияToolStripMenuItem
             // 
@@ -209,7 +209,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1012, 458);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonPayOrder);
             this.Controls.Add(this.buttonRef);
             this.Controls.Add(this.buttonCreateOrder);
             this.Controls.Add(this.dataGridView);
@@ -243,7 +243,7 @@
         private System.Windows.Forms.ToolStripMenuItem клиентыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem исполнителиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem запускРаботToolStripMenuItem;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonPayOrder;
         private System.Windows.Forms.ToolStripMenuItem сообщенияToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem создатьБэкапToolStripMenuItem;
     }

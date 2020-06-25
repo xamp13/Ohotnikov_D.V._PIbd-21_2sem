@@ -27,7 +27,7 @@ namespace FlowerShopDatabaseImplement.Implements
                    model.Id);
                     if (element == null)
                     {
-                        throw new Exception("Элемент не найден");
+                        throw new Exception("Цветок не найден");
                     }
                 }
                 else
@@ -53,7 +53,7 @@ namespace FlowerShopDatabaseImplement.Implements
                 }
                 else
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("Цветок не найден");
                 }
             }
         }

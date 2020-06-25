@@ -28,7 +28,7 @@ namespace FlowerShopFileImplement.Implements
                 element = source.Bouquets.FirstOrDefault(rec => rec.Id == model.Id);
                 if (element == null)
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("Букет не найден");
                 }
             }
             else
@@ -71,7 +71,7 @@ namespace FlowerShopFileImplement.Implements
             }
             else
             {
-                throw new Exception("Элемент не найден");
+                throw new Exception("Букет не найден");
             }
         }
         public List<BouquetViewModel> Read(BouquetBindingModel model)

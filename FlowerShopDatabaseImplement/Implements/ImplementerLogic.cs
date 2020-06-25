@@ -26,7 +26,7 @@ namespace FlowerShopDatabaseImplement.Implements
                     implementer = context.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
                     if (implementer == null)
                     {
-                        throw new Exception("Элемент не найден");
+                        throw new Exception("Рабочий не найден");
                     }
                 }
                 else
@@ -53,7 +53,7 @@ namespace FlowerShopDatabaseImplement.Implements
                 }
                 else
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("Рабочий не найден");
                 }
             }
         }

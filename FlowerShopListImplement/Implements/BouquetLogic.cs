@@ -24,7 +24,7 @@ namespace FlowerShopListImplement.Implements
             {
                 if (Bouquet.BouquetName == model.BouquetName && Bouquet.Id != model.Id)
                 {
-                    throw new Exception("Уже есть изделие с таким названием");
+                    throw new Exception("Уже есть букет с таким названием");
                 }
                 if (!model.Id.HasValue && Bouquet.Id >= tempBouquet.Id)
                 {
@@ -39,7 +39,7 @@ namespace FlowerShopListImplement.Implements
             {
                 if (tempBouquet == null)
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("Букет не найден");
                 }
                 CreateModel(model, tempBouquet);
             }
@@ -52,7 +52,6 @@ namespace FlowerShopListImplement.Implements
 
         public void Delete(BouquetBindingModel model)
         {
-            // удаляем записи по компонентам при удалении изделия
             for (int i = 0; i < source.BouquetFlowers.Count; ++i)
             {
                 if (source.BouquetFlowers[i].BouquetId == model.Id)
@@ -68,14 +67,14 @@ namespace FlowerShopListImplement.Implements
                     return;
                 }
             }
-            throw new Exception("Элемент не найден");
+            throw new Exception("Букет не найден");
         }
 
         private Bouquet CreateModel(BouquetBindingModel model, Bouquet Bouquet)
         {
             Bouquet.BouquetName = model.BouquetName;
             Bouquet.Price = model.Price;
-            //обновляем существуюущие компоненты и ищем максимальный идентификатор
+
             int maxPCId = 0;
             for (int i = 0; i < source.BouquetFlowers.Count; ++i)
             {
@@ -85,14 +84,11 @@ namespace FlowerShopListImplement.Implements
                 }
                 if (source.BouquetFlowers[i].BouquetId == Bouquet.Id)
                 {
-                    // если в модели пришла запись компонента с таким id
                     if
                     (model.BouquetFlowers.ContainsKey(source.BouquetFlowers[i].FlowerId))
                     {
-                        // обновляем количество
                         source.BouquetFlowers[i].Count =
                         model.BouquetFlowers[source.BouquetFlowers[i].FlowerId].Item2;
-                        // из модели убираем эту запись, чтобы остались только не просмотренные
 
 
                         model.BouquetFlowers.Remove(source.BouquetFlowers[i].FlowerId);
@@ -103,7 +99,6 @@ namespace FlowerShopListImplement.Implements
                     }
                 }
             }
-            // новые записи
             foreach (var pc in model.BouquetFlowers)
             {
                 source.BouquetFlowers.Add(new BouquetFlower

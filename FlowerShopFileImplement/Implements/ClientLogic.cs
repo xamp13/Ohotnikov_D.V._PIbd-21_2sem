@@ -20,26 +20,29 @@ namespace FlowerShopFileImplement.Implements
 
         public void CreateOrUpdate(ClientBindingModel model)
         {
-            Client element;
+            Client client = source.Clients.FirstOrDefault(rec => rec.Login == model.Login && rec.Id != model.Id);
+            if (client != null)
+            {
+                throw new Exception("Уже есть клиент с таким логином");
+            }
             if (model.Id.HasValue)
             {
-                element = source.Clients.FirstOrDefault(rec => rec.Id == model.Id);
-                if (element == null)
+                client = source.Clients.FirstOrDefault(rec => rec.Id == model.Id);
+                if (client == null)
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("Клиент не найден");
                 }
             }
             else
             {
                 int maxId = source.Clients.Count > 0 ? source.Clients.Max(rec => rec.Id) : 0;
-                element = new Client { Id = maxId + 1 };
-                source.Clients.Add(element);
+                client = new Client { Id = maxId + 1 };
+                source.Clients.Add(client);
             }
-            element.ClientFIO = model.ClientFIO;
-            element.Login = model.Login;
-            element.Password = model.Password;
+            client.Login = model.Login;
+            client.ClientFIO = model.ClientFIO;
+            client.Password = model.Password;
         }
-
         public void Delete(ClientBindingModel model)
         {
             Client client = source.Clients.FirstOrDefault(rec => rec.Id == model.Id);
@@ -56,7 +59,11 @@ namespace FlowerShopFileImplement.Implements
         public List<ClientViewModel> Read(ClientBindingModel model)
         {
             return source.Clients
-            .Where(rec => model == null || rec.Id == model.Id)
+            .Where(
+            rec => model == null
+            || (rec.Id == model.Id)
+            || (rec.Login == model.Login && rec.Password == model.Password)
+            )
             .Select(rec => new ClientViewModel
             {
                 Id = rec.Id,

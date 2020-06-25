@@ -40,7 +40,7 @@ namespace FlowerShopListImplement.Implements
             {
                 if (tempOrder == null)
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("Заказ не найден");
                 }
                 CreateModel(model, tempOrder);
             }
@@ -60,7 +60,7 @@ namespace FlowerShopListImplement.Implements
                     return;
                 }
             }
-            throw new Exception("Элемент не найден");
+            throw new Exception("Заказ не найден");
         }
 
         public List<OrderViewModel> Read(OrderBindingModel model)
@@ -68,25 +68,61 @@ namespace FlowerShopListImplement.Implements
             List<OrderViewModel> result = new List<OrderViewModel>();
             foreach (var Order in source.Orders)
             {
-                if (
-                   model != null && Order.Id == model.Id
-                   || model.DateFrom.HasValue && model.DateTo.HasValue && Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo
-                   || model.ClientId.HasValue && Order.ClientId == model.ClientId
-                   || model.FreeOrder.HasValue && model.FreeOrder.Value
-                   || model.ImplementerId.HasValue && Order.ImplementerId == model.ImplementerId && Order.Status == OrderStatus.Выполняется
-               )
-
-                    result.Add(CreateViewModel(Order));
+                if (model != null)
+                {
+                    if ((model.Id.HasValue && Order.Id == model.Id)
+                        || (model.DateFrom.HasValue && model.DateTo.HasValue && Order.DateCreate >= model.DateFrom && Order.DateCreate <= model.DateTo)
+                        || (Order.ClientId == model.ClientId)
+                        || (model.FreeOrder.HasValue && model.FreeOrder.Value && !Order.ImplementerId.HasValue)
+                        || (model.ImplementerId.HasValue && Order.ImplementerId == model.ImplementerId && Order.Status == OrderStatus.Выполняется))
+                    {     
+                        result.Add(CreateViewModel(Order));
+                        break;
+                    }
+                    continue;
+                }
+                result.Add(CreateViewModel(Order));
             }
             return result;
         }
 
         private Order CreateModel(OrderBindingModel model, Order Order)
         {
+            Bouquet Bouquet = null;
+            foreach (Bouquet b in source.Bouquets)
+            {
+                if (b.Id == model.BouquetId)
+                {
+                    Bouquet = b;
+                    break;
+                }
+            }
+            Client client = null;
+            foreach (Client c in source.Clients)
+            {
+                if (c.Id == model.ClientId)
+                {
+                    client = c;
+                    break;
+                }
+            }
+            Implementer implementer = null;
+            foreach (Implementer i in source.Implementers)
+            {
+                if (i.Id == model.ImplementerId)
+                {
+                    implementer = i;
+                    break;
+                }
+            }
+            if (Bouquet == null || client == null || model.ImplementerId.HasValue && implementer == null)
+            {
+                throw new Exception("Элемент не найден");
+            }
             Order.BouquetId = model.BouquetId;
-            Order.Count = model.Count;
-            Order.Sum = model.Sum;
-            Order.ClientId = (int)model.ClientId;
+            Order.ClientId = model.ClientId.Value;
+            Order.ImplementerId = (int)model.ImplementerId;
+            Order.Sum = model.Count * Bouquet.Price;
             Order.ClientFIO = model.ClientFIO;
             Order.ImplementerId = model.ImplementerId;
             Order.ImplementerFIO = model.ImplementerFIO;
@@ -96,31 +132,53 @@ namespace FlowerShopListImplement.Implements
             return Order;
         }
 
-        private OrderViewModel CreateViewModel(Order Order)
+        private OrderViewModel CreateViewModel(Order order)
         {
-            string BouquetName = "";
-            for (int j = 0; j < source.Bouquets.Count; ++j)
+            Bouquet Bouquet = null;
+            foreach (Bouquet b in source.Bouquets)
             {
-                if (source.Bouquets[j].Id == Order.BouquetId)
+                if (b.Id == order.BouquetId)
                 {
-                    BouquetName = source.Bouquets[j].BouquetName;
+                    Bouquet = b;
                     break;
                 }
             }
+            Client client = null;
+            foreach (Client c in source.Clients)
+            {
+                if (c.Id == order.ClientId)
+                {
+                    client = c;
+                    break;
+                }
+            }
+            Implementer implementer = null;
+            foreach (Implementer i in source.Implementers)
+            {
+                if (i.Id == order.ImplementerId)
+                {
+                    implementer = i;
+                    break;
+                }
+            }
+            if (Bouquet == null || client == null || order.ImplementerId.HasValue && implementer == null)
+            {
+                throw new Exception("Элемент не найден");
+            }
             return new OrderViewModel
             {
-                Id = Order.Id,
-                BouquetName = BouquetName,
-                Count = Order.Count,
-                Sum = Order.Sum,
-                BouquetId = Order.BouquetId,
-                ClientId = Order.ClientId,
-                ClientFIO = Order.ClientFIO,
-                ImplementerId = Order.ImplementerId,
-                ImplementerFIO = Order.ImplementerFIO,
-                Status = Order.Status,
-                DateCreate = Order.DateCreate,
-                DateImplement = Order.DateImplement
+                Id = order.Id,
+                BouquetId = order.BouquetId,
+                BouquetName = Bouquet.BouquetName,
+                ClientId = order.ClientId,
+                ClientFIO = client.ClientFIO,
+                ImplementerId = order.ImplementerId,
+                ImplementerFIO = implementer.ImplementerFIO,
+                Count = order.Count,
+                Sum = order.Sum,
+                Status = order.Status,
+                DateCreate = order.DateCreate,
+                DateImplement = order.DateImplement
             };
         }
     }

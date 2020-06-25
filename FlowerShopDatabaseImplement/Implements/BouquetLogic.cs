@@ -32,7 +32,7 @@ namespace FlowerShopDatabaseImplement.Implements
                            model.Id);
                             if (element == null)
                             {
-                                throw new Exception("Элемент не найден");
+                                throw new Exception("Букет не найден");
                             }
                         }
                         else
@@ -47,11 +47,9 @@ namespace FlowerShopDatabaseImplement.Implements
                         {
                             var BouquetFlowers = context.BouquetFlowers.Where(rec
                            => rec.BouquetId == model.Id.Value).ToList();
-                            // удалили те, которых нет в модели
                             context.BouquetFlowers.RemoveRange(BouquetFlowers.Where(rec =>
                             !model.BouquetFlowers.ContainsKey(rec.FlowerId)).ToList());
                             context.SaveChanges();
-                            // обновили количество у существующих записей
                             foreach (var updateFlower in BouquetFlowers)
                             {
                                 updateFlower.Count =
@@ -61,7 +59,6 @@ namespace FlowerShopDatabaseImplement.Implements
                             }
                             context.SaveChanges();
                         }
-                        // добавили новые
                         foreach (var pc in model.BouquetFlowers)
                         {
                             context.BouquetFlowers.Add(new BouquetFlower
@@ -90,7 +87,6 @@ namespace FlowerShopDatabaseImplement.Implements
                 {
                     try
                     {
-                        // удаяем записи по компонентам при удалении изделия
                         context.BouquetFlowers.RemoveRange(context.BouquetFlowers.Where(rec =>
                         rec.BouquetId == model.Id));
                         Bouquet element = context.Bouquets.FirstOrDefault(rec => rec.Id
@@ -102,7 +98,7 @@ namespace FlowerShopDatabaseImplement.Implements
                         }
                         else
                         {
-                            throw new Exception("Элемент не найден");
+                            throw new Exception("Букет не найден");
                         }
                         transaction.Commit();
                     }

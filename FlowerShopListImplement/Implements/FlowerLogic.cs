@@ -43,7 +43,7 @@ namespace FlowerShopListImplement.Implements
             {
                 if (tempFlower == null)
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("Цветок не найден");
                 }
                 CreateModel(model, tempFlower);
             }
@@ -63,7 +63,7 @@ namespace FlowerShopListImplement.Implements
                     return;
                 }
             }
-            throw new Exception("Элемент не найден");
+            throw new Exception("Цветок не найден");
         }
 
         public List<FlowerViewModel> Read(FlowerBindingModel model)

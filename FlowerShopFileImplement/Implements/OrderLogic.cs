@@ -25,7 +25,7 @@ namespace FlowerShopFileImplement.Implements
                 element = source.Orders.FirstOrDefault(rec => rec.Id == model.Id);
                 if (element == null)
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("Заказ не найден");
                 }
             }
             else
@@ -52,20 +52,17 @@ namespace FlowerShopFileImplement.Implements
             }
             else
             {
-                throw new Exception("Элемент не найден");
+                throw new Exception("Заказ не найден");
             }
         }
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             return source.Orders
-            .Where(
-                    rec => model == null
-                    || rec.Id == model.Id && model.Id.HasValue
-                    || model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo
-                    || model.ClientId.HasValue && rec.ClientId == model.ClientId
-                    || model.FreeOrder.HasValue && model.FreeOrder.Value && !rec.ImplementerId.HasValue
-                    || model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется
-                )
+            .Where(rec => (model == null || rec.Id == model.Id)
+            || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+            || (model.ClientId.HasValue && rec.ClientId == model.ClientId)
+            || (model.FreeOrder.HasValue && model.FreeOrder.Value && !rec.ImplementerId.HasValue)
+            || (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется))
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,

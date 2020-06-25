@@ -25,9 +25,9 @@ namespace FlowerShopListImplement.Implements
             };
             foreach (var client in source.Clients)
             {
-                if (client.ClientFIO == model.ClientFIO && client.Id != model.Id)
+                if (!model.Id.HasValue && model.Login == client.Login)
                 {
-                    throw new Exception("Уже есть компонент с таким названием");
+                    throw new Exception("Этот логин уже занят");
                 }
                 if (!model.Id.HasValue && client.Id >= tempComponent.Id)
                 {
@@ -42,7 +42,7 @@ namespace FlowerShopListImplement.Implements
             {
                 if (tempComponent == null)
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("Клиент не найден");
                 }
                 CreateModel(model, tempComponent);
             }
@@ -62,7 +62,7 @@ namespace FlowerShopListImplement.Implements
                     return;
                 }
             }
-            throw new Exception("Элемент не найден");
+            throw new Exception("Клиент не найден");
         }
 
         public List<ClientViewModel> Read(ClientBindingModel model)

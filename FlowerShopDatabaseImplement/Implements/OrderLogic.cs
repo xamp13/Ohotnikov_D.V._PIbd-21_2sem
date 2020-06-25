@@ -66,32 +66,27 @@ namespace FlowerShopDatabaseImplement.Implements
         {
             using (var context = new FlowerShopDatabase())
             {
-                return context.Orders
-                .Where(
-                    rec => model == null
-                   || rec.Id == model.Id && model.Id.HasValue
-                   || model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo
-                   || model.ClientId.HasValue && model.ClientId == rec.ClientId
-                   || model.FreeOrder.HasValue && model.FreeOrder.Value && !rec.ImplementerId.HasValue
-                   || model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется
-            )
-            .Include(rec => rec.Bouquet)
-            .Include(rec => rec.Client)
-            .Select(rec => new OrderViewModel
-            {
-                Id = rec.Id,
-                BouquetId = rec.BouquetId,
-                BouquetName = rec.Bouquet.BouquetName,
-                Count = rec.Count,
-                Sum = rec.Sum,
-                ClientFIO = rec.Client.ClientFIO,
-                ClientId = rec.ClientId,
-                ImplementerId = rec.ImplementerId,
-                ImplementerFIO = !string.IsNullOrEmpty(rec.ImplementerFIO) ? rec.ImplementerFIO : string.Empty,
-                Status = rec.Status,
-                DateCreate = rec.DateCreate,
-                DateImplement = rec.DateImplement
-            })
+                return context.Orders.Where(rec => model == null
+                    || (rec.Id == model.Id && model.Id.HasValue)
+                    || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+                    || (model.ClientId.HasValue && rec.ClientId == model.ClientId)
+                    || (model.FreeOrder.HasValue && model.FreeOrder.Value && !rec.ImplementerId.HasValue)
+                    || (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется))
+                .Select(rec => new OrderViewModel
+                {
+                    Id = rec.Id,
+                    BouquetId = rec.BouquetId,
+                    BouquetName = rec.Bouquet.BouquetName,
+                    Count = rec.Count,
+                    Sum = rec.Sum,
+                    ClientFIO = rec.Client.ClientFIO,
+                    ClientId = rec.ClientId,
+                    ImplementerId = rec.ImplementerId,
+                    ImplementerFIO = !string.IsNullOrEmpty(rec.ImplementerFIO) ? rec.ImplementerFIO : string.Empty,
+                    Status = rec.Status,
+                    DateCreate = rec.DateCreate,
+                    DateImplement = rec.DateImplement
+                })
             .ToList();
             }
         }
