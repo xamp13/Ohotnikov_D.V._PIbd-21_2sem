@@ -10,10 +10,11 @@ namespace FlowerShopBusinessLogic.ViewModels
     [DataContract]
     public class BouquetViewModel : BaseViewModel
     {
+        [Column(title: "Букет", gridViewAutoSize: GridViewAutoSize.Fill)]
         [DataMember]
         public string BouquetName { get; set; }
 
-        [Column(title: "Цена", width: 50)]
+        [Column(title: "Цена", width: 80)]
         [DataMember]
         public decimal Price { get; set; }
 
