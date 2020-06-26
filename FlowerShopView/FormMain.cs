@@ -44,9 +44,9 @@ namespace FlowerShopView
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].Visible = false;
-                    dataGridView.Columns[2].Visible = false;
-                    dataGridView.Columns[5].Visible = false;
+                    dataGridView.Columns[3].Visible = false;
                     dataGridView.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[11].Visible = false;
                 }
             }
             catch (Exception ex)
