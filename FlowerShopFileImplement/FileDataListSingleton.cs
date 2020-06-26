@@ -12,31 +12,20 @@ namespace FlowerShopFileImplement
     public class FileDataListSingleton
     {
         private static FileDataListSingleton instance;
-
         private readonly string FlowerFileName = "Flower.xml";
-
         private readonly string OrderFileName = "Order.xml";
-
         private readonly string BouquetFileName = "Bouquet.xml";
-
         private readonly string BouquetFlowerFileName = "BouquetFlower.xml";
-
         private readonly string StorageFileName = "Storage.xml";
-
         private readonly string StorageFlowerFileName = "StorageFlower.xml";
-
+        private readonly string ClientFileName = "Client.xml";
         public List<Flower> Flowers { get; set; }
-
         public List<Order> Orders { get; set; }
-
         public List<Bouquet> Bouquets { get; set; }
-
         public List<BouquetFlower> BouquetFlowers { get; set; }
-
-        public List<Storage> Storages { get; set; }
-
-        public List<StorageFlower> StorageFlowers { get; set; }
-
+        public List<Storage> Storages { set; get; }
+        public List<StorageFlower> StorageFlowers { set; get; }
+        public List<Client> Clients { set; get; }
         private FileDataListSingleton()
         {
             Flowers = LoadFlowers();
@@ -45,6 +34,7 @@ namespace FlowerShopFileImplement
             BouquetFlowers = LoadBouquetFlowers();
             Storages = LoadStorages();
             StorageFlowers = LoadStorageFlowers();
+            Clients = LoadClients();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -62,6 +52,29 @@ namespace FlowerShopFileImplement
             SaveBouquetFlowers();
             SaveStorages();
             SaveStorageFlowers();
+            SaveClients();
+        }
+        private List<Client> LoadClients()
+        {
+            var list = new List<Client>();
+
+            if (File.Exists(ClientFileName))
+            {
+                XDocument xDocument = XDocument.Load(ClientFileName);
+                var xElements = xDocument.Root.Elements("Client").ToList();
+
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Client
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ClientFIO = elem.Element("FIO").Value,
+                        Login = elem.Element("Login").Value,
+                        Password = elem.Element("Password").Value
+                    });
+                }
+            }
+            return list;
         }
         private List<Flower> LoadFlowers()
         {
@@ -81,7 +94,6 @@ namespace FlowerShopFileImplement
             }
             return list;
         }
-
         private List<Order> LoadOrders()
         {
             var list = new List<Order>();
@@ -109,7 +121,6 @@ namespace FlowerShopFileImplement
             }
             return list;
         }
-
         private List<Bouquet> LoadBouquets()
         {
             var list = new List<Bouquet>();
@@ -129,26 +140,6 @@ namespace FlowerShopFileImplement
             }
             return list;
         }
-
-        private List<Storage> LoadStorages()
-        {
-            var list = new List<Storage>();
-            if (File.Exists(StorageFileName))
-            {
-                XDocument xDocument = XDocument.Load(StorageFileName);
-                var xElements = xDocument.Root.Elements("Storage").ToList();
-                foreach (var elem in xElements)
-                {
-                    list.Add(new Storage
-                    {
-                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                        StorageName = elem.Element("StorageName").Value
-                    });
-                }
-            }
-            return list;
-        }
-
         private List<BouquetFlower> LoadBouquetFlowers()
         {
             var list = new List<BouquetFlower>();
@@ -169,6 +160,24 @@ namespace FlowerShopFileImplement
             }
             return list;
         }
+        private List<Storage> LoadStorages()
+        {
+            var list = new List<Storage>();
+            if (File.Exists(StorageFileName))
+            {
+                XDocument xDocument = XDocument.Load(StorageFileName);
+                var xElements = xDocument.Root.Elements("Storage").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Storage()
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        StorageName = elem.Element("StorageName").Value.ToString()
+                    });
+                }
+            }
+            return list;
+        }
 
         private List<StorageFlower> LoadStorageFlowers()
         {
@@ -179,18 +188,36 @@ namespace FlowerShopFileImplement
                 var xElements = xDocument.Root.Elements("StorageFlower").ToList();
                 foreach (var elem in xElements)
                 {
-                    list.Add(new StorageFlower
+                    list.Add(new StorageFlower()
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                        StorageId = Convert.ToInt32(elem.Element("StorageId").Value),
                         FlowerId = Convert.ToInt32(elem.Element("FlowerId").Value),
+                        StorageId = Convert.ToInt32(elem.Element("StorageId").Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value)
                     });
                 }
             }
             return list;
         }
+        private void SaveClients()
+        {
+            if (Clients != null)
+            {
+                var xElement = new XElement("Clients");
 
+                foreach (var client in Clients)
+                {
+                    xElement.Add(new XElement("Client",
+                    new XAttribute("Id", client.Id),
+                    new XElement("FIO", client.ClientFIO),
+                    new XElement("Login", client.Login),
+                    new XElement("Password", client.Password)));
+                }
+
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(ClientFileName);
+            }
+        }
         private void SaveFlowers()
         {
             if (Flowers != null)
@@ -206,7 +233,6 @@ namespace FlowerShopFileImplement
                 xDocument.Save(FlowerFileName);
             }
         }
-
         private void SaveOrders()
         {
             if (Orders != null)
@@ -227,7 +253,6 @@ namespace FlowerShopFileImplement
                 xDocument.Save(OrderFileName);
             }
         }
-
         private void SaveBouquets()
         {
             if (Bouquets != null)
@@ -244,23 +269,6 @@ namespace FlowerShopFileImplement
                 xDocument.Save(BouquetFileName);
             }
         }
-
-        private void SaveStorages()
-        {
-            if (Storages != null)
-            {
-                var xElement = new XElement("Storages");
-                foreach (var Storage in Storages)
-                {
-                    xElement.Add(new XElement("Storage",
-                    new XAttribute("Id", Storage.Id),
-                    new XElement("StorageName", Storage.StorageName)));
-                }
-                XDocument xDocument = new XDocument(xElement);
-                xDocument.Save(StorageFileName);
-            }
-        }
-
         private void SaveBouquetFlowers()
         {
             if (BouquetFlowers != null)
@@ -278,19 +286,33 @@ namespace FlowerShopFileImplement
                 xDocument.Save(BouquetFlowerFileName);
             }
         }
-
+        private void SaveStorages()
+        {
+            if (Storages != null)
+            {
+                var xElement = new XElement("Storages");
+                foreach (var elem in Storages)
+                {
+                    xElement.Add(new XElement("Storage",
+                        new XAttribute("Id", elem.Id),
+                        new XElement("StorageName", elem.StorageName)));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(StorageFileName);
+            }
+        }
         private void SaveStorageFlowers()
         {
             if (StorageFlowers != null)
             {
                 var xElement = new XElement("StorageFlowers");
-                foreach (var StorageFlower in StorageFlowers)
+                foreach (var elem in StorageFlowers)
                 {
                     xElement.Add(new XElement("StorageFlower",
-                    new XAttribute("Id", StorageFlower.Id),
-                    new XElement("StorageId", StorageFlower.StorageId),
-                    new XElement("FlowerId", StorageFlower.FlowerId),
-                    new XElement("Count", StorageFlower.Count)));
+                        new XAttribute("Id", elem.Id),
+                        new XElement("FlowerId", elem.FlowerId),
+                        new XElement("StorageId", elem.StorageId),
+                        new XElement("Count", elem.Count)));
                 }
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(StorageFlowerFileName);

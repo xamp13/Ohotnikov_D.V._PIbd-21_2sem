@@ -12,7 +12,7 @@ namespace FlowerShopBusinessLogic.Interfaces
         StorageViewModel GetElement(int id);
         void AddElement(StorageBindingModel model);
         void UpdElement(StorageBindingModel model);
-        void DelElement(int id);
+        void DelElement(StorageBindingModel model);
         void FillStorage(StorageFlowerBindingModel model);
         void RemoveFromStorage(int bouquetId, int bouquetsCount);
     }

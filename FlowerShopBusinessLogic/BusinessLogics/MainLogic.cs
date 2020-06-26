@@ -21,6 +21,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             orderLogic.CreateOrUpdate(new OrderBindingModel
             {
                 BouquetId = model.BouquetId,
+                ClientId = model.ClientId,
                 Count = model.Count,
                 Sum = model.Sum,
                 DateCreate = DateTime.Now,
@@ -29,10 +30,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
         }
         public void TakeOrderInWork(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new OrderBindingModel
-            {
-                Id = model.OrderId
-            })?[0];
+            var order = orderLogic.Read(new OrderBindingModel { Id = model.OrderId })?[0];
             if (order == null)
             {
                 throw new Exception("Не найден заказ");
@@ -41,7 +39,6 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
-            Console.WriteLine($"Take order with id {order.Id} and bouquet id {order.BouquetId}");
             try
             {
                 storageLogic.RemoveFromStorage(order.BouquetId, order.Count);
@@ -49,6 +46,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 {
                     Id = order.Id,
                     BouquetId = order.BouquetId,
+                    ClientId = order.ClientId,
                     Count = order.Count,
                     Sum = order.Sum,
                     DateCreate = order.DateCreate,
@@ -63,10 +61,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
         }
         public void FinishOrder(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new OrderBindingModel
-            {
-                Id = model.OrderId
-            })?[0];
+            var order = orderLogic.Read(new OrderBindingModel { Id = model.OrderId })?[0];
             if (order == null)
             {
                 throw new Exception("Не найден заказ");
@@ -79,6 +74,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             {
                 Id = order.Id,
                 BouquetId = order.BouquetId,
+                ClientId = order.ClientId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
@@ -88,10 +84,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
         }
         public void PayOrder(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new OrderBindingModel
-            {
-                Id = model.OrderId
-            })?[0];
+            var order = orderLogic.Read(new OrderBindingModel { Id = model.OrderId })?[0];
             if (order == null)
             {
                 throw new Exception("Не найден заказ");
@@ -104,6 +97,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             {
                 Id = order.Id,
                 BouquetId = order.BouquetId,
+                ClientId = order.ClientId,
                 Count = order.Count,
                 Sum = order.Sum,
                 DateCreate = order.DateCreate,
@@ -111,7 +105,6 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 Status = OrderStatus.Оплачен
             });
         }
-
         public void FillStorage(StorageFlowerBindingModel model)
         {
             storageLogic.FillStorage(model);

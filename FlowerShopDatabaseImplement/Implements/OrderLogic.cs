@@ -19,8 +19,7 @@ namespace FlowerShopDatabaseImplement.Implements
                 Order element;
                 if (model.Id.HasValue)
                 {
-                    element = context.Orders.FirstOrDefault(rec => rec.Id ==
-                   model.Id);
+                    element = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
                     if (element == null)
                     {
                         throw new Exception("Элемент не найден");
@@ -32,6 +31,7 @@ namespace FlowerShopDatabaseImplement.Implements
                     context.Orders.Add(element);
                 }
                 element.BouquetId = model.BouquetId == 0 ? element.BouquetId : model.BouquetId;
+                element.ClientId = model.ClientId == null ? element.ClientId : (int)model.ClientId;
                 element.Count = model.Count;
                 element.Sum = model.Sum;
                 element.Status = model.Status;
@@ -61,17 +61,22 @@ namespace FlowerShopDatabaseImplement.Implements
             using (var context = new FlowerShopDatabase())
             {
                 return context.Orders.Where(rec => model == null || (rec.Id == model.Id && model.Id.HasValue)
-                || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo))
+                || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo) ||
+                (model.ClientId.HasValue && rec.ClientId == model.ClientId))
+                  .Include(rec => rec.Bouquet)
+                .Include(rec => rec.Client)
                 .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
+                    ClientId = rec.ClientId,
                     BouquetId = rec.BouquetId,
-                    DateCreate = rec.DateCreate,
-                    DateImplement = rec.DateImplement,
-                    Status = rec.Status,
                     Count = rec.Count,
                     Sum = rec.Sum,
-                    BouquetName = rec.Bouquet.BouquetName
+                    Status = rec.Status,
+                    DateCreate = rec.DateCreate,
+                    DateImplement = rec.DateImplement,
+                    BouquetName = rec.Bouquet.BouquetName,
+                    ClientFIO = rec.Client.ClientFIO
                 })
                 .ToList();
             }
