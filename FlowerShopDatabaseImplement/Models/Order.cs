@@ -13,9 +13,6 @@ namespace FlowerShopDatabaseImplement.Models
         [Required]
         public int ClientId { set; get; }
 
-        [Required]
-        public string ClientFIO { set; get; }
-
         public int BouquetId { get; set; }
 
         [Required]

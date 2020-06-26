@@ -108,14 +108,15 @@ namespace FlowerShopDatabaseImplement.Implements
             }
         }
 
-        public void DelElement(int id)
+        public void DelElement(StorageBindingModel model)
         {
             using (var context = new FlowerShopDatabase())
             {
-                var elem = context.Storages.FirstOrDefault(x => x.Id == id);
-                if (elem != null)
+                context.StorageFlowers.RemoveRange(context.StorageFlowers.Where(rec => rec.StorageId == model.Id));
+                Storage element = context.Storages.FirstOrDefault(rec => rec.Id == model.Id);
+                if (element != null)
                 {
-                    context.Storages.Remove(elem);
+                    context.Storages.Remove(element);
                     context.SaveChanges();
                 }
                 else

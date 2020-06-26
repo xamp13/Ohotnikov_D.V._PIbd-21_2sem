@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime.Serialization;
+using System.ComponentModel;
 
 namespace FlowerShopBusinessLogic.ViewModels
 {
@@ -12,6 +13,7 @@ namespace FlowerShopBusinessLogic.ViewModels
         public int Id { set; get; }
 
         [DataMember]
+        [DisplayName("Клиент")]
         public string ClientFIO { set; get; }
 
         [DataMember]

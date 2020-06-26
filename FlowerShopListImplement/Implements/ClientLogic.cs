@@ -11,52 +11,47 @@ namespace FlowerShopListImplement.Implements
     public class ClientLogic : IClientLogic
     {
         private readonly DataListSingleton source;
-
         public ClientLogic()
         {
             source = DataListSingleton.GetInstance();
         }
-
         public void CreateOrUpdate(ClientBindingModel model)
         {
-            Client tempComponent = model.Id.HasValue ? null : new Client
-            {
-                Id = 1
-            };
+            Client tempClient = model.Id.HasValue ? null : new Client { Id = 1 };
+
             foreach (var client in source.Clients)
             {
                 if (client.ClientFIO == model.ClientFIO && client.Id != model.Id)
                 {
-                    throw new Exception("Уже есть компонент с таким названием");
+                    throw new Exception("Уже есть такой клиент");
                 }
-                if (!model.Id.HasValue && client.Id >= tempComponent.Id)
+                if (!model.Id.HasValue && client.Id >= tempClient.Id)
                 {
-                    tempComponent.Id = client.Id + 1;
+                    tempClient.Id = tempClient.Id + 1;
                 }
                 else if (model.Id.HasValue && client.Id == model.Id)
                 {
-                    tempComponent = client;
+                    tempClient = client;
                 }
             }
             if (model.Id.HasValue)
             {
-                if (tempComponent == null)
+                if (tempClient == null)
                 {
                     throw new Exception("Элемент не найден");
                 }
-                CreateModel(model, tempComponent);
+                CreateModel(model, tempClient);
             }
             else
             {
-                source.Clients.Add(CreateModel(model, tempComponent));
+                source.Clients.Add(CreateModel(model, tempClient));
             }
         }
-
         public void Delete(ClientBindingModel model)
         {
             for (int i = 0; i < source.Clients.Count; ++i)
             {
-                if (source.Clients[i].Id == model.Id.Value)
+                if (source.Clients[i].Id == model.Id)
                 {
                     source.Clients.RemoveAt(i);
                     return;
@@ -64,7 +59,6 @@ namespace FlowerShopListImplement.Implements
             }
             throw new Exception("Элемент не найден");
         }
-
         public List<ClientViewModel> Read(ClientBindingModel model)
         {
             List<ClientViewModel> result = new List<ClientViewModel>();
@@ -72,7 +66,15 @@ namespace FlowerShopListImplement.Implements
             {
                 if (model != null)
                 {
-                    if (client.Id == model.Id)
+                    if (model.Id.HasValue)
+                    {
+                        if (client.Id == model.Id)
+                        {
+                            result.Add(CreateViewModel(client));
+                            break;
+                        }
+                    }
+                    else if (client.Login == model.Login && client.Password == model.Password)
                     {
                         result.Add(CreateViewModel(client));
                         break;
@@ -83,19 +85,21 @@ namespace FlowerShopListImplement.Implements
             }
             return result;
         }
-
         private Client CreateModel(ClientBindingModel model, Client client)
         {
             client.ClientFIO = model.ClientFIO;
+            client.Login = model.Login;
+            client.Password = model.Password;
             return client;
         }
-
         private ClientViewModel CreateViewModel(Client client)
         {
             return new ClientViewModel
             {
                 Id = client.Id,
-                ClientFIO = client.ClientFIO
+                ClientFIO = client.ClientFIO,
+                Login = client.Login,
+                Password = client.Password
             };
         }
     }

@@ -4,7 +4,7 @@ using System.Text;
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
 using FlowerShopBusinessLogic.BindingModels;
-using FlowerShopListImplement.Models;
+using FlowerShopFileImplement.Models;
 using System.Linq;
 
 namespace FlowerShopFileImplement.Implements
@@ -12,18 +12,23 @@ namespace FlowerShopFileImplement.Implements
     public class ClientLogic : IClientLogic
     {
         private readonly FileDataListSingleton source;
-
         public ClientLogic()
         {
             source = FileDataListSingleton.GetInstance();
         }
-
         public void CreateOrUpdate(ClientBindingModel model)
         {
-            Client element;
+            Client element = source.Clients.FirstOrDefault(rec => rec.Login == model.Login && rec.Id != model.Id);
+
+            if (element != null)
+            {
+                throw new Exception("Уже есть такой клиент");
+            }
+
             if (model.Id.HasValue)
             {
                 element = source.Clients.FirstOrDefault(rec => rec.Id == model.Id);
+
                 if (element == null)
                 {
                     throw new Exception("Элемент не найден");
@@ -35,28 +40,31 @@ namespace FlowerShopFileImplement.Implements
                 element = new Client { Id = maxId + 1 };
                 source.Clients.Add(element);
             }
-            element.ClientFIO = model.ClientFIO;
             element.Login = model.Login;
+            element.ClientFIO = model.ClientFIO;
             element.Password = model.Password;
         }
-
         public void Delete(ClientBindingModel model)
         {
-            Client client = source.Clients.FirstOrDefault(rec => rec.Id == model.Id);
-            if (client != null)
+            Client element = source.Clients.FirstOrDefault(rec => rec.Id == model.Id);
+
+            if (element != null)
             {
-                source.Clients.Remove(client);
+                source.Clients.Remove(element);
             }
             else
             {
-                throw new Exception("Клиент не найден");
+                throw new Exception("Элемент не найден");
             }
         }
-
         public List<ClientViewModel> Read(ClientBindingModel model)
         {
             return source.Clients
-            .Where(rec => model == null || rec.Id == model.Id)
+            .Where(
+                rec => model == null
+                || rec.Id == model.Id
+                || rec.Login == model.Login && rec.Password == model.Password
+            )
             .Select(rec => new ClientViewModel
             {
                 Id = rec.Id,

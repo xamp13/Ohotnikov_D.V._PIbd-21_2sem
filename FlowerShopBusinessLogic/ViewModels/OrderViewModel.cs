@@ -17,6 +17,7 @@ namespace FlowerShopBusinessLogic.ViewModels
         public int ClientId { set; get; }
 
         [DataMember]
+        [DisplayName("Клиент")]
         public string ClientFIO { set; get; }
 
         [DataMember]

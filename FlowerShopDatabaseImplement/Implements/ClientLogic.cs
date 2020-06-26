@@ -15,35 +15,39 @@ namespace FlowerShopDatabaseImplement.Implements
         {
             using (var context = new FlowerShopDatabase())
             {
-                Client client;
+                Client element = context.Clients.FirstOrDefault(rec => rec.Login == model.Login && rec.Id != model.Id);
+                if (element != null)
+                {
+                    throw new Exception("Уже есть клиент с таким логином");
+                }
                 if (model.Id.HasValue)
                 {
-                    client = context.Clients.FirstOrDefault(rec => rec.Id == model.Id);
-                    if (client == null)
+                    element = context.Clients.FirstOrDefault(rec => rec.Id == model.Id);
+                    if (element == null)
                     {
                         throw new Exception("Элемент не найден");
                     }
                 }
                 else
                 {
-                    client = new Client();
-                    context.Clients.Add(client);
+                    element = new Client();
+                    context.Clients.Add(element);
                 }
-                client.ClientFIO = model.ClientFIO;
-                client.Login = model.Login;
-                client.Password = model.Password;
+                element.Login = model.Login;
+                element.ClientFIO = model.ClientFIO;
+                element.Password = model.Password;
                 context.SaveChanges();
             }
         }
-
         public void Delete(ClientBindingModel model)
         {
             using (var context = new FlowerShopDatabase())
             {
-                Client client = context.Clients.FirstOrDefault(rec => rec.Id == model.Id);
-                if (client != null)
+                Client element = context.Clients.FirstOrDefault(rec => rec.Id == model.Id);
+
+                if (element != null)
                 {
-                    context.Clients.Remove(client);
+                    context.Clients.Remove(element);
                     context.SaveChanges();
                 }
                 else
@@ -52,14 +56,16 @@ namespace FlowerShopDatabaseImplement.Implements
                 }
             }
         }
-
         public List<ClientViewModel> Read(ClientBindingModel model)
         {
             using (var context = new FlowerShopDatabase())
             {
                 return context.Clients
-                .Where(rec => model == null || rec.Id == model.Id ||
-                rec.Login == model.Login && rec.Password == model.Password)
+                .Where(
+                    rec => model == null
+                    || rec.Id == model.Id
+                    || rec.Login == model.Login && rec.Password == model.Password
+                )
                 .Select(rec => new ClientViewModel
                 {
                     Id = rec.Id,
