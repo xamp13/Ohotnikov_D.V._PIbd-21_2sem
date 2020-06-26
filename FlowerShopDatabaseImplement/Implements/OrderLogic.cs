@@ -16,38 +16,40 @@ namespace FlowerShopDatabaseImplement.Implements
         {
             using (var context = new FlowerShopDatabase())
             {
-                Order element;
+                Order order;
                 if (model.Id.HasValue)
                 {
-                    element = context.Orders.FirstOrDefault(rec => rec.Id ==
-                   model.Id);
-                    if (element == null)
+                    order = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+                    if (order == null)
                     {
                         throw new Exception("Элемент не найден");
                     }
                 }
                 else
                 {
-                    element = new Order();
-                    context.Orders.Add(element);
+                    order = new Order();
+                    context.Orders.Add(order);
                 }
-                element.BouquetId = model.BouquetId == 0 ? element.BouquetId : model.BouquetId;
-                element.Count = model.Count;
-                element.Sum = model.Sum;
-                element.Status = model.Status;
-                element.DateCreate = model.DateCreate;
-                element.DateImplement = model.DateImplement;
+                order.BouquetId = model.BouquetId == 0 ? order.BouquetId : model.BouquetId;
+                order.Count = model.Count;
+                order.Sum = model.Sum;
+                order.ClientFIO = model.ClientFIO;
+                order.ClientId = model.ClientId == null ? order.ClientId : (int)model.ClientId; ;
+                order.Status = model.Status;
+                order.DateCreate = model.DateCreate;
+                order.DateImplement = model.DateImplement;
                 context.SaveChanges();
             }
         }
+
         public void Delete(OrderBindingModel model)
         {
             using (var context = new FlowerShopDatabase())
             {
-                Order element = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
-                if (element != null)
+                Order order = context.Orders.FirstOrDefault(rec => rec.Id == model.Id);
+                if (order != null)
                 {
-                    context.Orders.Remove(element);
+                    context.Orders.Remove(order);
                     context.SaveChanges();
                 }
                 else
@@ -56,24 +58,34 @@ namespace FlowerShopDatabaseImplement.Implements
                 }
             }
         }
+
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             using (var context = new FlowerShopDatabase())
             {
-                return context.Orders.Where(rec => model == null || (rec.Id == model.Id && model.Id.HasValue)
-                || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo))
-                .Select(rec => new OrderViewModel
-                {
-                    Id = rec.Id,
-                    BouquetId = rec.BouquetId,
-                    DateCreate = rec.DateCreate,
-                    DateImplement = rec.DateImplement,
-                    Status = rec.Status,
-                    Count = rec.Count,
-                    Sum = rec.Sum,
-                    BouquetName = rec.Bouquet.BouquetName
-                })
-                .ToList();
+                return context.Orders
+                .Where(
+                    rec => model == null
+                   || rec.Id == model.Id && model.Id.HasValue
+                   || model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo
+                   || model.ClientId.HasValue && model.ClientId == rec.ClientId
+            )
+            .Include(rec => rec.Bouquet)
+            .Include(rec => rec.Client)
+            .Select(rec => new OrderViewModel
+            {
+                Id = rec.Id,
+                BouquetId = rec.BouquetId,
+                BouquetName = rec.Bouquet.BouquetName,
+                Count = rec.Count,
+                Sum = rec.Sum,
+                ClientFIO = rec.Client.ClientFIO,
+                ClientId = rec.ClientId,
+                Status = rec.Status,
+                DateCreate = rec.DateCreate,
+                DateImplement = rec.DateImplement
+            })
+            .ToList();
             }
         }
     }
