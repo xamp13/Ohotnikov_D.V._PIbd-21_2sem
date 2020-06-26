@@ -2,6 +2,7 @@
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
 using FlowerShopListImplement.Models;
+using FlowerShopBusinessLogic.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -64,8 +65,12 @@ namespace FlowerShopListImplement.Implements
             {
                 if (model != null)
                 {
-                    if (order.Id == model.Id || (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
-                        || model.ClientId.HasValue && order.ClientId == model.ClientId)
+                    if (order.Id == model.Id
+                       || (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
+                       || (model.ClientId.HasValue && order.ClientId == model.ClientId)
+                       || (model.FreeOrder.HasValue && model.FreeOrder.Value && !order.ImplementerId.HasValue)
+                       || (model.ImplementerId.HasValue && order.ImplementerId == model.ImplementerId && order.Status == OrderStatus.Выполняется)
+                       || (model.NotEnoughFlowersOrders.HasValue && model.NotEnoughFlowersOrders.Value && order.Status == OrderStatus.Требуются_цветы))
                     {
                         result.Add(CreateViewModel(order));
                         break;
@@ -82,6 +87,7 @@ namespace FlowerShopListImplement.Implements
             order.ClientId = (int)model.ClientId;
             order.Count = model.Count;
             order.Sum = model.Sum;
+            order.ImplementerId = model.ImplementerId;
             order.Status = model.Status;
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
@@ -106,6 +112,7 @@ namespace FlowerShopListImplement.Implements
                 Count = order.Count,
                 Sum = order.Sum,
                 Status = order.Status,
+                ImplementerId = order.ImplementerId,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement
             };

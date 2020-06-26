@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace FlowerShopListImplement.Models
+namespace FlowerShopFileImplement.Models
 {
     public class Implementer
     {
-        public int Id { set; get; }
-
-        public string ImplementerFIO { set; get; }
-
+        public int Id { get; set; }
+        public string ImplementerFIO { get; set; }
         public int WorkingTime { get; set; }
-
         public int PauseTime { get; set; }
     }
 }

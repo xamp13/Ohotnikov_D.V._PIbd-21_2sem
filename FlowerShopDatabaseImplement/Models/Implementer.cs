@@ -14,7 +14,7 @@ namespace FlowerShopDatabaseImplement.Models
         public string ImplementerFIO { set; get; }
 
         [Required]
-        public int WorkTime { set; get; }
+        public int WorkingTime { set; get; }
 
         [Required]
         public int PauseTime { set; get; }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FlowerShopBusinessLogic.BindingModels;
+using FlowerShopBusinessLogic.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,54 +9,71 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
+using Unity;
 
 namespace FlowerShopView
 {
     public partial class FormImplementer : Form
     {
-        public int? Id { set; get; }
-        public string ImplementerFIO { set; get; }
-        public int ImplementerWorkTime { set; get; }
-        public int ImplementerDelay { set; get; }
-
-        public FormImplementer()
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
+        public int Id { set { id = value; } }
+        private readonly IImplementerLogic logic;
+        private int? id;
+        public FormImplementer(IImplementerLogic logic)
         {
             InitializeComponent();
+            this.logic = logic;
         }
-
-        private void buttonAccept_Click(object sender, EventArgs e)
+        private void FormImplementer_Load(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(textBoxImplementerFIO.Text.ToString()) ||
-                !string.IsNullOrEmpty(textBoxWorkTime.Text.ToString()) ||
-                !string.IsNullOrEmpty(textBoxDelay.Text.ToString()))
+            if (id.HasValue)
             {
-                ImplementerFIO = textBoxImplementerFIO.Text.ToString();
-                ImplementerWorkTime = Convert.ToInt32(textBoxWorkTime.Text);
-                ImplementerDelay = Convert.ToInt32(textBoxDelay.Text);
+                try
+                {
+                    var view = logic.Read(new ImplementerBindingModel { Id = id.Value })?[0];
+                    if (view != null)
+                    {
+                        textBoxFIO.Text = view.ImplementerFIO;
+                        textBoxWorkingTime.Text = view.WorkingTime.ToString();
+                        textBoxPauseTime.Text = view.PauseTime.ToString();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBoxFIO.Text))
+            {
+                MessageBox.Show("Заполните название", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            try
+            {
+                logic?.CreateOrUpdate(new ImplementerBindingModel
+                {
+                    Id = id,
+                    ImplementerFIO = textBoxFIO.Text,
+                    WorkingTime = Int32.Parse(textBoxWorkingTime.Text),
+                    PauseTime = Int32.Parse(textBoxPauseTime.Text),
+                });
+                MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
                 Close();
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Заполните все поля!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();
-        }
-
-        private void FormImplementer_Load(object sender, EventArgs e)
-        {
-            if (ImplementerFIO != null)
-            {
-                textBoxImplementerFIO.Text = ImplementerFIO;
-                textBoxWorkTime.Text = ImplementerWorkTime.ToString();
-                textBoxDelay.Text = ImplementerDelay.ToString();
-            }
         }
     }
 }

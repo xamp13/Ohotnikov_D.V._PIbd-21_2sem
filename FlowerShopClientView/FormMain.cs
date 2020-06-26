@@ -25,8 +25,8 @@ namespace FlowerShopClientView
                 dataGridViewClientOrders.Columns[0].Visible = false;
                 dataGridViewClientOrders.Columns[1].Visible = false;
                 dataGridViewClientOrders.Columns[2].Visible = false;
-                dataGridViewClientOrders.Columns[3].Visible = false;
-                dataGridViewClientOrders.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridViewClientOrders.Columns[5].Visible = false;
+                dataGridViewClientOrders.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
             catch (Exception ex)
             {

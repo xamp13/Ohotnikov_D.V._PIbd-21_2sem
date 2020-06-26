@@ -15,40 +15,39 @@ namespace FlowerShopDatabaseImplement.Implements
         {
             using (var context = new FlowerShopDatabase())
             {
-                Implementer implementer = context.Implementers.FirstOrDefault(rec =>
-               rec.ImplementerFIO == model.ImplementerFIO && rec.Id != model.Id);
-                if (implementer != null)
+                Implementer element = context.Implementers.FirstOrDefault(rec =>
+                        rec.ImplementerFIO == model.ImplementerFIO && rec.Id != model.Id);
+                if (element != null)
                 {
-                    throw new Exception("Уже есть такой рабочий");
+                    throw new Exception("Такой исполнитель уже существует");
                 }
                 if (model.Id.HasValue)
                 {
-                    implementer = context.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
-                    if (implementer == null)
+                    element = context.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
+                    if (element == null)
                     {
                         throw new Exception("Элемент не найден");
                     }
                 }
                 else
                 {
-                    implementer = new Implementer();
-                    context.Implementers.Add(implementer);
+                    element = new Implementer();
+                    context.Implementers.Add(element);
                 }
-                implementer.ImplementerFIO = model.ImplementerFIO;
-                implementer.WorkTime = model.WorkingTime;
-                implementer.PauseTime = model.PauseTime;
+                element.ImplementerFIO = model.ImplementerFIO;
+                element.WorkingTime = model.WorkingTime;
+                element.PauseTime = model.PauseTime;
                 context.SaveChanges();
             }
         }
-
         public void Delete(ImplementerBindingModel model)
         {
             using (var context = new FlowerShopDatabase())
             {
-                Implementer implementer = context.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
-                if (implementer != null)
+                Implementer element = context.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
+                if (element != null)
                 {
-                    context.Implementers.Remove(implementer);
+                    context.Implementers.Remove(element);
                     context.SaveChanges();
                 }
                 else
@@ -57,18 +56,20 @@ namespace FlowerShopDatabaseImplement.Implements
                 }
             }
         }
-
         public List<ImplementerViewModel> Read(ImplementerBindingModel model)
         {
             using (var context = new FlowerShopDatabase())
             {
                 return context.Implementers
-                .Where(rec => model == null || rec.Id == model.Id)
+                .Where(
+                    rec => model == null
+                    || rec.Id == model.Id
+                )
                 .Select(rec => new ImplementerViewModel
                 {
                     Id = rec.Id,
                     ImplementerFIO = rec.ImplementerFIO,
-                    WorkingTime = rec.WorkTime,
+                    WorkingTime = rec.WorkingTime,
                     PauseTime = rec.PauseTime
                 })
                 .ToList();

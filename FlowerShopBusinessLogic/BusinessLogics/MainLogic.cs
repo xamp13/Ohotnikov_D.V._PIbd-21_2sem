@@ -11,6 +11,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
     {
         private readonly IOrderLogic orderLogic;
         private readonly IStorageLogic storageLogic;
+        private readonly object locker = new object();
         public MainLogic(IOrderLogic orderLogic, IStorageLogic storageLogic)
         {
             this.orderLogic = orderLogic;
@@ -30,33 +31,46 @@ namespace FlowerShopBusinessLogic.BusinessLogics
         }
         public void TakeOrderInWork(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new OrderBindingModel { Id = model.OrderId })?[0];
-            if (order == null)
+            lock (locker)
             {
-                throw new Exception("Не найден заказ");
-            }
-            if (order.Status != OrderStatus.Принят)
-            {
-                throw new Exception("Заказ не в статусе \"Принят\"");
-            }
-            try
-            {
-                storageLogic.RemoveFromStorage(order.BouquetId, order.Count);
-                orderLogic.CreateOrUpdate(new OrderBindingModel
+                var order = orderLogic.Read(new OrderBindingModel
+                {
+                    Id = model.OrderId
+                })?[0];
+                if (order == null)
+                {
+                    throw new Exception("Не найден заказ");
+                }
+                if (order.Status != OrderStatus.Принят && order.Status != OrderStatus.Требуются_цветы)
+                {
+                    throw new Exception("Заказ не в статусе \"Принят\"или \"Требуются продукты\"");
+                }
+                if (order.ImplementerId.HasValue)
+                {
+                    throw new Exception("У заказа уже есть исполнитель");
+                }
+                var orderModel = new OrderBindingModel
                 {
                     Id = order.Id,
                     BouquetId = order.BouquetId,
-                    ClientId = order.ClientId,
                     Count = order.Count,
                     Sum = order.Sum,
-                    DateCreate = order.DateCreate,
-                    DateImplement = DateTime.Now,
-                    Status = OrderStatus.Выполняется
-                });
-            }
-            catch (Exception)
-            {
-                throw;
+                    ClientId = order.ClientId,
+                    DateCreate = order.DateCreate
+                };
+                try
+                {
+                    storageLogic.RemoveFromStorage(order.BouquetId, order.Count);
+                    orderModel.DateImplement = DateTime.Now;
+                    orderModel.Status = OrderStatus.Выполняется;
+                    orderModel.ImplementerId = model.ImplementerId;
+                }
+                catch
+                {
+                    orderModel.Status = OrderStatus.Требуются_цветы;
+                    throw;
+                }
+                orderLogic.CreateOrUpdate(orderModel);
             }
         }
         public void FinishOrder(ChangeStatusBindingModel model)
@@ -73,10 +87,11 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             orderLogic.CreateOrUpdate(new OrderBindingModel
             {
                 Id = order.Id,
-                BouquetId = order.BouquetId,
                 ClientId = order.ClientId,
+                BouquetId = order.BouquetId,
                 Count = order.Count,
                 Sum = order.Sum,
+                ImplementerId = order.ImplementerId,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Готов
@@ -96,10 +111,11 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             orderLogic.CreateOrUpdate(new OrderBindingModel
             {
                 Id = order.Id,
-                BouquetId = order.BouquetId,
                 ClientId = order.ClientId,
+                BouquetId = order.BouquetId,
                 Count = order.Count,
                 Sum = order.Sum,
+                ImplementerId = order.ImplementerId,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен

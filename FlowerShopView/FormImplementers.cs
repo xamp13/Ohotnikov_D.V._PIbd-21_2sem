@@ -19,98 +19,76 @@ namespace FlowerShopView
     public partial class FormImplementers : Form
     {
         [Dependency]
-        public new IUnityContainer Container { set; get; }
-        private readonly IImplementerLogic implementerLogic;
-
-        public FormImplementers(IImplementerLogic implementerLogic)
+        public new IUnityContainer Container { get; set; }
+        private readonly IImplementerLogic logic;
+        public FormImplementers(IImplementerLogic logic)
         {
             InitializeComponent();
-            this.implementerLogic = implementerLogic;
+            this.logic = logic;
         }
-
-
+        private void FormImplementers_Load(object sender, EventArgs e)
+        {
+            LoadData();
+        }
         private void LoadData()
         {
-            dataGridViewImplementers.DataSource = implementerLogic.Read(null);
-            dataGridViewImplementers.Columns[0].Visible = false;
-        }
-
-        private void buttonAddImplementer_Click(object sender, EventArgs e)
-        {
             try
+            {
+                var list = logic.Read(null);
+                if (list != null)
+                {
+                    dataGridView.DataSource = list;
+                    dataGridView.Columns[0].Visible = false;
+                    dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void buttonAdd_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormImplementer>();
+
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                LoadData();
+            }
+        }
+        private void buttonUpd_Click(object sender, EventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count == 1)
             {
                 var form = Container.Resolve<FormImplementer>();
+                form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    implementerLogic.CreateOrUpdate(new ImplementerBindingModel()
-                    {
-                        ImplementerFIO = form.ImplementerFIO,
-                        WorkingTime = form.ImplementerWorkTime,
-                        PauseTime = form.ImplementerDelay
-                    });
                     LoadData();
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
-
-        private void buttonUpdateImplementer_Click(object sender, EventArgs e)
+        private void buttonDel_Click(object sender, EventArgs e)
         {
-            try
+            if (dataGridView.SelectedRows.Count == 1)
             {
-                if (dataGridViewImplementers.SelectedRows.Count == 1)
+                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    var form = Container.Resolve<FormImplementer>();
-                    form.ImplementerFIO = dataGridViewImplementers.SelectedRows[0].Cells[1].Value.ToString();
-                    form.ImplementerWorkTime = Convert.ToInt32(dataGridViewImplementers.SelectedRows[0].Cells[2].Value);
-                    form.ImplementerDelay = Convert.ToInt32(dataGridViewImplementers.SelectedRows[0].Cells[3].Value);
-                    form.Id = Convert.ToInt32(dataGridViewImplementers.SelectedRows[0].Cells[0].Value);
-
-                    if (form.ShowDialog() == DialogResult.OK)
+                    int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                    try
                     {
-                        implementerLogic.CreateOrUpdate(new ImplementerBindingModel()
-                        {
-                            Id = form.Id,
-                            ImplementerFIO = form.ImplementerFIO,
-                            WorkingTime = form.ImplementerWorkTime,
-                            PauseTime = form.ImplementerDelay
-                        });
-                        LoadData();
+                        logic.Delete(new ImplementerBindingModel { Id = id });
                     }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void buttonDeleteImplementer_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (dataGridViewImplementers.SelectedRows.Count == 1)
-                {
-                    implementerLogic.Delete(new ImplementerBindingModel()
+                    catch (Exception ex)
                     {
-                        Id = Convert.ToInt32(dataGridViewImplementers.SelectedRows[0].Cells[0].Value),
-                        ImplementerFIO = dataGridViewImplementers.SelectedRows[0].Cells[1].Value.ToString(),
-                        WorkingTime = Convert.ToInt32(dataGridViewImplementers.SelectedRows[0].Cells[2].Value),
-                        PauseTime = Convert.ToInt32(dataGridViewImplementers.SelectedRows[0].Cells[3].Value)
-                    });
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                     LoadData();
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
-
-        private void FormImplementers_Load(object sender, EventArgs e)
+        private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();
         }

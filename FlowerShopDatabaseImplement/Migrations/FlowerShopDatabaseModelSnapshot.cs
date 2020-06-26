@@ -116,7 +116,7 @@ namespace FlowerShopDatabaseImplement.Migrations
                     b.Property<int>("PauseTime")
                         .HasColumnType("int");
 
-                    b.Property<int>("WorkTime")
+                    b.Property<int>("WorkingTime")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

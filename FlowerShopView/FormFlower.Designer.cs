@@ -42,12 +42,12 @@
             this.textBoxName.Size = new System.Drawing.Size(241, 20);
             this.textBoxName.TabIndex = 0;
             // 
-            // label1
+            // labelFIO
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(11, 19);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
+            this.label1.Name = "labelFIO";
             this.label1.Size = new System.Drawing.Size(57, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Название";

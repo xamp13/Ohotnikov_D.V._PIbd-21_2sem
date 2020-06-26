@@ -11,6 +11,8 @@ namespace FlowerShopFileImplement.Models
 
         public int BouquetId { get; set; }
 
+        public int? ImplementerId { get; set; }
+
         public int ClientId { get; set; }
 
         public int Count { get; set; }

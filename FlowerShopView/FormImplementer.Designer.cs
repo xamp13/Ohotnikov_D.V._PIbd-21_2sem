@@ -28,97 +28,106 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelImplementerFIO = new System.Windows.Forms.Label();
-            this.textBoxImplementerFIO = new System.Windows.Forms.TextBox();
-            this.textBoxWorkTime = new System.Windows.Forms.TextBox();
-            this.labelWorkTime = new System.Windows.Forms.Label();
-            this.textBoxDelay = new System.Windows.Forms.TextBox();
-            this.labelDelay = new System.Windows.Forms.Label();
-            this.buttonAccept = new System.Windows.Forms.Button();
+            this.labelFIO = new System.Windows.Forms.Label();
+            this.textBoxFIO = new System.Windows.Forms.TextBox();
+            this.buttonSave = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
+            this.textBoxWorkingTime = new System.Windows.Forms.TextBox();
+            this.labelWorkingTime = new System.Windows.Forms.Label();
+            this.textBoxPauseTime = new System.Windows.Forms.TextBox();
+            this.labelPauseTime = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // labelImplementerFIO
+            // labelFIO
             // 
-            this.labelImplementerFIO.AutoSize = true;
-            this.labelImplementerFIO.Location = new System.Drawing.Point(80, 18);
-            this.labelImplementerFIO.Name = "labelImplementerFIO";
-            this.labelImplementerFIO.Size = new System.Drawing.Size(37, 13);
-            this.labelImplementerFIO.TabIndex = 0;
-            this.labelImplementerFIO.Text = "ФИО:";
+            this.labelFIO.AutoSize = true;
+            this.labelFIO.Location = new System.Drawing.Point(13, 24);
+            this.labelFIO.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelFIO.Name = "labelFIO";
+            this.labelFIO.Size = new System.Drawing.Size(34, 13);
+            this.labelFIO.TabIndex = 0;
+            this.labelFIO.Text = "ФИО";
             // 
-            // textBoxImplementerFIO
+            // textBoxFIO
             // 
-            this.textBoxImplementerFIO.Location = new System.Drawing.Point(120, 15);
-            this.textBoxImplementerFIO.Name = "textBoxImplementerFIO";
-            this.textBoxImplementerFIO.Size = new System.Drawing.Size(129, 20);
-            this.textBoxImplementerFIO.TabIndex = 1;
+            this.textBoxFIO.Location = new System.Drawing.Point(119, 21);
+            this.textBoxFIO.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBoxFIO.Name = "textBoxFIO";
+            this.textBoxFIO.Size = new System.Drawing.Size(245, 20);
+            this.textBoxFIO.TabIndex = 1;
             // 
-            // textBoxWorkTime
+            // buttonSave
             // 
-            this.textBoxWorkTime.Location = new System.Drawing.Point(120, 41);
-            this.textBoxWorkTime.Name = "textBoxWorkTime";
-            this.textBoxWorkTime.Size = new System.Drawing.Size(129, 20);
-            this.textBoxWorkTime.TabIndex = 3;
-            // 
-            // labelWorkTime
-            // 
-            this.labelWorkTime.AutoSize = true;
-            this.labelWorkTime.Location = new System.Drawing.Point(12, 44);
-            this.labelWorkTime.Name = "labelWorkTime";
-            this.labelWorkTime.Size = new System.Drawing.Size(108, 13);
-            this.labelWorkTime.TabIndex = 2;
-            this.labelWorkTime.Text = "Время выполнения:";
-            // 
-            // textBoxDelay
-            // 
-            this.textBoxDelay.Location = new System.Drawing.Point(120, 67);
-            this.textBoxDelay.Name = "textBoxDelay";
-            this.textBoxDelay.Size = new System.Drawing.Size(129, 20);
-            this.textBoxDelay.TabIndex = 5;
-            // 
-            // labelDelay
-            // 
-            this.labelDelay.AutoSize = true;
-            this.labelDelay.Location = new System.Drawing.Point(35, 70);
-            this.labelDelay.Name = "labelDelay";
-            this.labelDelay.Size = new System.Drawing.Size(82, 13);
-            this.labelDelay.TabIndex = 4;
-            this.labelDelay.Text = "Время отдыха:";
-            // 
-            // buttonAccept
-            // 
-            this.buttonAccept.Location = new System.Drawing.Point(175, 93);
-            this.buttonAccept.Name = "buttonAccept";
-            this.buttonAccept.Size = new System.Drawing.Size(75, 23);
-            this.buttonAccept.TabIndex = 6;
-            this.buttonAccept.Text = "Принять";
-            this.buttonAccept.UseVisualStyleBackColor = true;
-            this.buttonAccept.Click += new System.EventHandler(this.buttonAccept_Click);
+            this.buttonSave.Location = new System.Drawing.Point(189, 93);
+            this.buttonSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(89, 29);
+            this.buttonSave.TabIndex = 2;
+            this.buttonSave.Text = "Сохранить";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(93, 93);
+            this.buttonCancel.Location = new System.Drawing.Point(282, 93);
+            this.buttonCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-            this.buttonCancel.TabIndex = 7;
-            this.buttonCancel.Text = "Отмена";
+            this.buttonCancel.Size = new System.Drawing.Size(82, 29);
+            this.buttonCancel.TabIndex = 3;
+            this.buttonCancel.Text = "Отменить";
             this.buttonCancel.UseVisualStyleBackColor = true;
             this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            // 
+            // textBoxWorkingTime
+            // 
+            this.textBoxWorkingTime.Location = new System.Drawing.Point(119, 45);
+            this.textBoxWorkingTime.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxWorkingTime.Name = "textBoxWorkingTime";
+            this.textBoxWorkingTime.Size = new System.Drawing.Size(245, 20);
+            this.textBoxWorkingTime.TabIndex = 5;
+            // 
+            // labelWorkingTime
+            // 
+            this.labelWorkingTime.AutoSize = true;
+            this.labelWorkingTime.Location = new System.Drawing.Point(13, 48);
+            this.labelWorkingTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelWorkingTime.Name = "labelWorkingTime";
+            this.labelWorkingTime.Size = new System.Drawing.Size(92, 13);
+            this.labelWorkingTime.TabIndex = 4;
+            this.labelWorkingTime.Text = "Время на работу";
+            // 
+            // textBoxPauseTime
+            // 
+            this.textBoxPauseTime.Location = new System.Drawing.Point(119, 69);
+            this.textBoxPauseTime.Margin = new System.Windows.Forms.Padding(2);
+            this.textBoxPauseTime.Name = "textBoxPauseTime";
+            this.textBoxPauseTime.Size = new System.Drawing.Size(245, 20);
+            this.textBoxPauseTime.TabIndex = 7;
+            // 
+            // labelPauseTime
+            // 
+            this.labelPauseTime.AutoSize = true;
+            this.labelPauseTime.Location = new System.Drawing.Point(13, 72);
+            this.labelPauseTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelPauseTime.Name = "labelPauseTime";
+            this.labelPauseTime.Size = new System.Drawing.Size(102, 13);
+            this.labelPauseTime.TabIndex = 6;
+            this.labelPauseTime.Text = "Время на перерыв";
             // 
             // FormImplementer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(261, 125);
+            this.ClientSize = new System.Drawing.Size(383, 137);
+            this.Controls.Add(this.textBoxPauseTime);
+            this.Controls.Add(this.labelPauseTime);
+            this.Controls.Add(this.textBoxWorkingTime);
+            this.Controls.Add(this.labelWorkingTime);
             this.Controls.Add(this.buttonCancel);
-            this.Controls.Add(this.buttonAccept);
-            this.Controls.Add(this.textBoxDelay);
-            this.Controls.Add(this.labelDelay);
-            this.Controls.Add(this.textBoxWorkTime);
-            this.Controls.Add(this.labelWorkTime);
-            this.Controls.Add(this.textBoxImplementerFIO);
-            this.Controls.Add(this.labelImplementerFIO);
+            this.Controls.Add(this.buttonSave);
+            this.Controls.Add(this.textBoxFIO);
+            this.Controls.Add(this.labelFIO);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FormImplementer";
             this.Text = "Исполнитель";
             this.Load += new System.EventHandler(this.FormImplementer_Load);
@@ -126,16 +135,14 @@
             this.PerformLayout();
 
         }
-
         #endregion
-
-        private System.Windows.Forms.Label labelImplementerFIO;
-        private System.Windows.Forms.TextBox textBoxImplementerFIO;
-        private System.Windows.Forms.TextBox textBoxWorkTime;
-        private System.Windows.Forms.Label labelWorkTime;
-        private System.Windows.Forms.TextBox textBoxDelay;
-        private System.Windows.Forms.Label labelDelay;
-        private System.Windows.Forms.Button buttonAccept;
+        private System.Windows.Forms.Label labelFIO;
+        private System.Windows.Forms.TextBox textBoxFIO;
+        private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.TextBox textBoxWorkingTime;
+        private System.Windows.Forms.Label labelWorkingTime;
+        private System.Windows.Forms.TextBox textBoxPauseTime;
+        private System.Windows.Forms.Label labelPauseTime;
     }
 }
