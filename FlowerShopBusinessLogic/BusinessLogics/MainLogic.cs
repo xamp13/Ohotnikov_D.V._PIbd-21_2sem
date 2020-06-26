@@ -54,9 +54,9 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                     Status = OrderStatus.Выполняется
                 });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
         public void FinishOrder(ChangeStatusBindingModel model)
