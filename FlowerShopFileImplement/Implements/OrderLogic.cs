@@ -1,6 +1,7 @@
 ﻿using FlowerShopBusinessLogic.BindingModels;
 using FlowerShopBusinessLogic.Interfaces;
 using FlowerShopBusinessLogic.ViewModels;
+using FlowerShopBusinessLogic.Enums;
 using FlowerShopFileImplement.Models;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,7 @@ namespace FlowerShopFileImplement.Implements
             }
             element.BouquetId = model.BouquetId == 0 ? element.BouquetId : model.BouquetId;
             element.ClientId = model.ClientId == null ? element.ClientId : (int)model.ClientId;
+            element.ImplementerId = model.ImplementerId;
             element.Count = model.Count;
             element.Sum = model.Sum;
             element.Status = model.Status;
@@ -58,14 +60,20 @@ namespace FlowerShopFileImplement.Implements
         public List<OrderViewModel> Read(OrderBindingModel model)
         {
             return source.Orders
-            .Where(rec => model == null || rec.Id == model.Id || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
-            || model.ClientId.HasValue && rec.ClientId == model.ClientId)
+            .Where(rec => model == null ||
+                (model.Id != null && rec.Id == model.Id) ||
+                (model.DateFrom != null && model.DateTo != null && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo) ||
+                (rec.ClientId == model.ClientId) ||
+                (model.FreeOrder.HasValue && model.FreeOrder.Value && !rec.ImplementerId.HasValue) ||
+                (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется) ||
+                (model.NotEnoughFlowersOrders.HasValue && model.NotEnoughFlowersOrders.Value && rec.Status == OrderStatus.Требуются_цветы))
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
                 BouquetName = GetBouquetName(rec.BouquetId),
                 ClientId = rec.ClientId,
                 ClientFIO = source.Clients.FirstOrDefault(recC => recC.Id == rec.ClientId)?.ClientFIO,
+                ImplementerFIO = source.Implementers.FirstOrDefault(recC => recC.Id == rec.ImplementerId)?.ImplementerFIO,
                 Count = rec.Count,
                 Sum = rec.Sum,
                 Status = rec.Status,

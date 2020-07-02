@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlowerShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(FlowerShopDatabase))]
-    [Migration("20200626112337_lab5home")]
-    partial class lab5home
+    [Migration("20200702061132_LabHome6")]
+    partial class LabHome6
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -105,6 +105,27 @@ namespace FlowerShopDatabaseImplement.Migrations
                     b.ToTable("Flowers");
                 });
 
+            modelBuilder.Entity("FlowerShopDatabaseImplement.Models.Implementer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImplementerFIO")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PauseTime")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkingTime")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Implementers");
+                });
+
             modelBuilder.Entity("FlowerShopDatabaseImplement.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -127,6 +148,12 @@ namespace FlowerShopDatabaseImplement.Migrations
                     b.Property<DateTime?>("DateImplement")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ImplementerFIO")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ImplementerId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -138,6 +165,8 @@ namespace FlowerShopDatabaseImplement.Migrations
                     b.HasIndex("BouquetId");
 
                     b.HasIndex("ClientId");
+
+                    b.HasIndex("ImplementerId");
 
                     b.ToTable("Orders");
                 });
@@ -211,6 +240,10 @@ namespace FlowerShopDatabaseImplement.Migrations
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("FlowerShopDatabaseImplement.Models.Implementer", "Implementer")
+                        .WithMany("Orders")
+                        .HasForeignKey("ImplementerId");
                 });
 
             modelBuilder.Entity("FlowerShopDatabaseImplement.Models.StorageFlower", b =>

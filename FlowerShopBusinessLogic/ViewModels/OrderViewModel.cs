@@ -36,6 +36,10 @@ namespace FlowerShopBusinessLogic.ViewModels
         public decimal Sum { get; set; }
 
         [DataMember]
+        [DisplayName("Рабочий")]
+        public string ImplementerFIO { set; get; }
+
+        [DataMember]
         [DisplayName("Статус")]
         public OrderStatus Status { get; set; }
 
@@ -46,5 +50,8 @@ namespace FlowerShopBusinessLogic.ViewModels
         [DataMember]
         [DisplayName("Дата выполнения")]
         public DateTime? DateImplement { get; set; }
+
+        [DataMember]
+        public int? ImplementerId { set; get; }
     }
 }

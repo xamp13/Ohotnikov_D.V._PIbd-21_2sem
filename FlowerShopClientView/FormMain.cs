@@ -24,9 +24,9 @@ namespace FlowerShopClientView
                 dataGridViewClientOrders.DataSource = ApiClient.GetRequest<List<OrderViewModel>>($"api/main/getorders?clientId={Program.Client.Id}");
                 dataGridViewClientOrders.Columns[0].Visible = false;
                 dataGridViewClientOrders.Columns[1].Visible = false;
-                dataGridViewClientOrders.Columns[2].Visible = false;
                 dataGridViewClientOrders.Columns[3].Visible = false;
-                dataGridViewClientOrders.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridViewClientOrders.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridViewClientOrders.Columns[11].Visible = false;
             }
             catch (Exception ex)
             {
