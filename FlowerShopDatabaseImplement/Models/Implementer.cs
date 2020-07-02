@@ -13,10 +13,8 @@ namespace FlowerShopDatabaseImplement.Models
 
         public string ImplementerFIO { set; get; }
 
-        [Required]
         public int WorkingTime { set; get; }
 
-        [Required]
         public int PauseTime { set; get; }
 
         public virtual List<Order> Orders { set; get; }

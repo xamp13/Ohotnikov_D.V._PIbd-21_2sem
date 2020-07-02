@@ -43,7 +43,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 }
                 if (order.Status != OrderStatus.Принят && order.Status != OrderStatus.Требуются_цветы)
                 {
-                    throw new Exception("Заказ не в статусе \"Принят\"или \"Требуются продукты\"");
+                    throw new Exception("Заказ не в статусе \"Принят\"или \"Требуются цветы\"");
                 }
                 if (order.ImplementerId.HasValue)
                 {
@@ -53,10 +53,10 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 {
                     Id = order.Id,
                     BouquetId = order.BouquetId,
+                    ClientId = order.ClientId,
                     Count = order.Count,
                     Sum = order.Sum,
-                    ClientId = order.ClientId,
-                    DateCreate = order.DateCreate
+                    DateCreate = order.DateCreate,
                 };
                 try
                 {
@@ -68,7 +68,6 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 catch
                 {
                     orderModel.Status = OrderStatus.Требуются_цветы;
-                    throw;
                 }
                 orderLogic.CreateOrUpdate(orderModel);
             }

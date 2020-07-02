@@ -37,7 +37,7 @@ namespace FlowerShopListImplement.Implements
             {
                 if (tempImplementer == null)
                 {
-                    throw new Exception("Элемент не найден");
+                    throw new Exception("Исполнитель не найден");
                 }
                 CreateModel(model, tempImplementer);
             }
@@ -56,7 +56,7 @@ namespace FlowerShopListImplement.Implements
                     return;
                 }
             }
-            throw new Exception("Элемент не найден");
+            throw new Exception("Исполнитель не найден");
         }
         public List<ImplementerViewModel> Read(ImplementerBindingModel model)
         {

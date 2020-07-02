@@ -17,13 +17,17 @@ namespace FlowerShopBusinessLogic.BusinessLogics
         private readonly IOrderLogic orderLogic;
         private readonly MainLogic mainLogic;
         private readonly Random rnd;
-        public WorkModeling(IImplementerLogic implementerLogic, IOrderLogic orderLogic, MainLogic mainLogic)
+        public WorkModeling(IImplementerLogic implementerLogic, IOrderLogic orderLogic,
+       MainLogic mainLogic)
         {
             this.implementerLogic = implementerLogic;
             this.orderLogic = orderLogic;
             this.mainLogic = mainLogic;
             rnd = new Random(1000);
         }
+        /// <summary>
+        /// Запуск работ
+        /// </summary>
         public void DoWork()
         {
             var implementers = implementerLogic.Read(null);
@@ -38,7 +42,8 @@ namespace FlowerShopBusinessLogic.BusinessLogics
         /// </summary>
         /// <param name="implementer"></param>
         /// <param name="orders"></param>
-        private async void WorkerWorkAsync(ImplementerViewModel implementer, List<OrderViewModel> orders)
+        private async void WorkerWorkAsync(ImplementerViewModel implementer,
+       List<OrderViewModel> orders)
         {
             var runOrders = await Task.Run(() => orderLogic.Read(new OrderBindingModel
             {
@@ -53,11 +58,11 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 });
                 Thread.Sleep(implementer.PauseTime);
             }
-            var notEnoughFlowersOrders = await Task.Run(() => orderLogic.Read(new OrderBindingModel { NotEnoughFlowersOrders = true }));
+            var notEnoughFoodsOrders = await Task.Run(() => orderLogic.Read(new OrderBindingModel { NotEnoughFlowersOrders = true }));
             await Task.Run(() =>
             {
                 var toRemove = new List<OrderViewModel>();
-                foreach (var order in notEnoughFlowersOrders)
+                foreach (var order in notEnoughFoodsOrders)
                 {
                     try
                     {

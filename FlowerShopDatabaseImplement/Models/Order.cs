@@ -35,6 +35,7 @@ namespace FlowerShopDatabaseImplement.Models
         public virtual Client Client { set; get; }
 
         public virtual Bouquet Bouquet { get; set; }
+
         public virtual Implementer Implementer { set; get; }
     }
 }

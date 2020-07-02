@@ -62,26 +62,28 @@ namespace FlowerShopDatabaseImplement.Implements
         {
             using (var context = new FlowerShopDatabase())
             {
-                return context.Orders.Where(rec => model == null
-                    || (rec.Id == model.Id && model.Id.HasValue)
-                    || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
-                    || (model.ClientId.HasValue && rec.ClientId == model.ClientId)
-                    || (model.FreeOrder.HasValue && model.FreeOrder.Value && !rec.ImplementerId.HasValue)
-                    || (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется)
-                    || (model.NotEnoughFlowersOrders.HasValue && model.NotEnoughFlowersOrders.Value && rec.Status == OrderStatus.Требуются_цветы))
+                return context.Orders
+              .Where(rec => model == null
+                  || (rec.Id == model.Id && model.Id.HasValue)
+                  || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+                  || (model.ClientId.HasValue && rec.ClientId == model.ClientId)
+                  || (model.FreeOrder.HasValue && model.FreeOrder.Value && !rec.ImplementerId.HasValue)
+                  || (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется)
+                  || (model.NotEnoughFlowersOrders.HasValue && model.NotEnoughFlowersOrders.Value && rec.Status == OrderStatus.Требуются_цветы)
+               )
                 .Select(rec => new OrderViewModel
                 {
                     Id = rec.Id,
                     ClientId = rec.ClientId,
-                    BouquetId = rec.BouquetId,
                     ImplementerId = rec.ImplementerId,
+                    BouquetId = rec.BouquetId,
                     DateCreate = rec.DateCreate,
                     DateImplement = rec.DateImplement,
                     Status = rec.Status,
                     Count = rec.Count,
                     Sum = rec.Sum,
                     ClientFIO = rec.Client.ClientFIO,
-                    ImplementerFIO = rec.ImplementerId.HasValue ?rec.Implementer.ImplementerFIO : string.Empty,
+                    ImplementerFIO = rec.ImplementerId.HasValue ? rec.Implementer.ImplementerFIO : string.Empty,
                     BouquetName = rec.Bouquet.BouquetName
                 })
                 .ToList();
