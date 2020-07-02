@@ -68,6 +68,7 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 catch
                 {
                     orderModel.Status = OrderStatus.Требуются_цветы;
+                    throw;
                 }
                 orderLogic.CreateOrUpdate(orderModel);
             }
