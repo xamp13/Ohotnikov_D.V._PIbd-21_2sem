@@ -58,11 +58,11 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 });
                 Thread.Sleep(implementer.PauseTime);
             }
-            var notEnoughFoodsOrders = await Task.Run(() => orderLogic.Read(new OrderBindingModel { NotEnoughFlowersOrders = true }));
+            var notEnoughFlowersOrders = await Task.Run(() => orderLogic.Read(new OrderBindingModel { NotEnoughFlowersOrders = true }));
             await Task.Run(() =>
             {
                 var toRemove = new List<OrderViewModel>();
-                foreach (var order in notEnoughFoodsOrders)
+                foreach (var order in notEnoughFlowersOrders)
                 {
                     try
                     {
