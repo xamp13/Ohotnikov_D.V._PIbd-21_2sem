@@ -70,7 +70,7 @@ namespace FlowerShopListImplement.Implements
             List<ClientViewModel> result = new List<ClientViewModel>();
             foreach (var client in source.Clients)
             {
-                if(model != null)
+                if (model != null)
                 {
                     if (model.Id.HasValue && client.Id == model.Id)
                     {
