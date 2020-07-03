@@ -34,12 +34,14 @@
             this.создатьЗаказToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.редактироватьПрофильToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.обновитьСписокЗаказовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сообщенияToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewClientOrders)).BeginInit();
             this.menuStripMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
+            this.dataGridViewClientOrders.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dataGridViewClientOrders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewClientOrders.Location = new System.Drawing.Point(2, 26);
             this.dataGridViewClientOrders.Name = "dataGridView1";
@@ -61,7 +63,8 @@
             this.менюToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.создатьЗаказToolStripMenuItem,
             this.редактироватьПрофильToolStripMenuItem,
-            this.обновитьСписокЗаказовToolStripMenuItem});
+            this.обновитьСписокЗаказовToolStripMenuItem,
+            this.сообщенияToolStripMenuItem});
             this.менюToolStripMenuItem.Name = "менюToolStripMenuItem";
             this.менюToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.менюToolStripMenuItem.Text = "Меню";
@@ -86,6 +89,13 @@
             this.обновитьСписокЗаказовToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.обновитьСписокЗаказовToolStripMenuItem.Text = "Обновить список заказов";
             this.обновитьСписокЗаказовToolStripMenuItem.Click += RefreshOrderListToolStripMenuItem_Click;
+            // 
+            // сообщенияToolStripMenuItem
+            // 
+            this.сообщенияToolStripMenuItem.Name = "сообщенияToolStripMenuItem";
+            this.сообщенияToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.сообщенияToolStripMenuItem.Text = "Сообщения";
+            this.сообщенияToolStripMenuItem.Click += new System.EventHandler(this.сообщенияToolStripMenuItem_Click);
             // 
             // FormMainClient
             // 
@@ -113,5 +123,6 @@
         private System.Windows.Forms.ToolStripMenuItem создатьЗаказToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem редактироватьПрофильToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem обновитьСписокЗаказовToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem сообщенияToolStripMenuItem;
     }
 }

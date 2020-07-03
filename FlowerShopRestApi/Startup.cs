@@ -33,6 +33,7 @@ namespace FlowerShopRestApi
             services.AddTransient<IBouquetLogic, BouquetLogic>();
             services.AddTransient<IStorageLogic, StorageLogic>();
             services.AddTransient<IFlowerLogic, FlowerLogic>();
+            services.AddTransient<IMessageInfoLogic, MessageInfoLogic>();
             services.AddTransient<MainLogic>();
             services.AddControllers();
         }

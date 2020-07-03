@@ -8,10 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Unity" Version="5.11.7" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FlowerShopBusinessLogic\FlowerShopBusinessLogic.csproj" />
+    <ProjectReference Include="..\FlowerShopDatabaseImplement\FlowerShopDatabaseImplement.csproj" />
   </ItemGroup>
 
 </Project>

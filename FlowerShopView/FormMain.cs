@@ -71,7 +71,7 @@ namespace FlowerShopView
             form.ShowDialog();
             LoadData();
         }
-    
+
         private void buttonPayOrder_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
@@ -173,6 +173,12 @@ namespace FlowerShopView
         {
             work.DoWork();
             LoadData();
+        }
+
+        private void сообщенияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormMessages>();
+            form.ShowDialog();
         }
     }
 }

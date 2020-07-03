@@ -25,6 +25,8 @@ namespace FlowerShopListImplement
 
         public List<Implementer> Implementers { set; get; }
 
+        public List<MessageInfo> MessageInfoes { set; get; }
+
         private DataListSingleton()
         {
             Flowers = new List<Flower>();

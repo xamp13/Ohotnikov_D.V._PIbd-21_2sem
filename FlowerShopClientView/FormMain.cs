@@ -27,6 +27,7 @@ namespace FlowerShopClientView
                 dataGridViewClientOrders.Columns[3].Visible = false;
                 dataGridViewClientOrders.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 dataGridViewClientOrders.Columns[11].Visible = false;
+                dataGridViewClientOrders.Columns[7].Visible = false;
             }
             catch (Exception ex)
             {
@@ -50,7 +51,12 @@ namespace FlowerShopClientView
             }
         }
 
-        private void RefreshOrderListToolStripMenuItem_Click(object sender, EventArgs e)
+        private void сообщенияToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormMessages();
+            form.ShowDialog();
+        }
+            private void RefreshOrderListToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoadList();
         }

@@ -1,9 +1,15 @@
+using FlowerShopBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using FlowerShopBusinessLogic.ViewModels;
+using System.Configuration;
+using Unity;
+using FlowerShopBusinessLogic.Interfaces;
+using FlowerShopDatabaseImplement.Implements;
+using Unity.Lifetime;
+using FlowerShopBusinessLogic.BusinessLogics;
 
 namespace FlowerShopClientView
 {
