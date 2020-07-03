@@ -19,74 +19,42 @@ namespace FlowerShopListImplement.Implements
 
         public void Create(MessageInfoBindingModel model)
         {
-            MessageInfo tempMessageInfo = new MessageInfo { MessageId = "" };
-
-            foreach (var messageInfo in source.MessageInfoes)
+            for (int i = 0; i < source.MessageInfoes.Count; ++i)
             {
-                if (model.MessageId == messageInfo.MessageId)
+                if (source.MessageInfoes[i].MessageId == model.MessageId)
                 {
-                    throw new Exception("Уже есть письмо с таким идентификатором");
+                    throw new Exception("Уже есть изделие с таким названием");
                 }
             }
 
-            source.MessageInfoes.Add(CreateModel(model, tempMessageInfo));
+            source.MessageInfoes.Add(new MessageInfo
+            {
+                MessageId = model.MessageId,
+                ClientId = model.ClientId,
+                SenderName = model.FromMailAddress,
+                DateDelivery = model.DateDelivery,
+                Subject = model.Subject,
+                Body = model.Body
+            });
         }
 
         public List<MessageInfoViewModel> Read(MessageInfoBindingModel model)
         {
-            List<MessageInfoViewModel> result = new List<MessageInfoViewModel>();
-
-            foreach (var messageInfo in source.MessageInfoes)
+            List<MessageInfoViewModel> result = source.MessageInfoes
+            .Where(rec => model == null || rec.ClientId == model.ClientId)
+            .Skip(model.Skip)
+            .Take(model.Take)
+            .Select(rec => new MessageInfoViewModel
             {
-                if (model != null)
-                {
-                    if (model.ClientId.HasValue && messageInfo.ClientId == model.ClientId)
-                    {
-                        result.Add(CreateViewModel(messageInfo));
-                    }
-
-                    continue;
-                }
-
-                result.Add(CreateViewModel(messageInfo));
-            }
+                MessageId = model.MessageId,
+                SenderName = model.FromMailAddress,
+                DateDelivery = model.DateDelivery,
+                Subject = model.Subject,
+                Body = model.Body
+            })
+            .ToList();
 
             return result;
-        }
-
-        private MessageInfo CreateModel(MessageInfoBindingModel model, MessageInfo MessageInfo)
-        {
-            int? clientId = null;
-
-            foreach (var client in source.Clients)
-            {
-                if (model.ClientId.HasValue && model.ClientId == client.Id)
-                {
-                    clientId = model.ClientId;
-                    break;
-                }
-            }
-
-            MessageInfo.MessageId = model.MessageId;
-            MessageInfo.ClientId = clientId;
-            MessageInfo.SenderName = model.FromMailAddress;
-            MessageInfo.DateDelivery = model.DateDelivery;
-            MessageInfo.Subject = model.Subject;
-            MessageInfo.Body = model.Body;
-
-            return MessageInfo;
-        }
-
-        private MessageInfoViewModel CreateViewModel(MessageInfo MessageInfo)
-        {
-            return new MessageInfoViewModel
-            {
-                MessageId = MessageInfo.MessageId,
-                SenderName = MessageInfo.SenderName,
-                DateDelivery = MessageInfo.DateDelivery,
-                Subject = MessageInfo.Subject,
-                Body = MessageInfo.Body
-            };
         }
     }
 }

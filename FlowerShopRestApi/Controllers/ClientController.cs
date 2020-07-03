@@ -24,32 +24,43 @@ namespace FlowerShopRestApi.Controllers
             _logic = logic;
             _messageLogic = messageLogic;
         }
+
         [HttpGet]
-        public ClientViewModel Login(string login, string password) => _logic.Read(new ClientBindingModel { Login = login, Password = password })?[0];
+        public ClientViewModel Login(string login, string password) => _logic.Read(new ClientBindingModel
+        { Login = login, Password = password })?[0];
+
         [HttpGet]
         public List<MessageInfoViewModel> GetMessages(int clientId) => _messageLogic.Read(new MessageInfoBindingModel { ClientId = clientId });
+
+        [HttpGet]
+        public List<MessageInfoViewModel> GetMessagesPage(int clientId, int skip, int take) => _messageLogic.Read(new MessageInfoBindingModel { ClientId = clientId, Skip = skip, Take = take });
+
         [HttpPost]
         public void Register(ClientBindingModel model)
         {
             CheckData(model);
             _logic.CreateOrUpdate(model);
         }
+
         [HttpPost]
         public void UpdateData(ClientBindingModel model)
         {
             CheckData(model);
             _logic.CreateOrUpdate(model);
         }
+
         private void CheckData(ClientBindingModel model)
         {
             if (!Regex.IsMatch(model.Login, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
             {
                 throw new Exception("В качестве логина почта указана должна быть");
             }
-            if (model.Password.Length > _passwordMaxLength || model.Password.Length < _passwordMinLength || !Regex.IsMatch(model.Password, @"^((\w+\d+\W+)|(\w+\W+\d+)|(\d+\w+\W+)|(\d+\W+\w+)|(\W+\w+\d+)|(\W+\d+\w+))[\w\d\W]*$"))
+            if (model.Password.Length > _passwordMaxLength || model.Password.Length < _passwordMinLength || !Regex.IsMatch(model.Password,
+            @"^((\w+\d+\W+)|(\w+\W+\d+)|(\d+\w+\W+)|(\d+\W+\w+)|(\W+\w+\d+)|(\W+\d+\w+))[\w\d\W]*$"))
             {
-                throw new Exception($"Пароль длиной от {_passwordMinLength} до {_passwordMaxLength} должен быть и из цифр, букв и небуквенных символов должен состоять");
+                throw new Exception($"Пароль длиной от {_passwordMinLength} до { _passwordMaxLength } должен быть и из цифр, букв и небуквенных символов должен состоять");
             }
         }
+
     }
 }
