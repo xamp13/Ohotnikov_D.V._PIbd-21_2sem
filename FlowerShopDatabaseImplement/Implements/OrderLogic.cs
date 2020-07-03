@@ -78,6 +78,7 @@ namespace FlowerShopDatabaseImplement.Implements
                     Count = rec.Count,
                     Sum = rec.Sum,
                     ClientFIO = rec.Client.ClientFIO,
+                    ImplementerFIO = rec.Implementer.ImplementerFIO,
                     ClientId = rec.ClientId,
                     ImplementerId = rec.ImplementerId,
                     Status = rec.Status,
