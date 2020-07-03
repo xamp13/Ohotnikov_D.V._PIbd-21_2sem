@@ -28,8 +28,6 @@ namespace FlowerShopDatabaseImplement.Models
 
         public int? ImplementerId { set; get; }
 
-        public string ImplementerFIO { set; get; }
-
         [Required]
         public DateTime DateCreate { get; set; }
 
