@@ -20,8 +20,7 @@ namespace FlowerShopDatabaseImplement.Implements
                 {
                     throw new Exception("Уже есть письмо с таким идентификатором");
                 }
-                int? clientId = context.Clients.FirstOrDefault(rec => rec.Login ==
-               model.FromMailAddress)?.Id;
+                int? clientId = context.Clients.FirstOrDefault(rec => rec.Login == model.FromMailAddress)?.Id;
                 context.MessageInfoes.Add(new MessageInfo
                 {
                     MessageId = model.MessageId,
@@ -48,7 +47,7 @@ namespace FlowerShopDatabaseImplement.Implements
                     Subject = rec.Subject,
                     Body = rec.Body
                 })
-               .ToList();
+                .ToList();
             }
         }
     }

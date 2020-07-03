@@ -179,7 +179,6 @@ namespace FlowerShopView
         {
             var form = Container.Resolve<FormMessages>();
             form.ShowDialog();
-
         }
     }
 }

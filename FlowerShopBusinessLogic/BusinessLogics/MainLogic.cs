@@ -1,6 +1,7 @@
 ﻿using FlowerShopBusinessLogic.BindingModels;
 using FlowerShopBusinessLogic.Enums;
 using FlowerShopBusinessLogic.Interfaces;
+using FlowerShopBusinessLogic.HelperModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,11 +12,13 @@ namespace FlowerShopBusinessLogic.BusinessLogics
     {
         private readonly IOrderLogic orderLogic;
         private readonly IStorageLogic storageLogic;
+        private readonly IClientLogic clientLogic;
         private readonly object locker = new object();
-        public MainLogic(IOrderLogic orderLogic, IStorageLogic storageLogic)
+        public MainLogic(IOrderLogic orderLogic, IStorageLogic storageLogic, IClientLogic clientLogic)
         {
             this.orderLogic = orderLogic;
             this.storageLogic = storageLogic;
+            this.clientLogic = clientLogic;
         }
         public void CreateOrder(CreateOrderBindingModel model)
         {
@@ -27,6 +30,12 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 Sum = model.Sum,
                 DateCreate = DateTime.Now,
                 Status = OrderStatus.Принят
+            });
+            MailLogic.MailSendAsync(new MailSendInfo
+            {
+                MailAddress = clientLogic.Read(new ClientBindingModel { Id = model.ClientId })?[0]?.Login,
+                Subject = $"Новый заказ",
+                Text = $"Заказ принят."
             });
         }
         public void TakeOrderInWork(ChangeStatusBindingModel model)
@@ -64,11 +73,23 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                     orderModel.DateImplement = DateTime.Now;
                     orderModel.Status = OrderStatus.Выполняется;
                     orderModel.ImplementerId = model.ImplementerId;
+
+                    MailLogic.MailSendAsync(new MailSendInfo
+                    {
+                        MailAddress = clientLogic.Read(new ClientBindingModel { Id = order.ClientId })?[0]?.Login,
+                        Subject = $"Заказ №{order.Id}",
+                        Text = $"Заказ №{order.Id} передан в работу."
+                    });
                 }
                 catch
                 {
                     orderModel.Status = OrderStatus.Требуются_цветы;
-                    throw;
+                    MailLogic.MailSendAsync(new MailSendInfo
+                    {
+                        MailAddress = clientLogic.Read(new ClientBindingModel { Id = order.ClientId })?[0]?.Login,
+                        Subject = $"Заказ №{order.Id}",
+                        Text = $"Заказ №{order.Id} требует цветы."
+                    });
                 }
                 orderLogic.CreateOrUpdate(orderModel);
             }
@@ -96,6 +117,12 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Готов
             });
+            MailLogic.MailSendAsync(new MailSendInfo
+            {
+                MailAddress = clientLogic.Read(new ClientBindingModel { Id = order.ClientId })?[0]?.Login,
+                Subject = $"Заказ №{order.Id}",
+                Text = $"Заказ №{order.Id} готов."
+            });
         }
         public void PayOrder(ChangeStatusBindingModel model)
         {
@@ -119,6 +146,13 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен
+            });
+
+            MailLogic.MailSendAsync(new MailSendInfo
+            {
+                MailAddress = clientLogic.Read(new ClientBindingModel { Id = order.ClientId })?[0]?.Login,
+                Subject = $"Заказ №{order.Id}",
+                Text = $"Заказ №{order.Id} оплачен."
             });
         }
         public void FillStorage(StorageFlowerBindingModel model)

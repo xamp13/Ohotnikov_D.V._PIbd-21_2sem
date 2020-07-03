@@ -5,37 +5,48 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Text;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace FlowerShopClientView
 {
     public partial class FormMessages : Form
     {
+        private List<MessageInfoViewModel> message;
+        private int page = 0;
         public FormMessages()
         {
             InitializeComponent();
-        }
-        private void FormMessages_Load(object sender, EventArgs e)
-        {
+            labelPage.Text = "Страница: 0";
             LoadData();
         }
+
         private void LoadData()
         {
             try
             {
-                var list = ApiClient.GetRequest<List<MessageInfoViewModel>>($"api/client/getmessages?clientId={Program.Client.Id}");
-
-                if (list != null)
-                {
-                    dataGridView.DataSource = list;
-                    dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                }
+                message = ApiClient.GetRequest<List<MessageInfoViewModel>>($"api/client/getmessages?clientid={Program.Client.Id}");
+                dataGridView.DataSource = message.Take(5).ToList();
+                dataGridView.Columns[0].Visible = false;
+                dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка получения спаска сообщений", "Ошибка",
+               MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        private void buttonNext_Click(object sender, EventArgs e)
+        {
+            dataGridView.DataSource = message.Skip(++page * 5).Take(5).ToList();
+            labelPage.Text = $"Страница: {page}";
+        }
+
+        private void buttonNazad_Click(object sender, EventArgs e)
+        {
+            if (page == 0) return;
+            dataGridView.DataSource = message.Skip(--page * 5).Take(5).ToList();
+            labelPage.Text = $"Страница: {page}";
         }
     }
 }

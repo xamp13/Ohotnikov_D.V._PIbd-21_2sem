@@ -34,15 +34,13 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             {
                 return;
             }
-            if (string.IsNullOrEmpty(info.MailAddress) ||
-           string.IsNullOrEmpty(info.Subject) || string.IsNullOrEmpty(info.Text))
+            if (string.IsNullOrEmpty(info.MailAddress) || string.IsNullOrEmpty(info.Subject) || string.IsNullOrEmpty(info.Text))
             {
                 return;
             }
             using (var objMailMessage = new MailMessage())
             {
-                using (var objSmtpClient = new SmtpClient(smtpClientHost,
-               smtpClientPort))
+                using (var objSmtpClient = new SmtpClient(smtpClientHost, smtpClientPort))
                 {
                     try
                     {
@@ -55,9 +53,8 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                         objSmtpClient.UseDefaultCredentials = false;
                         objSmtpClient.EnableSsl = true;
                         objSmtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        objSmtpClient.Credentials = new NetworkCredential(mailLogin,
-                        mailPassword);
-                        objSmtpClient.Send(objMailMessage);
+                        objSmtpClient.Credentials = new NetworkCredential(mailLogin, mailPassword);
+                        await Task.Run(() => objSmtpClient.Send(objMailMessage));
                     }
                     catch (Exception)
                     {
@@ -84,23 +81,26 @@ namespace FlowerShopBusinessLogic.BusinessLogics
             {
                 await Task.Run(() =>
                 {
-                    client.Connect(info.PopHost, info.PopPort,
-                  SecureSocketOptions.SslOnConnect);
+                    client.Connect(info.PopHost, info.PopPort, SecureSocketOptions.SslOnConnect);
                     client.Authenticate(mailLogin, mailPassword);
                     for (int i = 0; i < client.Count; i++)
                     {
                         var message = client.GetMessage(i);
-                        foreach (var mail in message.From.Mailboxes)
+                        try
                         {
-                            info.Logic.Create(new MessageInfoBindingModel
+                            foreach (var mail in message.From.Mailboxes)
                             {
-                                DateDelivery = message.Date.DateTime,
-                                MessageId = message.MessageId,
-                                FromMailAddress = mail.Address,
-                                Subject = message.Subject,
-                                Body = message.TextBody
-                            });
+                                info.Logic.Create(new MessageInfoBindingModel
+                                {
+                                    DateDelivery = message.Date.DateTime,
+                                    MessageId = message.MessageId,
+                                    FromMailAddress = mail.Address,
+                                    Subject = message.Subject,
+                                    Body = message.HtmlBody.Substring(5, message.HtmlBody.Length - 13)
+                                });
+                            }
                         }
+                        catch (Exception) { }
                     }
                     client.Disconnect(true);
                 });
