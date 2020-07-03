@@ -4,14 +4,16 @@ using FlowerShopDatabaseImplement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FlowerShopDatabaseImplement.Migrations
 {
     [DbContext(typeof(FlowerShopDatabase))]
-    partial class FlowerShopDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20200515120952_lab7")]
+    partial class lab7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,7 +118,7 @@ namespace FlowerShopDatabaseImplement.Migrations
                     b.Property<int>("PauseTime")
                         .HasColumnType("int");
 
-                    b.Property<int>("WorkingTime")
+                    b.Property<int>("WorkTime")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -161,6 +163,10 @@ namespace FlowerShopDatabaseImplement.Migrations
                     b.Property<int>("BouquetId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ClientFIO")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
@@ -194,47 +200,6 @@ namespace FlowerShopDatabaseImplement.Migrations
                     b.HasIndex("ImplementerId");
 
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("FlowerShopDatabaseImplement.Models.Storage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("StorageName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Storages");
-                });
-
-            modelBuilder.Entity("FlowerShopDatabaseImplement.Models.StorageFlower", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FlowerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StorageId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FlowerId");
-
-                    b.HasIndex("StorageId");
-
-                    b.ToTable("StorageFlowers");
                 });
 
             modelBuilder.Entity("FlowerShopDatabaseImplement.Models.BouquetFlower", b =>
@@ -276,21 +241,6 @@ namespace FlowerShopDatabaseImplement.Migrations
                     b.HasOne("FlowerShopDatabaseImplement.Models.Implementer", "Implementer")
                         .WithMany("Orders")
                         .HasForeignKey("ImplementerId");
-                });
-
-            modelBuilder.Entity("FlowerShopDatabaseImplement.Models.StorageFlower", b =>
-                {
-                    b.HasOne("FlowerShopDatabaseImplement.Models.Flower", "Flower")
-                        .WithMany("StorageFlowers")
-                        .HasForeignKey("FlowerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FlowerShopDatabaseImplement.Models.Storage", "Storage")
-                        .WithMany("StorageFlowers")
-                        .HasForeignKey("StorageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
