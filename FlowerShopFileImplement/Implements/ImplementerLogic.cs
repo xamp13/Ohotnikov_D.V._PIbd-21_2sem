@@ -12,57 +12,62 @@ namespace FlowerShopFileImplement.Implements
     public class ImplementerLogic : IImplementerLogic
     {
         private readonly FileDataListSingleton source;
-
         public ImplementerLogic()
         {
             source = FileDataListSingleton.GetInstance();
         }
-
         public void CreateOrUpdate(ImplementerBindingModel model)
         {
-            Implementer tmp = source.Implementers.FirstOrDefault(rec => rec.ImplementerFIO == model.ImplementerFIO && rec.Id != model.Id);
-            if (tmp != null)
+
+            Implementer element = source.Implementers.FirstOrDefault(rec => rec.ImplementerFIO == model.ImplementerFIO && rec.Id != model.Id);
+            if (element != null)
             {
-                throw new Exception("Уже есть такой рабочий");
+                throw new Exception("Уже есть такой исполнитель");
             }
             if (model.Id.HasValue)
             {
-                tmp = source.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
-                if (tmp == null)
+                element = source.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
+                if (element == null)
                 {
-                    throw new Exception("Рабочий не найден");
+                    throw new Exception("Исполнитель не найден");
                 }
             }
             else
             {
                 int maxId = source.Implementers.Count > 0 ? source.Implementers.Max(rec => rec.Id) : 0;
-                tmp = new Implementer { Id = maxId + 1 };
-                source.Implementers.Add(tmp);
+                element = new Implementer { Id = maxId + 1 };
+                source.Implementers.Add(element);
             }
-            tmp.ImplementerFIO = model.ImplementerFIO;
+            element.ImplementerFIO = model.ImplementerFIO;
+            element.WorkingTime = model.WorkingTime;
+            element.PauseTime = model.PauseTime;
         }
-
         public void Delete(ImplementerBindingModel model)
         {
-            Implementer implementer = source.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
-            if (implementer != null)
+            Implementer element = source.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
+
+            if (element != null)
             {
-                source.Implementers.Remove(implementer);
+                source.Implementers.Remove(element);
             }
             else
             {
-                throw new Exception("Рабочий не найден");
+                throw new Exception("Исполнитель не найден");
             }
         }
-
         public List<ImplementerViewModel> Read(ImplementerBindingModel model)
         {
             return source.Implementers
-            .Where(rec => model == null || rec.Id == model.Id)
+            .Where(
+                rec => model == null
+                || rec.Id == model.Id
+            )
             .Select(rec => new ImplementerViewModel
             {
                 Id = rec.Id,
-                ImplementerFIO = rec.ImplementerFIO
+                ImplementerFIO = rec.ImplementerFIO,
+                WorkingTime = rec.WorkingTime,
+                PauseTime = rec.PauseTime
             })
             .ToList();
         }
