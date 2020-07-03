@@ -23,7 +23,7 @@ namespace FlowerShopListImplement.Implements
             {
                 if (source.MessageInfoes[i].MessageId == model.MessageId)
                 {
-                    throw new Exception("Уже есть изделие с таким названием");
+                    throw new Exception("Уже есть письмо с таким идентификатором");
                 }
             }
 
