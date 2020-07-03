@@ -20,9 +20,6 @@ namespace FlowerShopView
         static void Main()
         {
             var container = BuildUnityContainer();
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(container.Resolve<FormMain>());
             MailLogic.MailConfig(new MailConfig
             {
                 SmtpClientHost = ConfigurationManager.AppSettings["SmtpClientHost"],
@@ -37,18 +34,15 @@ namespace FlowerShopView
                 PopPort = Convert.ToInt32(ConfigurationManager.AppSettings["PopPort"]),
                 Logic = container.Resolve<IMessageInfoLogic>()
             }, 0, 100000);
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(container.Resolve<FormMain>());
         }
 
         private static void MailCheck(object obj)
         {
-            try
-            {
-                MailLogic.MailCheck((MailCheckInfo)obj);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            MailLogic.MailCheck((MailCheckInfo)obj);
         }
         private static IUnityContainer BuildUnityContainer()
         {
@@ -61,6 +55,7 @@ namespace FlowerShopView
             currentContainer.RegisterType<IImplementerLogic, ImplementerLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<MainLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ReportLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IMessageInfoLogic, MessageInfoLogic>(new HierarchicalLifetimeManager());
             return currentContainer;
         }
     }

@@ -22,7 +22,6 @@ namespace FlowerShopClientView
         [STAThread]
         static void Main()
         {
-            var container = BuildUnityContainer();
             ApiClient.Connect();
 
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
@@ -36,19 +35,6 @@ namespace FlowerShopClientView
             {
                 Application.Run(new FormMain());
             }
-        }
-        private static IUnityContainer BuildUnityContainer()
-        {
-            var currentContainer = new UnityContainer();
-            currentContainer.RegisterType<IFlowerLogic, FlowerLogic>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IClientLogic, ClientLogic>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IOrderLogic, OrderLogic>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IImplementerLogic, ImplementerLogic>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IBouquetLogic, BouquetLogic>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<MainLogic>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<ReportLogic>(new  HierarchicalLifetimeManager());
-            currentContainer.RegisterType<WorkModeling>(new HierarchicalLifetimeManager());
-            return currentContainer;
         }
     }
 }

@@ -71,7 +71,7 @@ namespace FlowerShopView
             form.ShowDialog();
             LoadData();
         }
-    
+
         private void buttonPayOrder_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
