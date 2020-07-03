@@ -31,9 +31,9 @@ namespace FlowerShopView
         private void InitializeComponent()
         {
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnFlower = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnAmount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonUpd = new System.Windows.Forms.Button();
             this.buttonDel = new System.Windows.Forms.Button();
@@ -44,9 +44,9 @@ namespace FlowerShopView
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.labelPrice = new System.Windows.Forms.Label();
             this.textBoxPrice = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView
@@ -55,9 +55,9 @@ namespace FlowerShopView
             this.dataGridView.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3});
+            this.ColumnId,
+            this.ColumnFlower,
+            this.ColumnAmount});
             this.dataGridView.Location = new System.Drawing.Point(0, 18);
             this.dataGridView.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView.Name = "dataGridView";
@@ -67,22 +67,22 @@ namespace FlowerShopView
             this.dataGridView.Size = new System.Drawing.Size(366, 296);
             this.dataGridView.TabIndex = 2;
             // 
-            // Column1
+            // ColumnId
             // 
-            this.Column1.HeaderText = "Id";
-            this.Column1.Name = "Column1";
-            this.Column1.Visible = false;
+            this.ColumnId.HeaderText = "Id";
+            this.ColumnId.Name = "ColumnId";
+            this.ColumnId.Visible = false;
             // 
-            // Column2
+            // ColumnFlower
             // 
-            this.Column2.HeaderText = "Цветок";
-            this.Column2.Name = "Column2";
+            this.ColumnFlower.HeaderText = "Цветок";
+            this.ColumnFlower.Name = "ColumnFlower";
             // 
-            // Column3
+            // ColumnAmount
             // 
-            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column3.HeaderText = "Количество";
-            this.Column3.Name = "Column3";
+            this.ColumnAmount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ColumnAmount.HeaderText = "Количество";
+            this.ColumnAmount.Name = "ColumnAmount";
             // 
             // buttonAdd
             // 
@@ -186,26 +186,26 @@ namespace FlowerShopView
             this.textBoxPrice.Size = new System.Drawing.Size(74, 20);
             this.textBoxPrice.TabIndex = 12;
             // 
-            // groupBox1
+            // groupBox
             // 
-            this.groupBox1.Controls.Add(this.dataGridView);
-            this.groupBox1.Controls.Add(this.buttonAdd);
-            this.groupBox1.Controls.Add(this.buttonUpd);
-            this.groupBox1.Controls.Add(this.buttonDel);
-            this.groupBox1.Controls.Add(this.buttonRef);
-            this.groupBox1.Location = new System.Drawing.Point(14, 87);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(510, 319);
-            this.groupBox1.TabIndex = 14;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Цветы";
+            this.groupBox.Controls.Add(this.dataGridView);
+            this.groupBox.Controls.Add(this.buttonAdd);
+            this.groupBox.Controls.Add(this.buttonUpd);
+            this.groupBox.Controls.Add(this.buttonDel);
+            this.groupBox.Controls.Add(this.buttonRef);
+            this.groupBox.Location = new System.Drawing.Point(14, 87);
+            this.groupBox.Name = "groupBox";
+            this.groupBox.Size = new System.Drawing.Size(510, 319);
+            this.groupBox.TabIndex = 14;
+            this.groupBox.TabStop = false;
+            this.groupBox.Text = "Цветы";
             // 
             // FormBouquet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(536, 448);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox);
             this.Controls.Add(this.labelPrice);
             this.Controls.Add(this.textBoxPrice);
             this.Controls.Add(this.buttonCancel);
@@ -217,7 +217,7 @@ namespace FlowerShopView
             this.Text = "Композиция";
             this.Load += new System.EventHandler(this.FormBouquet_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
-            this.groupBox1.ResumeLayout(false);
+            this.groupBox.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -236,9 +236,9 @@ namespace FlowerShopView
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.Label labelPrice;
         private System.Windows.Forms.TextBox textBoxPrice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private GroupBox groupBox1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFlower;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnAmount;
+        private GroupBox groupBox;
     }
 }

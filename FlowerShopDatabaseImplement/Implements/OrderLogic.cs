@@ -34,9 +34,7 @@ namespace FlowerShopDatabaseImplement.Implements
                 order.BouquetId = model.BouquetId == 0 ? order.BouquetId : model.BouquetId;
                 order.Count = model.Count;
                 order.Sum = model.Sum;
-                order.ClientFIO = model.ClientFIO;
                 order.ClientId = model.ClientId == null ? order.ClientId : (int)model.ClientId;
-                order.ImplementerFIO = model.ImplementerFIO;
                 order.ImplementerId = model.ImplementerId;
                 order.Status = model.Status;
                 order.DateCreate = model.DateCreate;
@@ -82,7 +80,6 @@ namespace FlowerShopDatabaseImplement.Implements
                     ClientFIO = rec.Client.ClientFIO,
                     ClientId = rec.ClientId,
                     ImplementerId = rec.ImplementerId,
-                    ImplementerFIO = !string.IsNullOrEmpty(rec.ImplementerFIO) ? rec.ImplementerFIO : string.Empty,
                     Status = rec.Status,
                     DateCreate = rec.DateCreate,
                     DateImplement = rec.DateImplement

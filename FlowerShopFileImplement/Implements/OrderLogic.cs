@@ -36,7 +36,6 @@ namespace FlowerShopFileImplement.Implements
             }
             element.BouquetId = model.BouquetId == 0 ? element.BouquetId : model.BouquetId;
             element.Count = model.Count;
-            element.ClientFIO = model.ClientFIO;
             element.ClientId = model.ClientId == null ? element.ClientId : (int)model.ClientId; ;
             element.Sum = model.Sum;
             element.Status = model.Status;
@@ -73,7 +72,6 @@ namespace FlowerShopFileImplement.Implements
                 ClientFIO = source.Clients.FirstOrDefault(recC => recC.Id == rec.ClientId)?.ClientFIO,
                 ClientId = rec.ClientId,
                 ImplementerId = rec.ImplementerId,
-                ImplementerFIO = !string.IsNullOrEmpty(rec.ImplementerFIO) ? rec.ImplementerFIO : string.Empty,
                 Status = rec.Status,
                 DateCreate = rec.DateCreate,
                 DateImplement = rec.DateImplement
