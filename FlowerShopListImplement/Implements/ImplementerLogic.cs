@@ -11,60 +11,53 @@ namespace FlowerShopListImplement.Implements
     public class ImplementerLogic : IImplementerLogic
     {
         private readonly DataListSingleton source;
-
         public ImplementerLogic()
         {
             source = DataListSingleton.GetInstance();
         }
-
         public void CreateOrUpdate(ImplementerBindingModel model)
         {
-            Implementer temp = model.Id.HasValue ? null : new Implementer
-            {
-                Id = 1
-            };
+            Implementer tempImplementer = new Implementer { Id = 1 };
             foreach (var implementer in source.Implementers)
             {
                 if (implementer.ImplementerFIO == model.ImplementerFIO && implementer.Id != model.Id)
                 {
-                    throw new Exception("Уже есть такой рабочий");
+                    throw new Exception("Такой исполнитель уже существует");
                 }
-                if (!model.Id.HasValue && implementer.Id >= temp.Id)
+                if (!model.Id.HasValue && implementer.Id >= tempImplementer.Id)
                 {
-                    temp.Id = implementer.Id + 1;
+                    tempImplementer.Id = implementer.Id + 1;
                 }
                 else if (model.Id.HasValue && implementer.Id == model.Id)
                 {
-                    temp = implementer;
+                    tempImplementer = implementer;
                 }
             }
             if (model.Id.HasValue)
             {
-                if (temp == null)
+                if (tempImplementer == null)
                 {
-                    throw new Exception("Рабочий не найден");
+                    throw new Exception("Исполнитель не найден");
                 }
-                CreateModel(model, temp);
+                CreateModel(model, tempImplementer);
             }
             else
             {
-                source.Implementers.Add(CreateModel(model, temp));
+                source.Implementers.Add(CreateModel(model, tempImplementer));
             }
         }
-
         public void Delete(ImplementerBindingModel model)
         {
             for (int i = 0; i < source.Implementers.Count; ++i)
             {
-                if (source.Implementers[i].Id == model.Id.Value)
+                if (source.Implementers[i].Id == model.Id)
                 {
                     source.Implementers.RemoveAt(i);
                     return;
                 }
             }
-            throw new Exception("Рабочий не найден");
+            throw new Exception("Исполнитель не найден");
         }
-
         public List<ImplementerViewModel> Read(ImplementerBindingModel model)
         {
             List<ImplementerViewModel> result = new List<ImplementerViewModel>();
@@ -83,21 +76,22 @@ namespace FlowerShopListImplement.Implements
             }
             return result;
         }
-
-        private Implementer CreateModel(ImplementerBindingModel model, Implementer implementer)
+        private Implementer CreateModel(ImplementerBindingModel model, Implementer Implementer)
         {
-            implementer.ImplementerFIO = model.ImplementerFIO;
-            return implementer;
+            Implementer.ImplementerFIO = model.ImplementerFIO;
+            Implementer.WorkingTime = model.WorkingTime;
+            Implementer.PauseTime = model.PauseTime;
+            return Implementer;
         }
-
-        private ImplementerViewModel CreateViewModel(Implementer implementer)
+        private ImplementerViewModel CreateViewModel(Implementer Implementer)
         {
             return new ImplementerViewModel
             {
-                Id = implementer.Id,
-                ImplementerFIO = implementer.ImplementerFIO
+                Id = Implementer.Id,
+                ImplementerFIO = Implementer.ImplementerFIO,
+                WorkingTime = Implementer.WorkingTime,
+                PauseTime = Implementer.PauseTime
             };
         }
     }
-
 }
