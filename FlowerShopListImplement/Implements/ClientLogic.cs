@@ -70,9 +70,14 @@ namespace FlowerShopListImplement.Implements
             List<ClientViewModel> result = new List<ClientViewModel>();
             foreach (var client in source.Clients)
             {
-                if (model != null)
+                if(model != null)
                 {
-                    if (client.Id == model.Id)
+                    if (model.Id.HasValue && client.Id == model.Id)
+                    {
+                        result.Add(CreateViewModel(client));
+                        break;
+                    }
+                    else if (client.Login == model.Login && client.Password == model.Password)
                     {
                         result.Add(CreateViewModel(client));
                         break;
