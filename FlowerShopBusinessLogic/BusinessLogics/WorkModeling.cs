@@ -59,7 +59,6 @@ namespace FlowerShopBusinessLogic.BusinessLogics
                         {
                             OrderId = order.Id,
                             ImplementerId = implementer.Id,
-                            ImplementerFIO = implementer.ImplementerFIO
                         });
                         Thread.Sleep(implementer.WorkingTime * rnd.Next(1, 5) * order.Count);
                         mainLogic.FinishOrder(new ChangeStatusBindingModel

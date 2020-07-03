@@ -12,9 +12,6 @@ namespace FlowerShopBusinessLogic.BindingModels
         public int ClientId { set; get; }
 
         [DataMember]
-        public string ClientFIO { set; get; }
-
-        [DataMember]
         public int BouquetId { get; set; }
 
         [DataMember]
