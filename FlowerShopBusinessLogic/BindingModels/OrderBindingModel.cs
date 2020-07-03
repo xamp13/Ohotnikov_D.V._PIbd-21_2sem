@@ -13,13 +13,9 @@ namespace FlowerShopBusinessLogic.BindingModels
 
         public int? ClientId { set; get; }
 
-        public string ClientFIO { set; get; }
-
         public int Count { get; set; }
 
         public decimal Sum { get; set; }
-
-        public string ImplementerFIO { set; get; }
 
         public int? ImplementerId { set; get; }
 
