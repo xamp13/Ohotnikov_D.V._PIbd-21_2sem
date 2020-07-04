@@ -92,6 +92,8 @@ namespace FlowerShopListImplement.Implements
         private Client CreateModel(ClientBindingModel model, Client client)
         {
             client.ClientFIO = model.ClientFIO;
+            client.Login = client.Login;
+            client.Password = client.Password;
             return client;
         }
 
@@ -100,7 +102,9 @@ namespace FlowerShopListImplement.Implements
             return new ClientViewModel
             {
                 Id = client.Id,
-                ClientFIO = client.ClientFIO
+                ClientFIO = client.ClientFIO,
+                Login = client.Login,
+                Password = client.Password
             };
         }
     }
