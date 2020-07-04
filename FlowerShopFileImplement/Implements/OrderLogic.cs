@@ -36,7 +36,7 @@ namespace FlowerShopFileImplement.Implements
             }
             element.BouquetId = model.BouquetId == 0 ? element.BouquetId : model.BouquetId;
             element.Count = model.Count;
-            element.ClientId = model.ClientId == null ? element.ClientId : (int)model.ClientId; ;
+            element.ClientId = model.ClientId == null ? element.ClientId : (int)model.ClientId;
             element.Sum = model.Sum;
             element.Status = model.Status;
             element.DateCreate = model.DateCreate;
