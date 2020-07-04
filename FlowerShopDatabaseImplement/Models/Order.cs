@@ -21,6 +21,7 @@ namespace FlowerShopDatabaseImplement.Models
         [Required]
         public decimal Sum { get; set; }
 
+        [Required]
         public OrderStatus Status { get; set; }
 
         public int? ImplementerId { set; get; }
