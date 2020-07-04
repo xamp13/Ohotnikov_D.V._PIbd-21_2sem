@@ -101,46 +101,45 @@ namespace FlowerShopListImplement.Implements
 
         private OrderViewModel CreateViewModel(Order order)
         {
-            Bouquet Bouquet = null;
-            foreach (Bouquet b in source.Bouquets)
+            string BouquetName = "";
+            for (int j = 0; j < source.Bouquets.Count; ++j)
             {
-                if (b.Id == order.BouquetId)
+                if (source.Bouquets[j].Id == order.BouquetId)
                 {
-                    Bouquet = b;
+                    BouquetName = source.Bouquets[j].BouquetName;
                     break;
                 }
             }
-            Client client = null;
-            foreach (Client c in source.Clients)
+            string ClientFIO = "";
+            for (int i = 0; i < source.Clients.Count; i++)
             {
-                if (c.Id == order.ClientId)
+                if (source.Clients[i].Id == order.ClientId)
                 {
-                    client = c;
+                    ClientFIO = source.Clients[i].ClientFIO;
                     break;
                 }
             }
-            Implementer implementer = null;
-            foreach (Implementer i in source.Implementers)
+            string ImplementerFIO = "";
+            if (order.ImplementerId.HasValue)
             {
-                if (i.Id == order.ImplementerId)
+                for (int i = 0; i < source.Implementers.Count; i++)
                 {
-                    implementer = i;
-                    break;
+                    if (source.Implementers[i].Id == order.ImplementerId)
+                    {
+                        ImplementerFIO = source.Implementers[i].ImplementerFIO;
+                        break;
+                    }
                 }
-            }
-            if (Bouquet == null || client == null || order.ImplementerId.HasValue && implementer == null)
-            {
-                throw new Exception("Элемент не найден");
             }
             return new OrderViewModel
             {
                 Id = order.Id,
                 BouquetId = order.BouquetId,
-                BouquetName = Bouquet.BouquetName,
+                BouquetName = BouquetName,
                 ClientId = order.ClientId,
-                ClientFIO = client.ClientFIO,
+                ClientFIO = ClientFIO,
                 ImplementerId = order.ImplementerId,
-                ImplementerFIO = implementer.ImplementerFIO,
+                ImplementerFIO = ImplementerFIO,
                 Count = order.Count,
                 Sum = order.Sum,
                 Status = order.Status,
