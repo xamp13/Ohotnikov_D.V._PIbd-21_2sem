@@ -5,6 +5,18 @@ VisualStudioVersion = 16.0.29911.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowerShopView", "FlowerShopView\FlowerShopView.csproj", "{6A5A7A22-6081-4938-8257-BF6F0C333DAA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerShopBusinessLogic", "FlowerShopBusinessLogic\FlowerShopBusinessLogic.csproj", "{C41C3597-D5E8-4662-85EC-5F4F8749B5C2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerShopListImplement", "FlowerShopListImplement\FlowerShopListImplement.csproj", "{04C440FF-E11C-4A9D-A414-87B4A93D51D6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerShopFileImplement", "FlowerShopFileImplement\FlowerShopFileImplement.csproj", "{0389603A-143D-4AA2-B820-D7D279A32A17}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerShopDatabaseImplement", "FlowerShopDatabaseImplement\FlowerShopDatabaseImplement.csproj", "{C06364F8-2686-4A1C-B32A-DA51583A0475}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowerShopRestApi", "FlowerShopRestApi\FlowerShopRestApi.csproj", "{FE5D4909-E631-473B-92F8-3B9DD639A0B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowerShopClientView", "FlowerShopClientView\FlowerShopClientView.csproj", "{653C0CE7-E250-48B3-B2BE-D9886D9BEA46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +27,30 @@ Global
 		{6A5A7A22-6081-4938-8257-BF6F0C333DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A5A7A22-6081-4938-8257-BF6F0C333DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A5A7A22-6081-4938-8257-BF6F0C333DAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C41C3597-D5E8-4662-85EC-5F4F8749B5C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C41C3597-D5E8-4662-85EC-5F4F8749B5C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C41C3597-D5E8-4662-85EC-5F4F8749B5C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C41C3597-D5E8-4662-85EC-5F4F8749B5C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04C440FF-E11C-4A9D-A414-87B4A93D51D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04C440FF-E11C-4A9D-A414-87B4A93D51D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04C440FF-E11C-4A9D-A414-87B4A93D51D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04C440FF-E11C-4A9D-A414-87B4A93D51D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0389603A-143D-4AA2-B820-D7D279A32A17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0389603A-143D-4AA2-B820-D7D279A32A17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0389603A-143D-4AA2-B820-D7D279A32A17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0389603A-143D-4AA2-B820-D7D279A32A17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C06364F8-2686-4A1C-B32A-DA51583A0475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C06364F8-2686-4A1C-B32A-DA51583A0475}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C06364F8-2686-4A1C-B32A-DA51583A0475}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C06364F8-2686-4A1C-B32A-DA51583A0475}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE5D4909-E631-473B-92F8-3B9DD639A0B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE5D4909-E631-473B-92F8-3B9DD639A0B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE5D4909-E631-473B-92F8-3B9DD639A0B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE5D4909-E631-473B-92F8-3B9DD639A0B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{653C0CE7-E250-48B3-B2BE-D9886D9BEA46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{653C0CE7-E250-48B3-B2BE-D9886D9BEA46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{653C0CE7-E250-48B3-B2BE-D9886D9BEA46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{653C0CE7-E250-48B3-B2BE-D9886D9BEA46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
