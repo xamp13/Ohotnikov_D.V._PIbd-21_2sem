@@ -123,7 +123,7 @@ namespace FlowerShopListImplement.Implements
             Order.ClientId = model.ClientId.Value;
             Order.ImplementerId = (int)model.ImplementerId;
             Order.Sum = model.Count * Bouquet.Price;
-            Order.ImplementerId = model.ImplementerId;
+            Order.Count = model.Count;
             Order.Status = model.Status;
             Order.DateCreate = model.DateCreate;
             Order.DateImplement = model.DateImplement;

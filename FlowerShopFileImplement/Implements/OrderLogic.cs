@@ -36,7 +36,8 @@ namespace FlowerShopFileImplement.Implements
             }
             element.BouquetId = model.BouquetId == 0 ? element.BouquetId : model.BouquetId;
             element.Count = model.Count;
-            element.ClientId = model.ClientId == null ? element.ClientId : (int)model.ClientId;
+            element.ClientId = model.ClientId.Value;
+            element.ImplementerId = model.ImplementerId;
             element.Sum = model.Sum;
             element.Status = model.Status;
             element.DateCreate = model.DateCreate;
@@ -68,7 +69,6 @@ namespace FlowerShopFileImplement.Implements
                 BouquetName = source.Bouquets.FirstOrDefault(x => x.Id == rec.BouquetId)?.BouquetName,
                 Count = rec.Count,
                 Sum = rec.Sum,
-                BouquetId = rec.BouquetId,
                 ClientFIO = source.Clients.FirstOrDefault(recC => recC.Id == rec.ClientId)?.ClientFIO,
                 ClientId = rec.ClientId,
                 ImplementerFIO = source.Implementers.FirstOrDefault(i => i.Id == rec.ImplementerId)?.ImplementerFIO,

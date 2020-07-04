@@ -34,7 +34,7 @@ namespace FlowerShopDatabaseImplement.Implements
                 order.BouquetId = model.BouquetId == 0 ? order.BouquetId : model.BouquetId;
                 order.Count = model.Count;
                 order.Sum = model.Sum;
-                order.ClientId = model.ClientId == null ? order.ClientId : (int)model.ClientId;
+                order.ClientId = model.ClientId.Value;
                 order.ImplementerId = model.ImplementerId;
                 order.Status = model.Status;
                 order.DateCreate = model.DateCreate;
