@@ -88,41 +88,10 @@ namespace FlowerShopListImplement.Implements
 
         private Order CreateModel(OrderBindingModel model, Order Order)
         {
-            Bouquet Bouquet = null;
-            foreach (Bouquet b in source.Bouquets)
-            {
-                if (b.Id == model.BouquetId)
-                {
-                    Bouquet = b;
-                    break;
-                }
-            }
-            Client client = null;
-            foreach (Client c in source.Clients)
-            {
-                if (c.Id == model.ClientId)
-                {
-                    client = c;
-                    break;
-                }
-            }
-            Implementer implementer = null;
-            foreach (Implementer i in source.Implementers)
-            {
-                if (i.Id == model.ImplementerId)
-                {
-                    implementer = i;
-                    break;
-                }
-            }
-            if (Bouquet == null || client == null || model.ImplementerId.HasValue && implementer == null)
-            {
-                throw new Exception("Элемент не найден");
-            }
             Order.BouquetId = model.BouquetId;
-            Order.ClientId = model.ClientId.Value;
-            Order.ImplementerId = (int)model.ImplementerId;
-            Order.Sum = model.Count * Bouquet.Price;
+            Order.ClientId = (int)model.ClientId;
+            Order.ImplementerId = model.ImplementerId;
+            Order.Sum = model.Sum;
             Order.Count = model.Count;
             Order.Status = model.Status;
             Order.DateCreate = model.DateCreate;
