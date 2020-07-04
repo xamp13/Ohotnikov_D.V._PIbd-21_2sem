@@ -161,10 +161,6 @@ namespace FlowerShopDatabaseImplement.Migrations
                     b.Property<int>("BouquetId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ClientFIO")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
@@ -176,9 +172,6 @@ namespace FlowerShopDatabaseImplement.Migrations
 
                     b.Property<DateTime?>("DateImplement")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("ImplementerFIO")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ImplementerId")
                         .HasColumnType("int");
